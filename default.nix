@@ -20,7 +20,7 @@ rec {
   proj = pkgs.callPackage ./pkgs/proj { };
 
   gdal = pkgs.callPackage ./pkgs/gdal {
-    inherit proj;
+    inherit geos proj;
     pythonPackages = python3Packages;
     autoreconfHook = buildPackages.autoreconfHook269;
   };
