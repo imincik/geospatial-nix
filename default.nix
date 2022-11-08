@@ -37,4 +37,10 @@ rec {
   pdal = pkgs.callPackage ./pkgs/pdal {
     inherit gdal libgeotiff;
   };
+
+  qgis = pkgs.callPackage ./pkgs/qgis {
+    qgis-unwrapped = libsForQt5.callPackage ./pkgs/qgis/unwrapped.nix {
+      inherit geos gdal libspatialindex libspatialite pdal proj;
+    };
+  };
 }
