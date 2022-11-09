@@ -23,6 +23,10 @@ rec {
     inherit proj;
   };
 
+  libspatialite = pkgs.callPackage ./pkgs/libspatialite {
+    inherit geos proj;
+  };
+
   gdal = pkgs.callPackage ./pkgs/gdal {
     inherit geos proj;
     pythonPackages = python3Packages;
