@@ -135,7 +135,7 @@ in mkDerivation rec {
     # fixes crssync: error while loading shared libraries
     # see: https://github.com/NixOS/nixpkgs/commit/1ca04aa9f1bec24bd4e01bac7932bbdb91737abb
     # FIXME: drop in 22.11
-    "-DCMAKE_SKIP_BUILD_RPATH=OFF"
+    # "-DCMAKE_SKIP_BUILD_RPATH=OFF"
 
     "-DWITH_3D=True"
     "-DWITH_PDAL=TRUE"
