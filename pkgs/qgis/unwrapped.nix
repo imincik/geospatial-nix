@@ -74,14 +74,14 @@ let
     six
   ];
 in mkDerivation rec {
-  version = "3.28.0";
+  version = "3.26.3";
   pname = "qgis-unwrapped";
 
   src = fetchFromGitHub {
     owner = "qgis";
     repo = "QGIS";
     rev = "final-${lib.replaceStrings [ "." ] [ "_" ] version}";
-    hash = "sha256-nL03B3AhCFSJ99ptUMUtGPu6UidrCGgRnSuVZqb6Rm0=";
+    hash = "sha256-+vZaVkwWuvh4xdrSi/qD7Zot5mulyeD4Bglgvn30N4Y=";
   };
 
   passthru = {
@@ -135,7 +135,7 @@ in mkDerivation rec {
     # fixes crssync: error while loading shared libraries
     # see: https://github.com/NixOS/nixpkgs/commit/1ca04aa9f1bec24bd4e01bac7932bbdb91737abb
     # FIXME: drop in 22.11
-    # "-DCMAKE_SKIP_BUILD_RPATH=OFF"
+    "-DCMAKE_SKIP_BUILD_RPATH=OFF"
 
     "-DWITH_3D=True"
     "-DWITH_PDAL=TRUE"
