@@ -123,13 +123,13 @@ in mkDerivation rec {
 
   nativeBuildInputs = [ makeWrapper wrapGAppsHook cmake flex bison ninja ];
 
-  patches = [
-    (substituteAll {
-      src = ./set-pyqt-package-dirs.patch;
-      pyQt5PackageDir = "${py.pkgs.pyqt5}/${py.pkgs.python.sitePackages}";
-      qsciPackageDir = "${py.pkgs.qscintilla-qt5}/${py.pkgs.python.sitePackages}";
-    })
-  ];
+  # patches = [
+  #   (substituteAll {
+  #     src = ./set-pyqt-package-dirs.patch;
+  #     pyQt5PackageDir = "${py.pkgs.pyqt5}/${py.pkgs.python.sitePackages}";
+  #     qsciPackageDir = "${py.pkgs.qscintilla-qt5}/${py.pkgs.python.sitePackages}";
+  #   })
+  # ];
 
   cmakeFlags = [
     # fixes crssync: error while loading shared libraries
