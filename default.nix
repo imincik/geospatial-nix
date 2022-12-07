@@ -17,8 +17,8 @@ rec {
   overlays = import ./overlays; # nixpkgs overlays
 
   geos = pkgs.callPackage ./pkgs/geos { };
-  proj = pkgs.callPackage ./pkgs/proj { };
   libspatialindex = pkgs.callPackage ./pkgs/libspatialindex { };
+  proj = pkgs.callPackage ./pkgs/proj { };
 
   libgeotiff = pkgs.callPackage ./pkgs/libgeotiff {
     inherit proj;
