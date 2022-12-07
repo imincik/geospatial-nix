@@ -34,8 +34,6 @@ rec {
 
   gdal = pkgs.callPackage ./pkgs/gdal {
     inherit geos libgeotiff libspatialite proj;
-    pythonPackages = python3Packages;
-    autoreconfHook = buildPackages.autoreconfHook269;
   };
 
   pdal = pkgs.callPackage ./pkgs/pdal {
