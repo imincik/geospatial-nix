@@ -1,6 +1,10 @@
 {
   description = "Geonix NUR repository";
+
+  nixConfig.extra-substituters = ["https://geonix.cachix.org?trusted=1"];
+
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
+
   outputs = { self, nixpkgs }:
     let
       systems = [
