@@ -1,5 +1,6 @@
 { lib
 , stdenv
+, callPackage
 , fetchurl
 , fetchpatch
 , cmake }:
@@ -16,6 +17,10 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ cmake ];
 
   doCheck = true;
+
+  passthru.tests = {
+    geos = callPackage ./tests.nix { };
+  };
 
   meta = with lib; {
     description = "C++ port of the Java Topology Suite (JTS)";
