@@ -12,9 +12,9 @@ with pkgs;
 
 rec {
   # The `lib`, `modules`, and `overlay` names are special
-  lib = import ./lib { inherit pkgs; }; # functions
-  modules = import ./modules; # NixOS modules
-  overlays = import ./overlays; # nixpkgs overlays
+  # lib = import ./lib { inherit pkgs; }; # functions
+  # modules = import ./modules; # NixOS modules
+  # overlays = import ./overlays; # nixpkgs overlays
 
   geos = pkgs.callPackage ./pkgs/geos { };
   libspatialindex = pkgs.callPackage ./pkgs/libspatialindex { };
