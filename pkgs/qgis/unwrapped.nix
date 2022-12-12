@@ -45,13 +45,8 @@
 
 let
 
-  py = python3.override {
-    packageOverrides = self: super: {
-      pyqt5 = super.pyqt5.override {
-        withLocation = true;
-      };
-    };
-  };
+  # pyqt5 override was moved to flake.nix
+  py = python3;
 
   pythonBuildInputs = with py.pkgs; [
     qscintilla-qt5
@@ -92,6 +87,7 @@ in mkDerivation rec {
   buildInputs = [
     openssl
     proj
+    gdal
     geos
     xlibsWrapper
     sqlite

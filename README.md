@@ -36,51 +36,104 @@ sudo systemctl restart nix-daemon.service
 _For Nix installation on Mac or Windows (WSL2) see
 [Install Nix documentation](https://nix.dev/tutorials/install-nix#install-nix) ._
 
+### This Flake content
+
+* Show this Flake content
+```
+nix flake show                                      # from local git checkout
+
+
+nix flake show github:imincik/geonix                # from GitHub
+```
+
+
 ### Run applications without installation
 
-* Launch QGIS
+* Launch latest stable QGIS version
 ```
-nix run                                           # from local git checkout
+nix run .#qgis                                      # from local git checkout
 
-nix run github:imincik/geonix                     # from GitHub
+nix run github:imincik/geonix#qgis                  # from GitHub
 ```
 
-### Install applications
-
-* Install QGIS
+* Launch QGIS LTR version
 ```
-nix profile install .#qgis                       # from local git checkout
+nix run .#qgis-ltr                                  # from local git checkout
 
-nix profile install github:imincik/geonix#qgis   # from GitHub
+nix run github:imincik/geonix#qgis-ltr              # from GitHub
+```
+
+### Install applications permanently
+
+* Install latest stable QGIS version
+```
+nix profile install .#qgis                          # from local git checkout
+
+nix profile install github:imincik/geonix#qgis      # from GitHub
+```
+
+* Install QGIS LTR version
+```
+nix profile install .#qgis-ltr                      # from local git checkout
+
+nix profile install github:imincik/geonix#qgis-ltr  # from GitHub
 ```
 
 ### Geonix shell
 
-* Enter shell containing Geonix applications and CLI tools
+* Enter shell containing Geonix applications, CLI tools and Python interpreter
 ```
-nix develop                                      # from local git checkout
+nix develop                                         # from local git checkout
 
-nix develop github:imincik/geonix                # from GitHub
+nix develop github:imincik/geonix                   # from GitHub
 ```
 
-* Launch application in Geonix shell
+* Launch QGIS
+```
+[geonix] > qgis
+```
+
+* Launch gdalinfo
 ```
 [geonix] > gdalinfo --version
+
 GDAL 3.6.0.1, released 2022/11/16
+```
+
+* Launch Python interpreter
+```
+[geonix] > python -c "import fiona; print(fiona.supported_drivers)"
+
+{'DXF': 'rw', 'CSV': 'raw', 'OpenFileGDB': 'r', 'ESRIJSON': 'r', ... }
 ```
 
 
 ## Development
 
-* Build package
+* Build single package
 ```
-nix-build -A <PACKAGE>
+nix build .#<PACKAGE>
+```
+
+* Build all packages
+```
+nix build .#all-packages
 ```
 
 * Run package passthru tests
 ```
-nix-build -A <PACKAGE>.tests
+nix-build -A packages.x86_64-linux.<PACKAGE>.passthru.tests
 ```
 
 _To re-build already built package or to re-run already succeeded tests use
-`--check` switch.
+`--check` switch._
+
+* Explore package store path content
+```
+nix path-info -rsSh .#<PACKAGE> | sort -nk3
+```
+
+* Explain package dependencies
+```
+nix why-depends .#<PACKAGE> .#<DEPENDENCY>
+```
