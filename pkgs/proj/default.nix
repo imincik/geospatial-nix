@@ -14,14 +14,14 @@
 , python3
 }:
 
-stdenv.mkDerivation (finalAttrs: {
+stdenv.mkDerivation (finalAttrs: rec {
   pname = "proj";
   version = "9.1.1";
 
   src = fetchFromGitHub {
     owner = "OSGeo";
     repo = "PROJ";
-    rev = finalAttrs.version;
+    rev = version;
     hash = "sha256-yw7eSm64qFFt9egJWKVyVo0e7xQRSmfUY7pk6Cwvwdk=";
   };
 
