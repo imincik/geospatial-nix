@@ -1,17 +1,18 @@
 { lib
 , stdenv
 , callPackage
-, fetchurl
-, fetchpatch
+, fetchFromGitHub
 , cmake }:
 
 stdenv.mkDerivation (finalAttrs: rec {
   pname = "geos";
   version = "3.11.1";
 
-  src = fetchurl {
-    url = "https://download.osgeo.org/geos/${pname}-${version}.tar.bz2";
-    hash = "sha256-bQ6zz6n5LZR3Mcx18XUDVrO9/AfqAgVT2vavHHaOC+I=";
+  src = fetchFromGitHub {
+    owner = "libgeos";
+    repo = "geos";
+    rev = version;
+    hash = "sha256-4jm/T9KzT4AV12YKsGEnLN/AybqvLhTgWBl58JXpIZY=";
   };
 
   nativeBuildInputs = [ cmake ];
