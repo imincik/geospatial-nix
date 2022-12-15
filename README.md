@@ -5,8 +5,7 @@
 
 ## Packages
 
-For a list of maintained packages see [pkgs directory](pkgs/) or search for packages
-published to [Geonix NUR.](https://nur.nix-community.org/repos/geonix/)
+For a list of maintained packages see [pkgs directory](pkgs/).
 
 
 ## Usage
