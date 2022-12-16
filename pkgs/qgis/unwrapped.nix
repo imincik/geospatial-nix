@@ -8,7 +8,6 @@
 , proj
 , gdal
 , geos
-, xlibsWrapper
 , sqlite
 , gsl
 , qwt
@@ -89,7 +88,6 @@ in mkDerivation rec {
     proj
     gdal
     geos
-    xlibsWrapper
     sqlite
     gsl
     qwt
