@@ -12,8 +12,16 @@ jobs:
       fail-fast: false
       matrix:
         package:
+          - gdal
+          - geos
+          - libgeotiff
+          - libspatialindex
+          - libspatialite
+          - pdal
+          - proj
+          - python-pyproj
           - qgis
-          - qgis-ltr
+          # - qgis-ltr  # doesn't work due to mess with latest qgis tags
 
     runs-on: ubuntu-22.04
 
