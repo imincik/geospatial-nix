@@ -45,7 +45,7 @@ else
 fi
 
 # get hash
-src_hash="$(nix-prefetch-github "$owner" "$repo" --rev "$upstream_version" | jq -r '.sha256')"
+src_hash="$(nix-prefetch-github "$owner" "$repo" --rev "$src_version" | jq -r '.sha256')"
 
 echo "Latest upstream version: $src_version"
 echo "Latest upstream hash: $src_hash"
