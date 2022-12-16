@@ -223,6 +223,14 @@
                 geonix-python
               ];
             };
+
+          nix-dev = pkgs.mkShellNoCC {
+            packages = with pkgs; [
+              nix-prefetch-git
+              nix-prefetch-github
+              jq
+            ];
+          };
         });
 
       # formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
