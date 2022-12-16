@@ -30,7 +30,7 @@ stdenv.mkDerivation (finalAttrs: rec {
     (fetchpatch {
       name = "only-add-find_dependencyCURL-for-static-builds.patch";
       url = "https://github.com/OSGeo/PROJ/commit/11f4597bbb7069bd5d4391597808703bd96df849.patch";
-      hash = "sha256-4w5Cu2m5VJZr6E2dUVRyWJdED2TyS8cI8G20EwfQ4u0=";
+      hash = "sha256-yw7eSm64qFFt9egJWKVyVo0e7xQRSmfUY7pk6Cwvwdk=";
     })
   ];
 
