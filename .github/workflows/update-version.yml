@@ -1,4 +1,4 @@
-name: Update packages to latest upstream version
+name: Update packages to the latest upstream version
 
 on:
   schedule:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    name: Update packages and create PR
+    name: Update packages
     strategy:
       fail-fast: false
       matrix:
@@ -21,7 +21,7 @@ jobs:
           - proj
           - python-pyproj
           - qgis
-          # - qgis-ltr  # doesn't work due to mess with latest qgis tags
+          - qgis-ltr
 
     runs-on: ubuntu-22.04
 
