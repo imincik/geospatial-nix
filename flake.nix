@@ -150,7 +150,7 @@
           };
         });
 
-      apps = forAllSystems (system: {
+      apps = forAllSystems (system: rec {
         qgis = {
           type = "app";
           program = "${self.packages.${system}.qgis}/bin/qgis";
@@ -161,10 +161,7 @@
           program = "${self.packages.${system}.qgis-ltr}/bin/qgis";
         };
 
-        default = {
-          type = "app";
-          program = "${self.packages.${system}.qgis}/bin/qgis";
-        };
+        default = qgis;
       });
 
       devShells = forAllSystems (system:
