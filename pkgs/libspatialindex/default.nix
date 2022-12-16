@@ -16,7 +16,7 @@ stdenv.mkDerivation (finalAttrs: {
     (fetchpatch {
       name = "fix-static-lib-build.patch";
       url = "https://github.com/libspatialindex/libspatialindex/commit/caee28d84685071da3ff3a4ea57ff0b6ae64fc87.patch";
-      hash = "sha256-nvTW/t9tw1ZLeycJY8nj7rQgZogxQb765Ca2b9NDvRo=";
+      hash = "sha256-zsvS0IkCXyuNLCQpccKdAsFKoq0l+y66ifXlTHLNTkc=";
     })
   ];
 
