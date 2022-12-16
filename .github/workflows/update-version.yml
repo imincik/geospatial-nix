@@ -16,7 +16,7 @@ jobs:
           - geos
           - libgeotiff
           - libspatialindex
-          - libspatialite
+          # - libspatialite  # not on GitHub (gaia-gis.it)
           - pdal
           - proj
           - python-pyproj
