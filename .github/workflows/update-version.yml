@@ -1,4 +1,4 @@
-name: Update packages to the latest upstream version
+name: Update packages
 
 on:
   schedule:
@@ -7,7 +7,6 @@ on:
 
 jobs:
   test:
-    name: Update packages
     strategy:
       fail-fast: false
       matrix:

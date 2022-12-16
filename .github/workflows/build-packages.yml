@@ -1,4 +1,4 @@
-name: "Build all packages"
+name: Build all packages
 
 on:
   pull_request:
