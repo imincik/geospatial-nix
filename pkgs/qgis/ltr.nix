@@ -29,9 +29,4 @@ symlinkJoin rec {
   passthru.unwrapped = qgis-ltr-unwrapped;
 
   inherit (qgis-ltr-unwrapped) meta;
-
-  # FIXME: this setting allows qgis to appear in ci.nix cacheOutputs. It shouldn't be needed.
-  # This behaviour might be caused by symlinkJoin.
-  # See: https://github.com/NixOS/nixpkgs/blob/cf7f4393f3f953faf5765c7a0168c6710baa1423/pkgs/build-support/trivial-builders.nix#L440
-  preferLocalBuild = false;
 }
