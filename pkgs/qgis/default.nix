@@ -7,7 +7,7 @@ with lib;
 
 symlinkJoin rec {
 
-  inherit (qgis-unwrapped) version;
+  inherit (qgis-unwrapped) version src;
   name = "qgis-${version}";
 
   paths = [ qgis-unwrapped ];
