@@ -23,29 +23,30 @@ echo "GitHub repo: $repo"
 
 # get latest upstream version
 if [ "$package" != "qgis-ltr" ]; then
-    src_version=$(\
+    latest_tag=$(\
         curl --user "$GITHUB_API_TOKEN" --silent "https://api.github.com/repos/$owner/$repo/releases" \
         | jq -r '.[].tag_name' \
         | grep -E '^(v)?(final-)?[0-9](\.|_)[0-9]*(\.|_)[0-9]*$' \
-        | sed 's/_/./g' | sed 's/[a-zA-Z\-]//g' \
-        | sort -nr \
+        | sort --version-sort --reverse \
         | head -n 1
     )
 else
     # QGIS LTR specific tag search
     # !! Update code below when new major QGIS LTR version is released !!
-    src_version=$(\
+    latest_tag=$(\
             curl --user "$GITHUB_API_TOKEN" --silent "https://api.github.com/repos/$owner/$repo/releases" \
             | jq -r '.[].tag_name' \
             | grep -E '^final-3_22_[0-9]*$' \
-            | sed 's/_/./g' | sed 's/[a-zA-Z\-]//g' \
             | sort --version-sort --reverse \
             | head -n 1
     )
 fi
 
+# get version
+src_version=$(echo "$latest_tag" | sed 's/_/./g' | sed 's/[a-zA-Z\-]//g')
+
 # get hash
-src_hash="$(nix-prefetch-github "$owner" "$repo" --rev "$src_version" | jq -r '.sha256')"
+src_hash="$(nix-prefetch-github "$owner" "$repo" --rev "$latest_tag" | jq -r '.sha256')"
 
 echo "Latest upstream version: $src_version"
 echo "Latest upstream hash: $src_hash"
