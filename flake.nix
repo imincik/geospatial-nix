@@ -19,18 +19,21 @@
         "x86_64-linux"
         # "x86_64-darwin"
         # "aarch64-linux"
-        # "armv6l-linux"
-        # "armv7l-linux"
+        # "aarch64-darwin"
       ];
 
+      defaultSystem = "x86_64-linux";
+
       forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f system);
-      pkgs = forAllSystems (system: nixpkgs.legacyPackages.${system});
 
       # allow insecure QGIS dependency (QtWebkit)
       insecurePackages = [ "qtwebkit-5.212.0-alpha4" ];
 
     in
     {
+      #
+      ### PACKAGES ###
+      #
       packages = forAllSystems (system:
         let
           pkgs = import nixpkgs {
@@ -150,6 +153,10 @@
           };
         });
 
+
+      #
+      ### APPS ##
+      #
       apps = forAllSystems (system: rec {
         qgis = {
           type = "app";
@@ -164,6 +171,10 @@
         default = qgis;
       });
 
+
+      #
+      ### SHELLS ###
+      #
       devShells = forAllSystems (system:
         let
           pkgs = import nixpkgs {
@@ -232,6 +243,33 @@
             ];
           };
         });
+
+
+      #
+      ### CHECKS ###
+      #
+      test-qgis =
+        let
+          pkgs = import nixpkgs {
+            inherit defaultSystem;
+
+            system = defaultSystem;
+            config = { permittedInsecurePackages = insecurePackages; };
+          };
+
+          commonx11 = "${nixpkgs}/nixos/tests/common/x11.nix";
+
+        in
+        (
+          pkgs.nixosTest (import ./tests/qgis {
+            inherit pkgs commonx11;
+            qgis = self.packages.${defaultSystem}.qgis;
+          })
+        );
+
+      checks.${defaultSystem} = {
+        test-qgis = self.test-qgis;
+      };
 
       # formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
     };

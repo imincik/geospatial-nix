@@ -109,6 +109,11 @@ GDAL 3.6.0.1, released 2022/11/16
 
 ## Development
 
+* Run basic Nix expression evaluation checks
+```
+nix flake check --no-build
+```
+
 * Build single package
 ```
 nix build .#<PACKAGE>
@@ -119,13 +124,22 @@ nix build .#<PACKAGE>
 nix build .#all-packages
 ```
 
-* Run package passthru tests
+_To re-build already built package use `--rebuild` switch._
+
+* Run package tests
 ```
 nix-build -A packages.x86_64-linux.<PACKAGE>.passthru.tests
 ```
 
-_To re-build already built package or to re-run already succeeded tests use
-`--check` switch._
+_To re-run already succeeded package tests use `--check` switch._
+
+* Run NixOS QGIS test
+```
+nix build .#test-qgis
+```
+
+_QGIS screenshots taken during the test are stored in `./results` directory._
+_To re-run already succeeded QGIS test use `--rebuild` switch._
 
 * Explore package store path content
 ```
