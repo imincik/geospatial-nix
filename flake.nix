@@ -1,7 +1,7 @@
 {
   description = "Geonix - geospatial environment for Nix";
 
-  nixConfig.extra-substituters = [ "https://geonix.cachix.org?trusted=1" ];
+  nixConfig.extra-substituters = [ "https://geonix.cachix.org" ];
   nixConfig.extra-trusted-public-keys = [ "geonix.cachix.org-1:iyhIXkDLYLXbMhL3X3qOLBtRF8HEyAbhPXjjPeYsCl0=" ];
 
   nixConfig.bash-prompt = "[geonix] > ";
@@ -19,18 +19,19 @@
         "x86_64-linux"
         # "x86_64-darwin"
         # "aarch64-linux"
-        # "armv6l-linux"
-        # "armv7l-linux"
+        # "aarch64-darwin"
       ];
 
       forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f system);
-      pkgs = forAllSystems (system: nixpkgs.legacyPackages.${system});
 
       # allow insecure QGIS dependency (QtWebkit)
       insecurePackages = [ "qtwebkit-5.212.0-alpha4" ];
 
     in
     {
+      #
+      ### PACKAGES ###
+      #
       packages = forAllSystems (system:
         let
           pkgs = import nixpkgs {
@@ -150,6 +151,10 @@
           };
         });
 
+
+      #
+      ### APPS ##
+      #
       apps = forAllSystems (system: rec {
         qgis = {
           type = "app";
@@ -164,6 +169,10 @@
         default = qgis;
       });
 
+
+      #
+      ### SHELLS ###
+      #
       devShells = forAllSystems (system:
         let
           pkgs = import nixpkgs {
