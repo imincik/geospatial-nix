@@ -139,7 +139,7 @@
               gdal
               geos
               libgeotiff
-              libspatialite
+              libspatialindex
               libspatialite
               pdal
               proj
