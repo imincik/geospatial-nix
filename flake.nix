@@ -171,6 +171,26 @@
 
 
       #
+      ### OVERLAYS ###
+      #
+      #
+      # TODO: extend overlays for all supported systems
+      overlays.default = final: prev: {
+        gdal = self.packages.x86_64-linux.gdal;
+        geos = self.packages.x86_64-linux.geos;
+        libgeotiff = self.packages.x86_64-linux.libgeotiff;
+        libspatialindex = self.packages.x86_64-linux.libspatialindex;
+        libspatialite = self.packages.x86_64-linux.libspatialite;
+        pdal = self.packages.x86_64-linux.pdal;
+        proj = self.packages.x86_64-linux.proj;
+        python-gdal = self.packages.x86_64-linux.python-gdal;
+        python-pyproj = self.packages.x86_64-linux.python-pyproj;
+        qgis = self.packages.x86_64-linux.qgis;
+        qgis-ltr = self.packages.x86_64-linux.qgis-ltr;
+      };
+
+
+      #
       ### SHELLS ###
       #
       devShells = forAllSystems (system:
@@ -178,15 +198,7 @@
           pkgs = import nixpkgs {
             inherit system;
             config = { permittedInsecurePackages = insecurePackages; };
-
-            overlays = [
-              (final: prev: {
-                gdal = self.packages.${system}.gdal;
-                geos = self.packages.${system}.geos;
-                pdal = self.packages.${system}.pdal;
-                proj = self.packages.${system}.proj;
-              })
-            ];
+            overlays = [ self.overlays.default ];
           };
 
         in
