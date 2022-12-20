@@ -207,32 +207,11 @@
             let
               py = pkgs.python3;
 
-              geonix-python = py.withPackages (p: with p; [
-
-                self.packages.${system}.python-gdal
-
-                (pkgs.python3Packages.fiona.override {
-                  gdal = self.packages.${system}.gdal;
-                })
-
-                (pkgs.python3Packages.geopandas.override {
-                  pyproj = self.packages.${system}.python-pyproj;
-                })
-
-                (pkgs.python3Packages.owslib.override {
-                  pyproj = self.packages.${system}.python-pyproj;
-                })
-
-                (pkgs.python3Packages.rasterio.override {
-                  gdal = self.packages.${system}.gdal;
-                })
-
-                (pkgs.python3Packages.shapely.override {
-                  geos = self.packages.${system}.geos;
-                })
-
-                pkgs.python3Packages.ipython
+              geonix-python = py.withPackages (p: with self.packages.${system}; [
+                python-gdal
+                python-pyproj
               ]);
+
             in
             pkgs.mkShellNoCC {
               packages = with self.packages.${system}; [
