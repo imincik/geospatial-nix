@@ -67,7 +67,7 @@
             inherit proj;
           };
 
-          python-gdal = pkgs.python3.pkgs.toPythonModule (pkgs.gdal.override {
+          python-gdal = pkgs.python3.pkgs.toPythonModule (gdal.override {
             inherit geos libgeotiff libspatialite proj;
           });
 
