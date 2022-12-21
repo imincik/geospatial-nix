@@ -32,6 +32,9 @@ version of QGIS (and all its dependencies) from Geonix, in addition to QGIS
 installation coming from Linux system native package manager. There will be no
 QGIS or other dependencies conflicts.
 
+Nix tooling also provides easy way to build small and reproducible OCI
+compatible containers and cross-compilation.
+
 
 ## Packages
 
