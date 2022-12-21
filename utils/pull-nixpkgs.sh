@@ -10,6 +10,7 @@ repo="https://github.com/NixOS/nixpkgs.git"
 nixpkgs_dir="../nixpkgs"
 
 declare -A nixpkgs_paths
+nixpkgs_paths['fiona']='pkgs/development/python-modules/fiona'
 nixpkgs_paths['gdal']='pkgs/development/libraries/gdal'
 nixpkgs_paths['geos']='pkgs/development/libraries/geos'
 nixpkgs_paths['libgeotiff']='pkgs/development/libraries/libgeotiff'
