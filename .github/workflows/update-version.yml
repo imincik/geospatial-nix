@@ -19,6 +19,7 @@ jobs:
           - pdal
           - proj
           - python-fiona
+          - python-geopandas
           - python-pyproj
           - python-rasterio
           - python-shapely

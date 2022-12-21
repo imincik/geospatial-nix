@@ -12,6 +12,7 @@ nixpkgs_dir="../nixpkgs"
 declare -A nixpkgs_paths
 nixpkgs_paths['fiona']='pkgs/development/python-modules/fiona'
 nixpkgs_paths['gdal']='pkgs/development/libraries/gdal'
+nixpkgs_paths['geopandas']='pkgs/development/python-modules/geopandas'
 nixpkgs_paths['geos']='pkgs/development/libraries/geos'
 nixpkgs_paths['libgeotiff']='pkgs/development/libraries/libgeotiff'
 nixpkgs_paths['libspatialindex']='pkgs/development/libraries/libspatialindex'
