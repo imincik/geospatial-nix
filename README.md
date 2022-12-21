@@ -35,6 +35,9 @@ QGIS or other dependencies conflicts.
 Nix tooling also provides easy way to build small and reproducible OCI
 compatible containers and cross-compilation.
 
+_Credits belongs to all current and past [Nix](https://github.com/NixOS/nix/graphs/contributors),
+[Nixpkgs and NixOS](https://github.com/NixOS/nixpkgs/graphs/contributors) developers and
+maintainers._
 
 ## Packages
 
