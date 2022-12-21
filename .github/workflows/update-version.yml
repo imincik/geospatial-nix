@@ -18,6 +18,7 @@ jobs:
           # - libspatialite  # not on GitHub (gaia-gis.it)
           - pdal
           - proj
+          - python-fiona
           - python-pyproj
           - python-shapely
           - qgis

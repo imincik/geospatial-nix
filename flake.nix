@@ -63,6 +63,10 @@
 
 
           # Python packages
+          python-fiona = pkgs.python3.pkgs.callPackage ./pkgs/fiona {
+            inherit gdal;
+          };
+
           python-gdal = pkgs.python3.pkgs.toPythonModule (gdal.override {
             inherit geos libgeotiff libspatialite proj;
           });
@@ -148,6 +152,7 @@
               libspatialite
               pdal
               proj
+              python-fiona
               python-gdal
               python-pyproj
               python-shapely
@@ -216,6 +221,7 @@
               geonix-python = py.withPackages (p: with self.packages.${system}; [
                 python-gdal
                 python-pyproj
+                python-fiona
               ]);
 
             in
