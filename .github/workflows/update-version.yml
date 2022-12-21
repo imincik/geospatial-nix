@@ -20,6 +20,7 @@ jobs:
           - proj
           - python-fiona
           - python-pyproj
+          - python-rasterio
           - python-shapely
           - qgis
           - qgis-ltr

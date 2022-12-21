@@ -71,13 +71,18 @@
             inherit geos libgeotiff libspatialite proj;
           });
 
-          python-shapely = pkgs.python3.pkgs.callPackage ./pkgs/shapely {
-            inherit geos;
-          };
-
           python-pyproj = pkgs.python3.pkgs.callPackage ./pkgs/pyproj {
             inherit proj;
             shapely = python-shapely;
+          };
+
+          python-rasterio = pkgs.python3.pkgs.callPackage ./pkgs/rasterio {
+            inherit gdal;
+            shapely = python-shapely;
+          };
+
+          python-shapely = pkgs.python3.pkgs.callPackage ./pkgs/shapely {
+            inherit geos;
           };
 
 
@@ -155,6 +160,7 @@
               python-fiona
               python-gdal
               python-pyproj
+              python-rasterio
               python-shapely
               qgis
               qgis-ltr
