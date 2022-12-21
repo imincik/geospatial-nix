@@ -1,7 +1,37 @@
 ![Build and populate cache](https://github.com/imincik/geonix/workflows/Build%20and%20populate%20cache/badge.svg)
 [![Cachix Cache](https://img.shields.io/badge/cachix-geonix-blue.svg)](https://geonix.cachix.org)
 
-# Geonix - geospatial environment for Nix
+# Geonix - geospatial environment
+
+Geospatial software environment is a complex system of software packages, tools
+and libraries wired together. For example [GDAL](https://gdal.org/) library is a
+core component of most of free and many non-free geospatial software. Change of
+one component has immediate impact on other depending components. It is not
+trivial task to manage such system and keep it up-to-date.
+
+Using [Nix](https://nixos.org/) - the most advanced package manager and [Nix
+packages (nixpkgs)](https://github.com/NixOS/nixpkgs) - the largest collection
+of free software in the world (currently counting around 80000 packages) we can
+deliver high quality, easy to access and always up-to-date geospatial
+environment for users and developers running any Linux distribution, Mac (soon)
+and Windows WSL.
+
+I addition, Nix offers unique features like building complete and isolated
+software environments per-project (think about it as Python virtualenv, but for
+all software above operating system kernel required to build, test and run your
+project) which are bit-to-bit reproducible on other machines at any time in the
+future. This can significantly lower the time needed for a new developer to
+start with new project or time needed to get on speed when returning to the
+project after longer time period. This also makes software distribution,
+deployment and bug fixing more reliable and easier.
+
+Beside the installation of Nix package manager itself, installation of any Nix
+packages or environments doesn't have any impact on host system and all changes
+are easily reversible. It is fine to install a program, for example latest
+version of QGIS (and all its dependencies) from Geonix, in addition to QGIS
+installation coming from Linux system native package manager. There will be no
+QGIS or other dependencies conflicts.
+
 
 ## Packages
 
@@ -96,7 +126,7 @@ nix develop github:imincik/geonix                   # from GitHub
 ```
 [geonix] > gdalinfo --version
 
-GDAL 3.6.0.1, released 2022/11/16
+GDAL 3.6.1, released 2022/12/14
 ```
 
 * Launch Python interpreter
