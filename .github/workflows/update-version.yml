@@ -19,6 +19,7 @@ jobs:
           - pdal
           - proj
           - python-pyproj
+          - python-shapely
           - qgis
           - qgis-ltr
 
