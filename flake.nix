@@ -63,13 +63,18 @@
 
 
           # Python packages
-          python-pyproj = pkgs.python3.pkgs.callPackage ./pkgs/pyproj {
-            inherit proj;
-          };
-
           python-gdal = pkgs.python3.pkgs.toPythonModule (gdal.override {
             inherit geos libgeotiff libspatialite proj;
           });
+
+          python-shapely = pkgs.python3.pkgs.callPackage ./pkgs/shapely {
+            inherit geos;
+          };
+
+          python-pyproj = pkgs.python3.pkgs.callPackage ./pkgs/pyproj {
+            inherit proj;
+            shapely = python-shapely;
+          };
 
 
           # QGIS
@@ -145,6 +150,7 @@
               proj
               python-gdal
               python-pyproj
+              python-shapely
               qgis
               qgis-ltr
             ];
