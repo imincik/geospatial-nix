@@ -11,10 +11,10 @@ trivial task to manage such system and keep it up-to-date.
 
 Using [Nix](https://nixos.org/) - the most advanced package manager and [Nix
 packages (nixpkgs)](https://github.com/NixOS/nixpkgs) - the largest collection
-of free software in the world (currently counting around 80000 packages) we can
-deliver high quality, easy to access and always up-to-date geospatial
-environment for users and developers running any Linux distribution, Mac (soon)
-and Windows WSL.
+of up-to-date free software in the world (see
+[repology](https://repology.org/repositories/graphs) comparison) we can deliver
+high quality, easy to access and always up-to-date geospatial environment for
+users and developers running any Linux distribution, Mac (soon) and Windows WSL.
 
 I addition, Nix offers unique features like building complete and isolated
 software environments per-project (think about it as Python virtualenv, but for
