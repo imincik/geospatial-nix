@@ -20,6 +20,7 @@ nixpkgs_paths['pdal']='pkgs/development/libraries/pdal'
 nixpkgs_paths['proj']='pkgs/development/libraries/proj'
 nixpkgs_paths['pyproj']='pkgs/development/python-modules/pyproj'
 nixpkgs_paths['qgis']='pkgs/applications/gis/qgis'
+nixpkgs_paths['rasterio']='pkgs/development/python-modules/rasterio'
 nixpkgs_paths['shapely']='pkgs/development/python-modules/shapely'
 
 
