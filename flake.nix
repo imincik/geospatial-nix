@@ -77,6 +77,10 @@
             shapely = python-shapely;
           };
 
+          python-owslib = pkgs.python3.pkgs.callPackage ./pkgs/owslib {
+            pyproj = python-pyproj;
+          };
+
           python-pyproj = pkgs.python3.pkgs.callPackage ./pkgs/pyproj {
             inherit proj;
             shapely = python-shapely;
@@ -97,10 +101,10 @@
             let
               qgis-python =
                 let
-                  packageOverrides = self: super: {
-                    pyqt5 = super.pyqt5.override { withLocation = true; };
-                    owslib = super.owslib.override { pyproj = python-pyproj; };
-                    gdal = super.packages.${system}.gdal;
+                  packageOverrides = final: prev: {
+                    pyqt5 = prev.pyqt5.override { withLocation = true; };
+                    owslib = python-owslib;
+                    gdal = gdal;
                   };
                 in
                 pkgs.python3.override { inherit packageOverrides; self = qgis-python; };
@@ -126,10 +130,10 @@
             let
               qgis-python =
                 let
-                  packageOverrides = self: super: {
-                    pyqt5 = super.pyqt5.override { withLocation = true; };
-                    owslib = super.owslib.override { pyproj = python-pyproj; };
-                    gdal = super.packages.${system}.gdal;
+                  packageOverrides = final: prev: {
+                    pyqt5 = prev.pyqt5.override { withLocation = true; };
+                    owslib = python-owslib;
+                    gdal = gdal;
                   };
                 in
                 pkgs.python3.override { inherit packageOverrides; self = qgis-python; };
@@ -166,6 +170,7 @@
               python-fiona
               python-gdal
               python-geopandas
+              python-owslib
               python-pyproj
               python-rasterio
               python-shapely

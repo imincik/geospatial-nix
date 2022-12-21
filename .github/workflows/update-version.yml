@@ -20,6 +20,7 @@ jobs:
           - proj
           - python-fiona
           - python-geopandas
+          - python-owslib
           - python-pyproj
           - python-rasterio
           - python-shapely
