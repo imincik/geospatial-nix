@@ -7,37 +7,42 @@ Geospatial software environment is a complex system of software packages, tools
 and libraries wired together. For example [GDAL](https://gdal.org/) library is a
 core component of most of free and many non-free geospatial software. Change of
 one component has immediate impact on other depending components. It is not
-trivial task to manage such system and keep it up-to-date.
+trivial task to manage such system in consistent state and keep it up-to-date.
 
 Using [Nix](https://nixos.org/) - the most advanced package manager and [Nix
 packages (nixpkgs)](https://github.com/NixOS/nixpkgs) - the largest collection
 of up-to-date free software in the world (see
 [repology](https://repology.org/repositories/graphs) comparison) we can deliver
 high quality, easy to access and always up-to-date geospatial environment for
-users and developers running any Linux distribution, Mac (soon) and Windows WSL.
+users and developers running any Linux distribution, Mac and Windows WSL.
 
 I addition, Nix offers unique features like building complete and isolated
-software environments per-project (think about it as Python virtualenv, but for
-all software above operating system kernel required to build, test and run your
-project) which are bit-to-bit reproducible on other machines at any time in the
-future. This can significantly lower the time needed for a new developer to
-start with new project or time needed to get on speed when returning to the
-project after longer time period. This also makes software distribution,
+software environments per-project (think about it as a Python virtualenv, but for
+all software above operating system kernel which is required to build, test and
+run your project) which are bit-to-bit reproducible on other machines at any
+time in the future. This can significantly lower the time needed for a new
+developer to pick up a new project or time needed to get on speed when returning
+to the project after longer time period. This also makes software distribution,
 deployment and bug fixing more reliable and easier.
 
+In case of any package changes in the environment, Nix guarantees that all
+package reverse dependencies will be automatically rebuilt. For example in case
+of GDAL version update or even after any build configuration change, all reverse
+dependencies (like QGIS or Fiona) will be rebuilt.
+
+All Nix built packages are bit-to-bit reproducible and stored under unique hash.
+This allows Nix to provide binary cache containing already built packages, so
+users don't need to build them by themselves.
+
 Beside the installation of Nix package manager itself, installation of any Nix
-packages or environments doesn't have any impact on host system and all changes
-are easily reversible. It is fine to install a program, for example latest
-version of QGIS (and all its dependencies) from Geonix, in addition to QGIS
-installation coming from Linux system native package manager. There will be no
-QGIS or other dependencies conflicts.
+packages or environment doesn't have any impact on host system. It is fine to
+have a program, for example the latest version of QGIS (and all its
+dependencies) from Geonix, in addition to QGIS installation coming from Linux
+native package manager. There will be no QGIS or other dependencies conflicts.
 
 Nix tooling also provides easy way to build small and reproducible OCI
 compatible containers and cross-compilation.
 
-_Credits belongs to all current and past [Nix](https://github.com/NixOS/nix/graphs/contributors),
-[Nixpkgs and NixOS](https://github.com/NixOS/nixpkgs/graphs/contributors) developers and
-maintainers._
 
 ## Packages
 
@@ -172,3 +177,9 @@ nix path-info -rsSh .#<PACKAGE> | sort -nk3
 ```
 nix why-depends .#<PACKAGE> .#<DEPENDENCY>
 ```
+
+
+_Credits belongs to all current and past [Nix](https://github.com/NixOS/nix/graphs/contributors),
+[Nixpkgs and NixOS](https://github.com/NixOS/nixpkgs/graphs/contributors) developers and
+maintainers._
+
