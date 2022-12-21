@@ -92,6 +92,11 @@
           };
 
 
+          # GRASS
+          grass = pkgs.callPackage ./pkgs/grass {
+            inherit gdal geos pdal proj;
+          };
+
           # QGIS
           qgis =
             let
@@ -158,6 +163,7 @@
             paths = with self.packages; [
               gdal
               geos
+              grass
               libgeotiff
               libspatialindex
               libspatialite

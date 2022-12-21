@@ -13,6 +13,7 @@ jobs:
         package:
           - gdal
           - geos
+          - grass
           - libgeotiff
           - libspatialindex
           # - libspatialite  # not on GitHub (gaia-gis.it)
