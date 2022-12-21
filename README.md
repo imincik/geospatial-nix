@@ -28,7 +28,7 @@ deployment and bug fixing more reliable and easier.
 In case of any package changes in the environment, Nix guarantees that all
 package reverse dependencies will be automatically rebuilt. For example in case
 of GDAL version update or even after any build configuration change, all reverse
-dependencies (like QGIS or Fiona) will be rebuilt.
+dependencies (like QGIS or Fiona) will be automatically rebuilt.
 
 All Nix built packages are bit-to-bit reproducible and stored under unique hash.
 This allows Nix to provide binary cache containing already built packages, so
