@@ -71,6 +71,12 @@
             inherit geos libgeotiff libspatialite proj;
           });
 
+          python-geopandas = pkgs.python3.pkgs.callPackage ./pkgs/geopandas {
+            fiona = python-fiona;
+            pyproj = python-pyproj;
+            shapely = python-shapely;
+          };
+
           python-pyproj = pkgs.python3.pkgs.callPackage ./pkgs/pyproj {
             inherit proj;
             shapely = python-shapely;
@@ -159,6 +165,7 @@
               proj
               python-fiona
               python-gdal
+              python-geopandas
               python-pyproj
               python-rasterio
               python-shapely
