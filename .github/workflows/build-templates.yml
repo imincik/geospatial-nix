@@ -1,0 +1,59 @@
+name: Build flake templates
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build-templates:
+    strategy:
+      fail-fast: false
+      matrix:
+        template:
+          - python-container
+
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install nix
+      uses: cachix/install-nix-action@v18
+
+    - name: Prepare new project directory
+      run: |
+        mkdir /home/runner/work/my-project
+
+    - name: Create new flake project
+      run: |
+        git init
+
+        nix --experimental-features "nix-command flakes" \
+        flake init --accept-flake-config --template ../geonix/geonix#${{ matrix.template }}
+
+        git add flake.nix
+      working-directory: /home/runner/work/my-project
+
+    - name: Flake check
+      run: >
+        nix --experimental-features "nix-command flakes"
+        flake check --no-build --accept-flake-config
+      working-directory: /home/runner/work/my-project
+
+    - name: Build template
+      run: >
+        nix --experimental-features "nix-command flakes"
+        build --accept-flake-config
+      working-directory: /home/runner/work/my-project
+
+    - name: Test template build output (if python-container template)
+      run: |
+        docker load < result
+
+        docker run geonix-python -c "import fiona; print(fiona.show_versions())"
+      if: ${{ matrix.template == 'python-container' }}
+      working-directory: /home/runner/work/my-project
