@@ -237,9 +237,13 @@
               py = pkgs.python3;
 
               geonix-python = py.withPackages (p: with self.packages.${system}; [
-                python-gdal
-                python-pyproj
                 python-fiona
+                python-gdal
+                python-geopandas
+                python-owslib
+                python-pyproj
+                python-rasterio
+                python-shapely
               ]);
 
             in
@@ -262,6 +266,13 @@
             ];
           };
         });
+
+
+      #
+      ### TEMPLATES ###
+      #
+      templates = import ./templates.nix;
+
 
       # formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
     };
