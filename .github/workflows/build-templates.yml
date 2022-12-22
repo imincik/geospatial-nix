@@ -14,6 +14,7 @@ jobs:
       matrix:
         template:
           - python-container
+          - python-app
 
     runs-on: ubuntu-22.04
 
@@ -56,4 +57,15 @@ jobs:
 
         docker run geonix-python -c "import fiona; print(fiona.show_versions())"
       if: ${{ matrix.template == 'python-container' }}
+      working-directory: /home/runner/work/my-project
+
+    - name: Test template build output (if python-app template)
+      run: |
+        docker load < result
+
+        docker run -d -p 5000:5000 geonix-python-app
+        sleep 3
+
+        curl localhost:5000 | grep POLYGON
+      if: ${{ matrix.template == 'python-app' }}
       working-directory: /home/runner/work/my-project
