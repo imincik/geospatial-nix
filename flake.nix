@@ -4,7 +4,7 @@
   nixConfig.extra-substituters = [ "https://geonix.cachix.org" ];
   nixConfig.extra-trusted-public-keys = [ "geonix.cachix.org-1:iyhIXkDLYLXbMhL3X3qOLBtRF8HEyAbhPXjjPeYsCl0=" ];
 
-  nixConfig.bash-prompt = "[geonix] > ";
+  nixConfig.bash-prompt = "\\[\\033[1m\\][geonix]\\[\\033\[m\\]\\040\\w >\\040";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
 
