@@ -29,6 +29,12 @@
 
     in
     {
+
+      # Each new package must be added to:
+      # * packages
+      # * all-packages
+      # * overlays
+
       #
       ### PACKAGES ###
       #
@@ -202,8 +208,7 @@
       #
       ### OVERLAYS ###
       #
-      #
-      # TODO: extend overlays for all supported systems
+      # FIXME:
       overlays.default = final: prev: {
         gdal = self.packages.x86_64-linux.gdal;
         geos = self.packages.x86_64-linux.geos;
@@ -212,8 +217,13 @@
         libspatialite = self.packages.x86_64-linux.libspatialite;
         pdal = self.packages.x86_64-linux.pdal;
         proj = self.packages.x86_64-linux.proj;
+        python-fiona = self.packages.x86_64-linux.python-fiona;
         python-gdal = self.packages.x86_64-linux.python-gdal;
+        python-geopandas = self.packages.x86_64-linux.python-geopandas;
+        python-owslib = self.packages.x86_64-linux.python-owslib;
         python-pyproj = self.packages.x86_64-linux.python-pyproj;
+        python-rasterio = self.packages.x86_64-linux.python-rasterio;
+        python-shapely = self.packages.x86_64-linux.python-shapely;
         qgis = self.packages.x86_64-linux.qgis;
         qgis-ltr = self.packages.x86_64-linux.qgis-ltr;
       };
