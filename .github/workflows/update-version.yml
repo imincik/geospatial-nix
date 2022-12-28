@@ -39,7 +39,7 @@ jobs:
 
       - name: Update package
         run: >
-          nix develop .#nix-dev
+          nix develop .#nixDev
           --accept-flake-config
           --command utils/update-version.sh ${{ matrix.package }}
         env:
