@@ -324,7 +324,7 @@
                 echo "Stop DB:    pg_ctl stop"
                 echo
               '';
-          };
+            };
 
           nix-dev = pkgs.mkShellNoCC {
             packages = with pkgs; [
