@@ -128,11 +128,6 @@ nix develop                                         # from local git checkout
 nix develop github:imincik/geonix                   # from GitHub
 ```
 
-* Launch QGIS
-```
-[geonix] > qgis
-```
-
 * Launch gdalinfo
 ```
 [geonix] > gdalinfo --version
@@ -167,6 +162,7 @@ CREATE EXTENSION
 POLYGON((2 1,1.98078528040323 0.804909677983872,1.923879532511287
 0.61731656763491, ...
 ```
+
 
 ## Development
 
