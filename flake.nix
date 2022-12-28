@@ -254,7 +254,7 @@
             let
               py = pkgs.python3;
 
-              geonix-python = py.withPackages (p: with self.packages.${system}; [
+              geonixPython = py.withPackages (p: with self.packages.${system}; [
                 python-fiona
                 python-gdal
                 python-geopandas
@@ -271,7 +271,7 @@
                 geos
                 pdal
                 proj
-                geonix-python
+                geonixPython
               ];
             };
 
@@ -279,7 +279,7 @@
             let
               pg = pkgs.postgresql;
 
-              geonix-postgis = pg.withPackages (p: with self.packages.${system}; [ postgis ]);
+              geonixPostgis = pg.withPackages (p: with self.packages.${system}; [ postgis ]);
 
               postgresInitdbArgs = [ "--locale=C" "--encoding=UTF8" ];
 
@@ -302,7 +302,7 @@
 
             in
             pkgs.mkShellNoCC {
-              packages = [ geonix-postgis ];
+              packages = [ geonixPostgis ];
 
               shellHook = ''
                 # Initialize DB
@@ -326,7 +326,7 @@
               '';
             };
 
-          nix-dev = pkgs.mkShellNoCC {
+          nixDev = pkgs.mkShellNoCC {
             packages = with pkgs; [
               nix-prefetch-git
               nix-prefetch-github
