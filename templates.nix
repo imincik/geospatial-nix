@@ -9,43 +9,57 @@
       * Jupyter container with Geonix packages
 
       ## Usage
-      * Add flake.nix and flake.lock files to git !
-      ```
-      git add flake.nix flake.lock
-      ```
 
-      * Build container image
-      ```
-      nix build .#pythonImage
-      ```
+      * Lock flake dependencies
 
-      OR
+        ```
+        nix flake lock
+        ```
 
-      ```
-      nix build .#jupyterImage
-      ```
+      * Add all files to git !
+
+        ```
+        git add *
+        ```
+
+      * Build container image (Python)
+
+        ```
+        nix build .#pythonImage
+        ```
+
+      * Build container image (Jupyter)
+
+        ```
+        nix build .#jupyterImage
+        ```
 
       * Load image to Docker
-      ```
-      docker load < result
-      ```
+
+        ```
+        docker load < result
+        ```
 
       * Run Python container interactively
-      ```
-      docker run -it geonix-python
-      ```
+
+        ```
+        docker run -it geonix-python
+        ```
 
       * Run script in Python container
-      ```
-      docker run geonix-python -c "import fiona; print(fiona.show_versions())"
-      ```
+
+        ```
+        docker run geonix-python -c "import fiona; print(fiona.show_versions())"
+        ```
 
       * Run Jupyter container
-      ```
-      docker run -p 8888:8888 geonix-jupyter
-      ```
+
+        ```
+        docker run -p 8888:8888 geonix-jupyter
+        ```
 
       ## More info
+
       * [Nixpkgs dockerTools](https://nixos.org/manual/nixpkgs/stable/#sec-pkgs-dockerTools)
       * [Nix tutorials](https://nix.dev)
     '';
@@ -60,49 +74,61 @@
       managed by Poetry.
 
       ## Usage
-      * Add flake.nix and flake.lock files to git !
-      ```
-      git add flake.nix flake.lock
-      ```
+
+      * Lock flake dependencies
+
+        ```
+        nix flake lock
+        ```
+
+      * Add all files to git !
+
+        ```
+        git add *
+        ```
 
       ### Development
+
       * Enter development shell (run following command in shell environment)
-      ```
-      nix develop
-      ```
+
+        ```
+        nix develop
+        ```
 
       * Install Python virtual environment managed by Poetry
-      ```
-      poetry install
-      ```
 
-      * Add poetry.lock file to git
-      ```
-      git add poetry.lock
-      ```
+        ```
+        poetry install
+        ```
 
       * Launch Python application development server
-      ```
-      poetry run flask run
-      ```
 
-      ### Packaging in container image
+        ```
+        poetry run flask run
+        ```
+
+      ### Building container image
+
       * Build container image
-      ```
-      nix build .#poetryAppImage
-      ```
+
+        ```
+        nix build .#poetryAppImage
+        ```
 
       * Load image to Docker
-      ```
-      docker load < result
-      ```
+
+        ```
+        docker load < result
+        ```
 
       * Run container
-      ```
-      docker run -p 5000:5000 geonix-python-app
-      ```
+
+        ```
+        docker run -p 5000:5000 geonix-python-app
+        ```
 
       ## More info
+
       * [Nixpkgs dockerTools](https://nixos.org/manual/nixpkgs/stable/#sec-pkgs-dockerTools)
       * [mkPoetryApplication](https://github.com/nix-community/poetry2nix#mkPoetryApplication)
       * [Nix tutorials](https://nix.dev)
