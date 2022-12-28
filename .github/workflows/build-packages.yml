@@ -52,7 +52,13 @@ jobs:
         nix --experimental-features "nix-command flakes"
         build --accept-flake-config .#all-packages
 
-    - name: Build shell
+    - name: Build default shell
       run: >
         nix --experimental-features "nix-command flakes"
         develop --accept-flake-config
+
+    - name: Build postgis shell
+      run: >
+        nix --experimental-features "nix-command flakes"
+        develop --accept-flake-config .#postgis
+        --command psql -c 'CREATE EXTENSION postgis; SELECT postgis_full_version();'
