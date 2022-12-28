@@ -9,9 +9,9 @@
       * Jupyter container with Geonix packages
 
       ## Usage
-      * flake.nix file must be added to git first !
+      * Add flake.nix and flake.lock files to git !
       ```
-      git add flake.nix
+      git add flake.nix flake.lock
       ```
 
       * Build container image
