@@ -271,7 +271,6 @@
                 geos
                 pdal
                 proj
-                qgis
                 geonix-python
               ];
             };
