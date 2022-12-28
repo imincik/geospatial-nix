@@ -13,8 +13,9 @@ jobs:
       fail-fast: false
       matrix:
         template:
-          - python-container
+          - postgis-db
           - python-app
+          - python-container
 
     runs-on: ubuntu-22.04
 
@@ -49,6 +50,8 @@ jobs:
       run: >
         nix --experimental-features "nix-command flakes"
         build --accept-flake-config
+      # nothing to build in postgis-db template
+      if: ${{ matrix.template != 'postgis-db' }}
       working-directory: /home/runner/work/my-project
 
     - name: Test template build output (if python-container template)
@@ -68,4 +71,12 @@ jobs:
 
         curl localhost:5000 | grep POLYGON
       if: ${{ matrix.template == 'python-app' }}
+      working-directory: /home/runner/work/my-project
+
+    - name: Test template build output (if postgis-db template)
+      run: >
+        nix --experimental-features "nix-command flakes"
+        develop --accept-flake-config
+        --command psql -c 'CREATE EXTENSION postgis; SELECT postgis_full_version();'
+      if: ${{ matrix.template == 'postgis-db' }}
       working-directory: /home/runner/work/my-project
