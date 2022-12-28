@@ -102,6 +102,12 @@
           };
 
 
+          # PostgreSQL
+          postgis = pkgs.callPackage ./pkgs/postgis/postgis.nix {
+            inherit gdal geos proj;
+          };
+
+
           # QGIS
           qgis =
             let
@@ -172,6 +178,7 @@
               libspatialindex
               libspatialite
               pdal
+              postgis
               proj
               python-fiona
               python-gdal
@@ -216,6 +223,7 @@
         libspatialindex = self.packages.x86_64-linux.libspatialindex;
         libspatialite = self.packages.x86_64-linux.libspatialite;
         pdal = self.packages.x86_64-linux.pdal;
+        postgis = self.packages.x86_64-linux.postgis;
         proj = self.packages.x86_64-linux.proj;
         python-fiona = self.packages.x86_64-linux.python-fiona;
         python-gdal = self.packages.x86_64-linux.python-gdal;
@@ -267,6 +275,57 @@
                 geonix-python
               ];
             };
+
+          postgis =
+            let
+              pg = pkgs.postgresql;
+
+              geonix-postgis = pg.withPackages (p: with self.packages.${system}; [ postgis ]);
+
+              postgresInitdbArgs = [ "--locale=C" "--encoding=UTF8" ];
+
+              postgresConf =
+                pkgs.writeText "postgresql.conf"
+                  ''
+                    # Geonix custom settings
+                    log_connections = on
+                    log_directory = 'pg_log'
+                    log_disconnections = on
+                    log_duration = on
+                    log_filename = 'postgresql.log'
+                    log_min_duration_statement = 100  # ms
+                    log_min_error_statement = error
+                    log_min_messages = warning
+                    log_statement = 'all'
+                    log_timezone = 'UTC'
+                    logging_collector = on
+                  '';
+
+            in
+            pkgs.mkShellNoCC {
+              packages = [ geonix-postgis ];
+
+              shellHook = ''
+                # Initialize DB
+                export PGUSER="postgres"
+                export PGDATA="$(pwd)/.geonix/services/postgres"
+                export PGHOST="$PGDATA"
+                export PGPORT="15432"
+
+                [ ! -d $PGDATA ] && pg_ctl initdb -o "${pkgs.lib.concatStringsSep " " postgresInitdbArgs} -U $PGUSER" && cat "${postgresConf}" >> $PGDATA/postgresql.conf
+                [ ! -f $PGDATA/postmaster.pid ] && pg_ctl -o "-p $PGPORT -k $PGDATA" start
+
+                echo -e "\n### USAGE:"
+                echo "PostgreSQL: ${pg.version}"
+                echo "PostGIS:    ${self.packages.${system}.postgis.version}"
+                echo "PGDATA:     $PGDATA"
+                echo
+                echo "Connection: psql"
+                echo "Logs:       tail -f \$PGDATA/pg_log/postgresql.log"
+                echo "Stop DB:    pg_ctl stop"
+                echo
+              '';
+          };
 
           nix-dev = pkgs.mkShellNoCC {
             packages = with pkgs; [

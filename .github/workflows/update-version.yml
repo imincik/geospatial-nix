@@ -17,6 +17,7 @@ jobs:
           - libspatialindex
           # - libspatialite  # not on GitHub (gaia-gis.it)
           - pdal
+          # - postgis  # not on GitHub (git.osgeo.org/gitea/postgis/postgis)
           - proj
           - python-fiona
           - python-geopandas

@@ -119,9 +119,9 @@ nix profile install .#qgis-ltr                      # from local git checkout
 nix profile install github:imincik/geonix#qgis-ltr  # from GitHub
 ```
 
-### Geonix shell
+### CLI shell
 
-* Enter shell containing Geonix applications, CLI tools and Python interpreter
+* Enter shell containing geospatial CLI tools and Python interpreter
 ```
 nix develop                                         # from local git checkout
 
@@ -147,6 +147,26 @@ GDAL 3.6.1, released 2022/12/14
 {'DXF': 'rw', 'CSV': 'raw', 'OpenFileGDB': 'r', 'ESRIJSON': 'r', ... }
 ```
 
+### PostGIS shell
+
+* Enter shell containing running PostGIS database
+```
+nix develop .#postgis                               # from local git checkout
+
+nix develop github:imincik/geonix#postgis           # from GitHub
+```
+
+* Connect to PostGIS database and run query
+```
+[geonix] > psql -c "CREATE EXTENSION postgis;"
+
+CREATE EXTENSION
+
+[geonix] > psql -c "SELECT ST_AsText(ST_Buffer(ST_GeomFromText('POINT(1 1)'), 1));"
+
+POLYGON((2 1,1.98078528040323 0.804909677983872,1.923879532511287
+0.61731656763491, ...
+```
 
 ## Development
 
