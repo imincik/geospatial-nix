@@ -1,4 +1,4 @@
-name: Update Nix Flake inputs
+name: Update flake inputs
 
 on:
   schedule:
