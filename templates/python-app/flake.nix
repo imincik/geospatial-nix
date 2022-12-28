@@ -71,7 +71,7 @@
           poetryAppImage = pkgs.dockerTools.buildLayeredImage {
             name = "geonix-python-app";
             tag = "latest";
-            created = "now";
+            created = "now";  # optional - breaks reproducibility by setting current date
             contents = [ poetryApp ];
             config = {
               Cmd = [
