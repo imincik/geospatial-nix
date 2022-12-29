@@ -11,11 +11,13 @@
   inputs.utils.url = "github:numtide/flake-utils";
 
   outputs = { self, nixpkgs, geonix, utils }:
-    utils.lib.eachSystem [ "x86_64-linux" ] (system:
+    utils.lib.eachSystem [ "x86_64-linux" "x86_64-darwin" ] (system:
       let
         pkgs = import nixpkgs {
           inherit system;
-          overlays = [ geonix.overlays.default ];
+
+          # add Geonix overlay with packages under geonix namespace (pkgs.geonix.<PACKAGE>)
+          overlays = [ geonix.overlays.${system} ];
         };
 
         # Choose your Python version here.
@@ -27,16 +29,16 @@
         # * python311
         py = pkgs.python3;
 
-        geonixPython = py.withPackages (p: with geonix.packages.${system}; [
+        geonixPython = py.withPackages (p: [
 
           # Geonix packages
-          python-fiona
-          python-gdal
-          python-geopandas
-          python-owslib
-          python-pyproj
-          python-rasterio
-          python-shapely
+          pkgs.geonix.python-fiona
+          pkgs.geonix.python-gdal
+          pkgs.geonix.python-geopandas
+          pkgs.geonix.python-owslib
+          pkgs.geonix.python-pyproj
+          pkgs.geonix.python-rasterio
+          pkgs.geonix.python-shapely
 
           # Search for additional Python packages from Nixpkgs:
           # $ nix search nixpkgs/nixos-22.11 "python3.*Packages.<PACKAGE>"
@@ -45,16 +47,16 @@
           # pkgs.<PYTHON-VERSION>.pkgs.<PACKAGE>
         ]);
 
-        geonixJupyter = py.withPackages (p: with geonix.packages.${system}; [
+        geonixJupyter = py.withPackages (p: [
 
           # Geonix packages
-          python-fiona
-          python-gdal
-          python-geopandas
-          python-owslib
-          python-pyproj
-          python-rasterio
-          python-shapely
+          pkgs.geonix.python-fiona
+          pkgs.geonix.python-gdal
+          pkgs.geonix.python-geopandas
+          pkgs.geonix.python-owslib
+          pkgs.geonix.python-pyproj
+          pkgs.geonix.python-rasterio
+          pkgs.geonix.python-shapely
 
           # Packages from Nixpkgs
           pkgs.python3.pkgs.ipython
@@ -65,6 +67,11 @@
 
       in
       {
+
+        #
+        ### PACKAGES ###
+        #
+
         packages = rec {
 
           # See dockerTools documentation:

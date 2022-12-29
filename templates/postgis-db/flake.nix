@@ -11,11 +11,13 @@
   inputs.utils.url = "github:numtide/flake-utils";
 
   outputs = { self, nixpkgs, geonix, utils }:
-    utils.lib.eachSystem [ "x86_64-linux" ] (system:
+    utils.lib.eachSystem [ "x86_64-linux" "x86_64-darwin" ] (system:
       let
         pkgs = import nixpkgs {
           inherit system;
-          overlays = [ geonix.overlays.default ];
+
+          # add Geonix overlay with packages under geonix namespace (pkgs.geonix.<PACKAGE>)
+          overlays = [ geonix.overlays.${system} ];
         };
 
         # Choose your PostgreSQL version here.
@@ -27,7 +29,7 @@
         # * postgresql_15
         pg = pkgs.postgresql;
 
-        geonixPostgis = pg.withPackages (p: with geonix.packages.${system}; [ postgis ]);
+        geonixPostgis = pg.withPackages (p: [ pkgs.geonix.postgis ]);
 
         # PostgreSQL initdb arguments
         postgresInitdbArgs = [ "--locale=C" "--encoding=UTF8" ];
@@ -51,6 +53,7 @@
             '';
       in
       {
+
         #
         ### SHELLS ###
         #
@@ -77,7 +80,7 @@
 
               echo -e "\n### USAGE:"
               echo "PostgreSQL: ${pg.version}"
-              echo "PostGIS:    ${geonix.packages.${system}.postgis.version}"
+              echo "PostGIS:    ${pkgs.geonix.postgis.version}"
               echo "PGDATA:     $PGDATA"
               echo
               echo "Connection: psql"

@@ -11,15 +11,18 @@
   inputs.utils.url = "github:numtide/flake-utils";
 
   outputs = { self, nixpkgs, geonix, utils }:
-    utils.lib.eachSystem [ "x86_64-linux" ] (system:
+    utils.lib.eachSystem [ "x86_64-linux" "x86_64-darwin" ] (system:
       let
         # CVE-2022-42966
         insecurePackages = [ "python3.10-poetry-1.2.2" ];
 
         pkgs = import nixpkgs {
           inherit system;
+
           config = { permittedInsecurePackages = insecurePackages; };
-          overlays = [ geonix.overlays.default ];
+
+          # add Geonix overlay with packages under geonix namespace (pkgs.geonix.<PACKAGE>)
+          overlays = [ geonix.overlays.${system} ];
         };
 
         # Choose your Python version here.
@@ -31,13 +34,14 @@
         # * python311
         geonixPython = pkgs.python3;
 
-        geonixPackages = with geonix.packages.${system}; [
+        geonixPackages = [
           # Geonix packages
-          python-shapely
+          pkgs.geonix.python-shapely
         ];
 
       in
       {
+
         #
         ### PACKAGES ###
         #
@@ -71,7 +75,7 @@
           poetryAppImage = pkgs.dockerTools.buildLayeredImage {
             name = "geonix-python-app";
             tag = "latest";
-            created = "now";  # optional - breaks reproducibility by setting current date
+            created = "now"; # optional - breaks reproducibility by setting current date
             contents = [ poetryApp ];
             config = {
               Cmd = [
