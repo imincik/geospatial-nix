@@ -1,7 +1,7 @@
 {
-  python-container = {
+  python-containers = {
     description = "Python container images";
-    path = ./templates/python-container;
+    path = ./templates/python-containers;
     welcomeText = ''
       This template allows you to build and run following containers:
 
