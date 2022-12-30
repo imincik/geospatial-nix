@@ -51,6 +51,7 @@
 
             libspatialite = pkgs.callPackage ./pkgs/libspatialite {
               inherit geos proj;
+              librttopo = pkgs.librttopo.override {geos = geos;};
             };
 
             gdal = pkgs.callPackage ./pkgs/gdal {
