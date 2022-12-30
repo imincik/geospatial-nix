@@ -15,7 +15,7 @@ jobs:
         template:
           - postgis-db
           - python-app
-          - python-container
+          - python-containers
         os:
           - ubuntu-22.04
           - macos-11
@@ -73,12 +73,12 @@ jobs:
 
     # Docker is not available on MacOS runners. Containers tests are performed
     # only on Linux.
-    - name: Test template build output (if Linux and python-container template)
+    - name: Test template build output (if Linux and python-containers template)
       run: |
         docker load < result
 
         docker run geonix-python -c "import fiona; print(fiona.show_versions())"
-      if: ${{ runner.os == 'Linux' && matrix.template == 'python-container' }}
+      if: ${{ runner.os == 'Linux' && matrix.template == 'python-containers' }}
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
 
     # Docker is not available on MacOS runners. Containers tests are performed
