@@ -28,7 +28,7 @@
         nix build .#pythonImage
         ```
 
-      * Build container image (Jupyter)
+      * OR Build container image (Jupyter)
 
         ```
         nix build .#jupyterImage
