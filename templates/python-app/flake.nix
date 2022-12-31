@@ -13,7 +13,7 @@
   outputs = { self, nixpkgs, geonix, utils }:
     utils.lib.eachSystem [ "x86_64-linux" "x86_64-darwin" ] (system:
       let
-        # CVE-2022-42966
+        # accept CVE-2022-42966
         insecurePackages = [ "python3.10-poetry-1.2.2" ];
 
         pkgs = import nixpkgs {
@@ -35,8 +35,17 @@
         geonixPython = pkgs.python3;
 
         geonixPackages = [
-          # Geonix packages
+
+          # Geonix Python packages
           pkgs.geonix.python-shapely
+
+          # Python packages from Nixpkgs
+          # Search for additional Python packages from Nixpkgs:
+          # $ nix search nixpkgs/nixos-22.11 "python3.*Packages.<PACKAGE>"
+          # and add them in following format below:
+
+          # pkgs.<PYTHON-VERSION>.pkgs.<PACKAGE>
+          pkgs.python3.pkgs.matplotlib
         ];
 
       in
@@ -56,12 +65,15 @@
             projectDir = ./.;
             preferWheels = false;
 
-            # Always add geonix packages as buildInputs to avoid mixing them
-            # with Poetry installed packages. buildInputs are installed on
+            # Python interpreter
+            python = geonixPython;
+
+            # Always add Geonix Python packages as buildInputs to avoid mixing
+            # them with Poetry installed packages. buildInputs are installed on
             # separate PYTHONPATH.
             propagatedBuildInputs = geonixPackages;
 
-            # If some package fails to build, see how to fix it.
+            # If some package fails to build, see how to fix them.
             # https://github.com/nix-community/poetry2nix/blob/master/docs/edgecases.md
             # overrides = poetry2nix.overrides.withDefaults (self: super: {
             #   foo = foo.overridePythonAttrs(oldAttrs: {});
@@ -116,27 +128,31 @@
           # Default development shell
           default = pkgs.mkShellNoCC {
 
-            # list of packages to be present in shell environment
+            # List of packages to be present in shell environment
             packages = [
 
               # Python interpreter
               geonixPython
 
+              # Geonix Python packages
+              geonixPackages
+
               # Poetry CLI running in Geonix Python interpreter
               (pkgs.poetry.override { python = geonixPython; })
 
-              # Packages from Nixpkgs
-              # Search for additional Python packages from Nixpkgs:
+              # Other useful packages from Nixpkgs
+              # Search for additional packages from Nixpkgs:
               # $ nix search nixpkgs/nixos-22.11 "<PACKAGE>"
               # and add them in following format below:
 
               # pkgs.<PACKAGE>
-              pkgs.shellcheck
+              pkgs.black
+              pkgs.isort
 
-            ] ++ geonixPackages; # Geonix Python packages
+            ];
 
             # Environment variable passed to shell
-            WELCOME_MESSAGE = "Welcome here !";
+            WELCOME_MESSAGE = "Welcome Pythonista !";
 
             # Shell commands to execute after shell environment is started
             shellHook = ''
