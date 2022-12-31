@@ -18,7 +18,7 @@ Various components of this environment are usually coming from different sources
 and in different versions depending on platform (Linux, Mac or Windows),
 platform version (or Linux distribution and its version) and other additional
 sources such as different Linux users repositories (PPAs, AURs, ...), Mac
-Homebrew, OSGeo4W, Python Pip, and many others.
+Homebrew, OSGeo4W, Python PyPi, and many others.
 
 And to make it even worse, different projects usually have different, very often
 conflicting software requirements.
@@ -202,9 +202,9 @@ projects on top of Geonix environment.
 
 Current list of templates:
 
-* postgis-db:        run PostgreSQL/PostGIS database
-* python-app:        Python development environment with Poetry managed dependencies
-* python-containers: build and run Python and Jupyter container images
+* [postgis-db](templates/postgis-db):        run PostgreSQL/PostGIS database
+* [python-app](templates/python-app):        Python development environment with Poetry managed dependencies
+* [python-containers](templates/python-containers): build and run Python and Jupyter container images
 
 Flake templates must be initialized in Git-initialized directory.
 
