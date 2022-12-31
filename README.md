@@ -4,7 +4,7 @@
 # Geonix - the geospatial environment built on Nix
 
 **WARNING: this project is safely usable right now, but things are in active
-development. Incompatible changes without any notice can occur !**
+development. Incompatible changes without any notice can occur at any time !**
 
 Geospatial software environment is a complex system of software packages, tools
 and libraries built to work together. For example [GDAL](https://gdal.org/),
