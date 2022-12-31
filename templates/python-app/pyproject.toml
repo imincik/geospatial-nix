@@ -12,6 +12,9 @@ flask = "^2.2.2"
 
 [tool.poetry.group.dev.dependencies]
 
+[tool.poetry.scripts]
+run-app = "app.__init__:run"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

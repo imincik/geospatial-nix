@@ -75,15 +75,10 @@
           poetryAppImage = pkgs.dockerTools.buildLayeredImage {
             name = "geonix-python-app";
             tag = "latest";
-            created = "now"; # optional - breaks reproducibility by setting current date
+            created = "now"; # optional - breaks reproducibility by updating timestamps
             contents = [ poetryApp ];
             config = {
-              Cmd = [
-                "${poetryApp.dependencyEnv}/bin/flask"
-                "run"
-                "--host"
-                "0.0.0.0"
-              ];
+              Cmd = [ "${poetryApp}/bin/run-app" ];
               ExposedPorts = {
                 "5000/tcp" = { };
               };
@@ -91,6 +86,24 @@
           };
 
           default = poetryAppImage;
+
+        };
+
+
+        #
+        ### APPS ##
+        #
+
+        apps = rec {
+
+          poetryApp = {
+            type = "app";
+            program =
+              "${self.packages.${system}.poetryApp}/bin/run-app";
+          };
+
+          default = poetryApp;
+
         };
 
 
@@ -130,6 +143,7 @@
               echo "$WELCOME_MESSAGE"
             '';
           };
+
         };
       });
 }
