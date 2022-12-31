@@ -104,7 +104,13 @@
       * Launch Python application development server
 
         ```
-        poetry run flask run
+        poetry run flask run --reload
+        ```
+
+      * Exit development shell
+
+        ```
+        exit
         ```
 
       ### Building container image
@@ -125,6 +131,35 @@
 
         ```
         docker run -p 5000:5000 geonix-python-app
+        ```
+
+      ### Publish application and run it from GitHub
+
+      * Create new GitHub repository
+
+      * Add and commit all files to git
+
+        ```
+        git add *
+        git commit -m "Python application from Geonix python-app template"
+        ```
+
+      * Push application to GitHub
+
+        ```
+        git remote add origin https://github.com/<OWNER>/<REPOSITORY>.git
+        git branch -M master
+        git push -u origin master
+        ```
+
+      * Launch application from GitHub
+
+        ```
+        nix run github:<OWNER>/<REPOSITORY>
+        ```
+        ```
+        or try:
+        nix run github:imincik/geonix-python-app
         ```
 
       ## More info
