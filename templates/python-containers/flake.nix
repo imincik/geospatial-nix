@@ -31,7 +31,7 @@
 
         geonixPython = py.withPackages (p: [
 
-          # Geonix packages
+          # Geonix Python packages
           pkgs.geonix.python-fiona
           pkgs.geonix.python-gdal
           pkgs.geonix.python-geopandas
@@ -40,6 +40,7 @@
           pkgs.geonix.python-rasterio
           pkgs.geonix.python-shapely
 
+          # Python packages from Nixpkgs
           # Search for additional Python packages from Nixpkgs:
           # $ nix search nixpkgs/nixos-22.11 "python3.*Packages.<PACKAGE>"
           # and add them in following format below:
@@ -49,7 +50,7 @@
 
         geonixJupyter = py.withPackages (p: [
 
-          # Geonix packages
+          # Geonix Python packages
           pkgs.geonix.python-fiona
           pkgs.geonix.python-gdal
           pkgs.geonix.python-geopandas
@@ -58,11 +59,11 @@
           pkgs.geonix.python-rasterio
           pkgs.geonix.python-shapely
 
-          # Packages from Nixpkgs
+          # Python packages from Nixpkgs
           pkgs.python3.pkgs.ipython
           pkgs.python3.pkgs.jupyter
 
-          # Add additional packages here as above.
+          # Add additional Python packages here as above.
         ]);
 
       in
