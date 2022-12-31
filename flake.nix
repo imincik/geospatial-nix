@@ -184,6 +184,7 @@
               ] ++ pkgs.lib.optionals pkgs.stdenv.isLinux [ qgis qgis-ltr ];
             };
 
+            default = all-packages;
           };
 
 
