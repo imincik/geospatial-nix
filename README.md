@@ -217,7 +217,7 @@ git init
 
 * Initialize new Flake project from template
 ```
-nix flake init --template github:imincik/geonix#<TEMPLATE>
+nix flake init --accept-flake-config --template github:imincik/geonix#<TEMPLATE>
 ```
 
 * Follow instructions printed during Flake initialization
