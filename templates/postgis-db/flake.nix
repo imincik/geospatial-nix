@@ -39,7 +39,7 @@
         postgresConf =
           pkgs.writeText "postgresql.conf"
             ''
-              # Geonix custom settings
+              # Geonix custom configuration
               log_connections = on
               log_directory = 'pg_log'
               log_disconnections = on
@@ -52,6 +52,26 @@
               log_timezone = 'UTC'
               logging_collector = on
             '';
+
+        # PgAdmin configuration
+        pgAdminConf =
+          pkgs.writeText "config_local.py"
+            ''
+              #!/usr/bin/env python
+
+              DATA_DIR = ""
+
+              SERVER_MODE = False  # force desktop mode behavior
+              MASTER_PASSWORD_REQUIRED = False
+
+              AZURE_CREDENTIAL_CACHE_DIR = f"{DATA_DIR}/azurecredentialcache"
+              DEFAULT_SERVER_PORT = 15050
+              ENABLE_PSQL = True
+              LOG_FILE = f"{DATA_DIR}/logs/pgadmin.log"
+              SESSION_DB_PATH = f"{DATA_DIR}/sessions"
+              SQLITE_PATH = f"{DATA_DIR}/pgadmin.db"
+              STORAGE_DIR = f"{DATA_DIR}/storage"
+            '';
       in
       {
 
@@ -59,13 +79,13 @@
         ### SHELLS ###
         #
 
-        devShells = {
+        devShells = rec {
 
           # PostgreSQL database shell
-          default = pkgs.mkShellNoCC {
+          postgres = pkgs.mkShellNoCC {
 
-            # list of packages to be present in shell environment
-            packages = [ geonixPostgis ];
+            # List of packages to be present in shell environment
+            packages = [ geonixPostgis ];  # add pkgs.pgcli package if you like it
 
             # Database initialization and launch script executed when shell
             # environment is started.
@@ -80,16 +100,45 @@
               [ ! -f $PGDATA/postmaster.pid ] && pg_ctl -o "-p $PGPORT -k $PGDATA" start
 
               echo -e "\n### USAGE:"
-              echo "PostgreSQL: ${pg.version}"
-              echo "PostGIS:    ${pkgs.geonix.postgis.version}"
-              echo "PGDATA:     $PGDATA"
+              echo "PostgreSQL:     ${pg.version}"
+              echo "PostGIS:        ${pkgs.geonix.postgis.version}"
+              echo "PGDATA:         $PGDATA"
+              echo "Binaries PATH:  ${pg}/bin"
               echo
-              echo "Connection: psql"
-              echo "Logs:       tail -f \$PGDATA/pg_log/postgresql.log"
-              echo "Stop DB:    pg_ctl stop"
+              echo "Connection:     psql"
+              echo "Logs:           tail -f $PGDATA/pg_log/postgresql.log"
+              echo "Stop DB:        pg_ctl stop"
               echo
             '';
           };
+
+          pgAdmin = pkgs.mkShellNoCC {
+
+            # List of packages to be present in shell environment
+            packages = [ pkgs.pgadmin4 ];
+
+            shellHook = ''
+              DATA_DIR="$(pwd)/.geonix/services/pgadmin"
+
+              mkdir -p $DATA_DIR/config
+
+              cat ${pgAdminConf} \
+              | sed "s|DATA_DIR.*=.*|DATA_DIR = '$DATA_DIR'|" \
+              > .geonix/services/pgadmin/config/config_local.py
+
+              echo -e "\n### USAGE:"
+              echo "PgAdmin:        ${pkgs.pgadmin4.version}"
+              echo "DATA_DIR:       $DATA_DIR"
+              echo
+              echo "URL:            http://127.0.0.1:15050"
+              echo "Stop PgAdmin:   [CTRL-C]"
+              echo
+
+              PYTHONPATH=$PYTHONPATH:$(pwd)/.geonix/services/pgadmin/config pgadmin4
+            '';
+          };
+
+          default = postgres;
         };
       });
 }

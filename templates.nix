@@ -89,7 +89,7 @@
 
       ### Development
 
-      * Enter development shell (run following command in shell environment)
+      * Enter development shell
 
         ```
         nix develop
@@ -175,7 +175,8 @@
     description = "PostGIS database";
     path = ./templates/postgis-db;
     welcomeText = ''
-      This template allows you to launch PostgreSQL/PostGIS database service.
+      This template allows you to launch PostgreSQL/PostGIS database service and
+      web instance of PgAdmin 4 for database management and running queries.
 
       ## Usage
 
@@ -191,10 +192,12 @@
         git add *
         ```
 
-      * Enter development shell (database service is launched automatically)
+      ### PostgreSQL/PostGIS
+
+      * Enter PostgreSQL/PostGIS shell (database service is launched automatically)
 
         ```
-        nix develop
+        nix develop .#postgres
         ```
 
       * Connect to PostGIS database and run query
@@ -205,6 +208,28 @@
 
         ```
         psql -c "SELECT ST_AsText(ST_Buffer(ST_GeomFromText('POINT(1 1)'), 1));"
+        ```
+
+      * Exit development shell (will not terminate database)
+
+        ```
+        exit
+        ```
+
+      ### PgAdmin 4
+
+      * Enter PgAdmin shell (database service is launched automatically)
+
+        ```
+        nix develop .#pgAdmin
+        ```
+
+      * Open PgAdmin in web browser - http://127.0.0.1:15050
+
+      * Exit development shell (PgAdmin needs to be terminated first)
+
+        ```
+        exit
         ```
 
       ## More info
