@@ -214,9 +214,9 @@
           ### SHELLS ###
           #
 
-          devShells = {
+          devShells = rec {
 
-            default =
+            cli =
               let
                 py = pkgs.python3;
 
@@ -241,7 +241,7 @@
                 ];
               };
 
-            postgis =
+            postgres =
               let
                 pg = pkgs.postgresql;
 
@@ -300,6 +300,8 @@
                 jq
               ];
             };
+
+            default = cli;
           };
 
         }) // {

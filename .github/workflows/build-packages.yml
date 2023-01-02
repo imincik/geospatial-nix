@@ -50,13 +50,11 @@ jobs:
         nix
         build --accept-flake-config .#all-packages
 
-    - name: Build default shell
+    - name: Test cli shell
       run: >
-        nix
-        develop --accept-flake-config
+        nix develop --accept-flake-config .#cli
 
-    - name: Build postgis shell
+    - name: Test postgres shell
       run: >
-        nix
-        develop --accept-flake-config .#postgis
+        nix develop --accept-flake-config .#postgres
         --command psql -c 'CREATE EXTENSION postgis; SELECT postgis_full_version();'
