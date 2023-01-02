@@ -42,6 +42,8 @@
 
           packages = flake-utils.lib.filterPackages system rec {
 
+            geonixcli = pkgs.callPackage ./pkgs/geonixcli { };
+
             geos = pkgs.callPackage ./pkgs/geos { };
             libspatialindex = pkgs.callPackage ./pkgs/libspatialindex { };
             proj = pkgs.callPackage ./pkgs/proj { };
@@ -176,6 +178,7 @@
               name = "all-packages";
               paths = with self.packages; [
                 gdal
+                geonixcli
                 geos
                 libgeotiff
                 librttopo
