@@ -14,10 +14,11 @@ jobs:
           - gdal
           - geos
           - libgeotiff
+          # - librttopo      # not on GitHub (https://git.osgeo.org/gitea/rttopo/librttopo)
           - libspatialindex
           # - libspatialite  # not on GitHub (gaia-gis.it)
           - pdal
-          # - postgis  # not on GitHub (git.osgeo.org/gitea/postgis/postgis)
+          # - postgis        # not on GitHub (git.osgeo.org/gitea/postgis/postgis)
           - proj
           - python-fiona
           - python-geopandas

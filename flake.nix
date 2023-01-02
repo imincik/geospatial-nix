@@ -50,8 +50,12 @@
               inherit proj;
             };
 
+            librttopo = pkgs.callPackage ./pkgs/librttopo {
+              inherit geos;
+            };
+
             libspatialite = pkgs.callPackage ./pkgs/libspatialite {
-              inherit geos proj;
+              inherit geos librttopo proj;
             };
 
             gdal = pkgs.callPackage ./pkgs/gdal {
@@ -170,6 +174,7 @@
                 gdal
                 geos
                 libgeotiff
+                librttopo
                 libspatialindex
                 libspatialite
                 pdal
