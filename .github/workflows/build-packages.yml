@@ -29,18 +29,15 @@ jobs:
 
     - name: Flake metadata
       run: >
-        nix --experimental-features "nix-command flakes"
-        flake metadata
+        nix flake metadata
 
     - name: Flake show
       run: >
-        nix --experimental-features "nix-command flakes"
-        flake show
+        nix flake show
 
     - name: Flake check
       run: >
-        nix --experimental-features "nix-command flakes"
-        flake check --no-build --accept-flake-config
+        nix flake check --no-build --accept-flake-config
 
     - name: Setup cachix
       uses: cachix/cachix-action@v12
@@ -50,16 +47,16 @@ jobs:
 
     - name: Build all packages
       run: >
-        nix --experimental-features "nix-command flakes"
+        nix
         build --accept-flake-config .#all-packages
 
     - name: Build default shell
       run: >
-        nix --experimental-features "nix-command flakes"
+        nix
         develop --accept-flake-config
 
     - name: Build postgis shell
       run: >
-        nix --experimental-features "nix-command flakes"
+        nix
         develop --accept-flake-config .#postgis
         --command psql -c 'CREATE EXTENSION postgis; SELECT postgis_full_version();'
