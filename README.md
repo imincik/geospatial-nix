@@ -24,10 +24,10 @@ And to make it even worse, different projects usually have different, very often
 conflicting software requirements.
 
 The primary goal of Geonix project is to bring cross-platform, consistent,
-reproducible and up-to-date geospatial environment for geospatial software
-developers, data analysts, scientists and end users which allows to build and
-run software in isolated environments as needed by particular use case without
-breaking other things.
+declarative, reproducible and up-to-date geospatial environment for geospatial
+software developers, data analysts, scientists and end users which allows to
+build and run software in isolated environments as needed by particular use case
+without breaking other things.
 
 
 ## About Nix
@@ -82,6 +82,10 @@ the environment, Nix guarantees that all package reverse dependencies will be
 automatically rebuilt. For example in case of GDAL version update or even after
 any build configuration change, all reverse dependencies (like QGIS or Fiona)
 are automatically rebuilt.
+
+Nix packages are built from source code, but most of binaries are already
+available either via official Nixpkgs binary cache (https://cache.nixos.org) or
+Geonix binary cache (https://geonix.cachix.org).
 
 Such environments makes software development, distribution, deployment and bug
 fixing much more reliable and easier and can significantly lower the time needed
