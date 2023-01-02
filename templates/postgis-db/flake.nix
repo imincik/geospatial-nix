@@ -6,8 +6,9 @@
 
   nixConfig.bash-prompt = "\\[\\033[1m\\][geonix]\\[\\033\[m\\]\\040\\w >\\040";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
   inputs.geonix.url = "github:imincik/geonix";
+  inputs.nixpkgs.follows = "geonix/nixpkgs";
+
   inputs.utils.url = "github:numtide/flake-utils";
 
   outputs = { self, nixpkgs, geonix, utils }:
