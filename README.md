@@ -159,7 +159,7 @@ nix profile install github:imincik/geonix#qgis-ltr
 
 * Enter shell containing Python interpreter and basic geospatial CLI tools
 ```
-nix develop github:imincik/geonix
+nix develop github:imincik/geonix#cli
 ```
 
 * Launch Python interpreter
@@ -176,11 +176,11 @@ nix develop github:imincik/geonix
 GDAL 3.6.1, released 2022/12/14
 ```
 
-### Try PostGIS shell
+### Try PostgreSQL/PostGIS shell
 
 * Enter shell containing running PostGIS database
 ```
-nix develop github:imincik/geonix#postgis
+nix develop github:imincik/geonix#postgres
 ```
 
 * Connect to PostGIS database and run query
