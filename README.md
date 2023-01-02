@@ -202,8 +202,8 @@ projects on top of Geonix environment.
 
 Current list of templates:
 
-* [postgis-db](templates/postgis-db):        run PostgreSQL/PostGIS database
-* [python-app](templates/python-app):        Python development environment with Poetry managed dependencies
+* [postgis-db](templates/postgis-db): run PostgreSQL/PostGIS database with PgAdmin for queries
+* [python-app](templates/python-app): Python development environment with Poetry managed dependencies
 * [python-containers](templates/python-containers): build and run Python and Jupyter container images
 
 Flake templates must be initialized in Git-initialized directory.
