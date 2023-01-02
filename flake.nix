@@ -32,8 +32,9 @@
         {
 
           # Each new package must be added to:
-          # * packages
-          # * all-packages
+          # * flake.nix: packages
+          # * flake.nix: packages.all-packages
+          # * .github/workflows/update-version.yml: matrix.package
 
           #
           ### PACKAGES ###
