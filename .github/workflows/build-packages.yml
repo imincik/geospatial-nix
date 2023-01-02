@@ -4,7 +4,6 @@ on:
   pull_request:
   push:
     branches:
-      - main
       - master
   schedule:
     - cron:  '11 1 * * *'
@@ -22,6 +21,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Install nix
       uses: cachix/install-nix-action@v18
