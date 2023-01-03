@@ -13,7 +13,6 @@ jobs:
       fail-fast: false
       matrix:
         template:
-          - postgis-db
           - python-app
           - python-containers
         os:
@@ -63,8 +62,6 @@ jobs:
     - name: Build template
       run: >
         nix build --accept-flake-config
-      # nothing to build in postgis-db template
-      if: ${{ matrix.template != 'postgis-db' }}
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
 
 
@@ -98,11 +95,4 @@ jobs:
 
         curl --retry 10 --retry-all-errors localhost:5000 | grep POLYGON
       if: ${{ runner.os == 'macOS' && matrix.template == 'python-app' }}
-      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
-
-    - name: Test template build output (if Linux or MacOS and postgis-db template)
-      run: >
-        nix develop --accept-flake-config
-        --command psql -c 'CREATE EXTENSION postgis; SELECT postgis_full_version();'
-      if: ${{ matrix.template == 'postgis-db' }}
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
