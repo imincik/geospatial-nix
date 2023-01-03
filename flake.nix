@@ -190,6 +190,23 @@
               ] ++ pkgs.lib.optionals pkgs.stdenv.isLinux [ qgis qgis-ltr ];
             };
 
+
+            # Container images
+            image-python = pkgs.callPackage ./imgs/python {
+              inherit
+              python-fiona
+              python-gdal
+              python-geopandas
+              python-owslib
+              python-pyproj
+              python-rasterio
+              python-shapely;
+            };
+
+            image-postgres = pkgs.callPackage ./imgs/postgres {
+              inherit postgis;
+            };
+
             default = all-packages;
           };
 
@@ -324,8 +341,6 @@
                   export PGUSER="postgres"
                   export PGHOST="$PGDATA"
                   export PGPORT="${toString postgresPort}"
-
-                  psql
                 '';
               };
 
