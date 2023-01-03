@@ -80,25 +80,51 @@
           # https://nixos.org/manual/nixpkgs/stable/#sec-pkgs-dockerTools
 
           # Python interpreter image
-          pythonImage = pkgs.dockerTools.buildLayeredImage
+          pythonImage = pkgs.dockerTools.buildImage
             {
               name = "geonix-python";
               tag = "latest";
-              created = "now";
-              contents = [ geonixPython ];
+
+              # optional - breaks reproducibility by updating timestamps and
+              # forces rebuilds all the time.
+              # created = "now";
+
+              copyToRoot = pkgs.buildEnv {
+                name = "image-root";
+
+                # fakeNss provides nobody user and group
+                paths = [ geonixPython pkgs.dockerTools.fakeNss ];
+
+                pathsToLink = [ "/bin" "/etc" ];
+              };
+
               config = {
+                User = "nobody";
                 Entrypoint = [ "${geonixPython}/bin/python" ];
               };
             };
 
           # Jupyter notebook image
-          jupyterImage = pkgs.dockerTools.buildLayeredImage
+          jupyterImage = pkgs.dockerTools.buildImage
             {
               name = "geonix-jupyter";
               tag = "latest";
-              created = "now";
-              contents = [ geonixJupyter ];
+
+              # optional - breaks reproducibility by updating timestamps and
+              # forces rebuilds all the time.
+              # created = "now";
+
+              copyToRoot = pkgs.buildEnv {
+                name = "image-root";
+
+                # fakeNss provides nobody user and group
+                paths = [ geonixJupyter pkgs.dockerTools.fakeNss ];
+
+                pathsToLink = [ "/bin" "/etc" "/var" ];
+              };
+
               config = {
+                User = "nobody";
                 Cmd = [ "${geonixJupyter}/bin/jupyter" "notebook" "--ip=0.0.0.0" "--allow-root" ];
                 ExposedPorts = {
                   "8888/tcp" = { };
