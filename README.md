@@ -21,7 +21,7 @@ sources such as different Linux users repositories (PPAs, AURs, ...), Mac
 Homebrew, OSGeo4W, Python PyPi, and many others.
 
 And to make it even worse, different projects usually have different, very often
-conflicting software requirements.
+conflicting software requirements and some of them depend on customized packages.
 
 The primary goal of Geonix project is to bring cross-platform, consistent,
 declarative, reproducible and up-to-date geospatial environment for geospatial
@@ -63,6 +63,9 @@ GDAL, GEOS, PDAL or PROJ, growing selection of Python libraries, desktop
 software like QGIS and PostgreSQL/PostGIS database system, everything always
 consistently built together.
 
+For development purposes, Geonix provides OCI compatible container images which
+are always consistently built for the used version of the environment.
+
 Using the new Nix feature called Flakes, Geonix provides very easy way to build
 isolated geospatial software environments (think about it as a Python
 virtualenv, but containing all software above operating system kernel which is
@@ -73,7 +76,7 @@ Whole Nix Flake environment (all software coming from nixpkgs, Geonix or other
 Flakes) is pinned to the exact Git commit revision using lock file and can be
 updated only when required.
 
-New Flake projects can be started from templates and applications can be
+New Flake projects can be started from templates and built applications can be
 packaged as OCI compatible container images or can be launched directly from
 source code repository (for example from GitHub).
 
@@ -180,11 +183,51 @@ nix develop github:imincik/geonix#cli
 GDAL 3.6.1, released 2022/12/14
 ```
 
-### Try database shells
+### Try Python container image
+
+* Build container image
+```
+nix build --accept-flake-config github:imincik/geonix#image-python
+```
+
+* Load built image to Docker
+```
+docker load < ./result
+```
+
+* Run container
+```
+docker run --rm -u "$(id -u):$(id -g)" geonix-python -c "import fiona; print(fiona.supported_drivers)"
+```
+
+### Try PostgreSQL/PostGIS container image
+
+* Build container image
+```
+nix build --accept-flake-config github:imincik/geonix#image-postgres
+```
+
+* Load built image to Docker
+```
+docker load < ./result
+```
+
+* Run container
+```
+docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd):/data" -p 15432:5432 geonix-postgres
+```
+
+_NOTE: for reproducibility reasons, creation time of all container images is
+always set to one second past the UNIX Epoch which is January 1st, 1970. Don't
+be surprised if you see image created more than 50 years ago in your system._
+
+### Try PostgreSQL/PostGIS database shells
 
 * Launch PostGIS database in `postgres` shell
 ```
 nix develop github:imincik/geonix#postgres
+
+PostgreSQL database will start automatically.
 ```
 
 * Connect to PostGIS database in `psql` shell
@@ -192,11 +235,12 @@ nix develop github:imincik/geonix#postgres
 nix develop github:imincik/geonix#psql
 ```
 ```
-postgres=# CREATE EXTENSION postgis;
+psql -c "CREATE EXTENSION postgis";
 
 CREATE EXTENSION
-
-postgres=# SELECT ST_AsText(ST_Buffer(ST_GeomFromText('POINT(1 1)'), 1));
+```
+```
+psql -c "SELECT ST_AsText(ST_Buffer(ST_GeomFromText('POINT(1 1)'), 1));"
 
 POLYGON((2 1,1.98078528040323 0.804909677983872,1.923879532511287
 0.61731656763491, ...
@@ -205,6 +249,8 @@ POLYGON((2 1,1.98078528040323 0.804909677983872,1.923879532511287
 * Launch PgAdmin in `pgAdmin` shell
 ```
 nix develop github:imincik/geonix#pgadmin
+
+PgAdmin will start automatically.
 ```
 
 * Open PgAdmin in web browser via http://127.0.0.1:15050
@@ -217,7 +263,6 @@ projects on top of Geonix environment.
 Current list of templates:
 
 * [python-app](templates/python-app): Python development environment with Poetry managed dependencies
-* [python-containers](templates/python-containers): build and run Python and Jupyter container images
 
 Flake templates must be initialized in Git-initialized directory.
 
@@ -233,7 +278,7 @@ git init
 nix flake init --accept-flake-config --template github:imincik/geonix#<TEMPLATE>
 ```
 
-* Follow instructions printed during Flake initialization
+* Follow instructions displayed during Flake initialization
 
 
 ## Geonix development
