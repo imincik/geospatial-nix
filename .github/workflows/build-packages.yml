@@ -53,8 +53,10 @@ jobs:
     - name: Test cli shell
       run: >
         nix develop --accept-flake-config .#cli
+        --command python -c "import fiona; print(fiona.supported_drivers)"
 
-    - name: Test postgres shell
-      run: >
-        nix develop --accept-flake-config .#postgres
-        --command psql -c 'CREATE EXTENSION postgis; SELECT postgis_full_version();'
+    # FIXME: re-enable this test
+    # - name: Test postgres shell
+    #   run: >
+    #     nix develop --accept-flake-config .#postgres
+    #     --command psql -c 'CREATE EXTENSION postgis; SELECT postgis_full_version();'

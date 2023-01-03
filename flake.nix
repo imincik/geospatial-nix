@@ -221,6 +221,7 @@
 
           devShells = rec {
 
+            # CLI shell
             cli =
               let
                 py = pkgs.python3;
@@ -246,57 +247,149 @@
                 ];
               };
 
+            # PostgreSQL shell
             postgres =
               let
                 pg = pkgs.postgresql;
 
                 geonixPostgis = pg.withPackages (p: with self.packages.${system}; [ postgis ]);
 
+                postgresServiceDir = ".geonix/services/postgres";
+
                 postgresInitdbArgs = [ "--locale=C" "--encoding=UTF8" ];
 
                 postgresConf =
                   pkgs.writeText "postgresql.conf"
                     ''
-                      # Geonix custom settings
                       log_connections = on
-                      log_directory = 'pg_log'
-                      log_disconnections = on
                       log_duration = on
-                      log_filename = 'postgresql.log'
-                      log_min_duration_statement = 100  # ms
-                      log_min_error_statement = error
-                      log_min_messages = warning
                       log_statement = 'all'
-                      log_timezone = 'UTC'
-                      logging_collector = on
+                      log_disconnections = on
+                      log_destination = 'stderr'
                     '';
 
+                postgresPort = 15432;
+
+                postgresServiceStart =
+                  pkgs.writeShellScriptBin "service-start"
+                    ''
+                      set -euo pipefail
+
+                      echo "POSTGRES_SERVICE_DIR: $POSTGRES_SERVICE_DIR"
+
+                      export PGDATA=$POSTGRES_SERVICE_DIR/data
+                      export PGUSER="postgres"
+                      export PGHOST="$PGDATA"
+                      export PGPORT="${toString postgresPort}"
+
+                      if [ ! -d $PGDATA ]; then
+                        pg_ctl initdb -o "${pkgs.lib.concatStringsSep " " postgresInitdbArgs} -U $PGUSER"
+                        cat "${postgresConf}" >> $PGDATA/postgresql.conf
+                      fi
+
+                      exec ${geonixPostgis}/bin/postgres -p $PGPORT -k $PGDATA
+                    '';
+
+                postgresServiceProcfile =
+                  pkgs.writeText "service-procfile"
+                    ''
+                      postgres: ${postgresServiceStart}/bin/service-start
+                    '';
               in
               pkgs.mkShellNoCC {
-                packages = [ geonixPostgis ];
+                packages = [ geonixPostgis pkgs.honcho ];
 
                 shellHook = ''
-                  # Initialize DB
-                  export PGUSER="postgres"
-                  export PGDATA="$(pwd)/.geonix/services/postgres"
-                  export PGHOST="$PGDATA"
-                  export PGPORT="15432"
+                  mkdir -p ${postgresServiceDir}
+                  export POSTGRES_SERVICE_DIR="$(pwd)/${postgresServiceDir}"
 
-                  [ ! -d $PGDATA ] && pg_ctl initdb -o "${pkgs.lib.concatStringsSep " " postgresInitdbArgs} -U $PGUSER" && cat "${postgresConf}" >> $PGDATA/postgresql.conf
-                  [ ! -f $PGDATA/postmaster.pid ] && pg_ctl -o "-p $PGPORT -k $PGDATA" start
-
-                  echo -e "\n### USAGE:"
-                  echo "PostgreSQL: ${pg.version}"
-                  echo "PostGIS:    ${self.packages.${system}.postgis.version}"
-                  echo "PGDATA:     $PGDATA"
-                  echo
-                  echo "Connection: psql"
-                  echo "Logs:       tail -f \$PGDATA/pg_log/postgresql.log"
-                  echo "Stop DB:    pg_ctl stop"
-                  echo
+                  honcho -f ${postgresServiceProcfile} start postgres
                 '';
               };
 
+            # psql shell
+            psql =
+              let
+                postgresServiceDir = ".geonix/services/postgres";
+                postgresPort = 15432;
+              in
+              pkgs.mkShellNoCC {
+
+                packages = [ pkgs.postgresql pkgs.pgcli ]; # add pkgs.pgcli here if you like it
+
+                shellHook = ''
+                  export POSTGRES_SERVICE_DIR="$(pwd)/${postgresServiceDir}"
+
+                  export PGDATA=$POSTGRES_SERVICE_DIR/data
+                  export PGUSER="postgres"
+                  export PGHOST="$PGDATA"
+                  export PGPORT="${toString postgresPort}"
+
+                  psql
+                '';
+              };
+
+            # PgAdmin shell
+            pgadmin =
+              let
+                pgAdminServiceDir = ".geonix/services/pgadmin";
+
+                pgAdminConf =
+                  pkgs.writeText "config_local.py"
+                    ''
+                      import logging
+
+                      DATA_DIR = ""
+                      SERVER_MODE = False  # force desktop mode behavior
+
+                      AZURE_CREDENTIAL_CACHE_DIR = f"{DATA_DIR}/azurecredentialcache"
+                      CONSOLE_LOG_LEVEL = logging.CRITICAL
+                      DEFAULT_SERVER_PORT = ${toString pgAdminPort}
+                      ENABLE_PSQL = True
+                      LOG_FILE = f"{DATA_DIR}/log/pgadmin.log"
+                      MASTER_PASSWORD_REQUIRED = False
+                      SESSION_DB_PATH = f"{DATA_DIR}/sessions"
+                      SQLITE_PATH = f"{DATA_DIR}/pgadmin.db"
+                      STORAGE_DIR = f"{DATA_DIR}/storage"
+                    '';
+
+                pgAdminPort = 15050;
+
+                pgAdminServiceStart =
+                  pkgs.writeShellScriptBin "service-start"
+                    ''
+                      set -euo pipefail
+
+                      echo "PGADMIN_SERVICE_DIR: $PGADMIN_SERVICE_DIR"
+                      mkdir -p $PGADMIN_SERVICE_DIR/config $PGADMIN_SERVICE_DIR/data
+
+                      cat ${pgAdminConf} \
+                        | sed "s|DATA_DIR.*=.*|DATA_DIR = '$PGADMIN_SERVICE_DIR/data'|" \
+                        > $PGADMIN_SERVICE_DIR/config/config_local.py
+
+                      PYTHONPATH=$PYTHONPATH:$PGADMIN_SERVICE_DIR/config
+                      exec pgadmin4
+                    '';
+
+                pgAdminServiceProcfile =
+                  pkgs.writeText "service-procfile"
+                    ''
+                      pgadmin: ${pgAdminServiceStart}/bin/service-start
+                    '';
+              in
+              pkgs.mkShellNoCC {
+                packages = [ pkgs.pgadmin4 pkgs.honcho ];
+
+                shellHook = ''
+                  mkdir -p ${pgAdminServiceDir}
+                  export PGADMIN_SERVICE_DIR="$(pwd)/${pgAdminServiceDir}"
+
+                  honcho -f ${pgAdminServiceProcfile} start pgadmin
+                '';
+              };
+
+
+            # NIX dev shell
             nixDev = pkgs.mkShellNoCC {
 
               packages = with pkgs; [

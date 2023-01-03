@@ -180,24 +180,34 @@ nix develop github:imincik/geonix#cli
 GDAL 3.6.1, released 2022/12/14
 ```
 
-### Try PostgreSQL/PostGIS shell
+### Try database shells
 
-* Enter shell containing running PostGIS database
+* Launch PostGIS database in `postgres` shell
 ```
 nix develop github:imincik/geonix#postgres
 ```
 
-* Connect to PostGIS database and run query
+* Connect to PostGIS database in `psql` shell
 ```
-[geonix] > psql -c "CREATE EXTENSION postgis;"
+nix develop github:imincik/geonix#psql
+```
+```
+postgres=# CREATE EXTENSION postgis;
 
 CREATE EXTENSION
 
-[geonix] > psql -c "SELECT ST_AsText(ST_Buffer(ST_GeomFromText('POINT(1 1)'), 1));"
+postgres=# SELECT ST_AsText(ST_Buffer(ST_GeomFromText('POINT(1 1)'), 1));
 
 POLYGON((2 1,1.98078528040323 0.804909677983872,1.923879532511287
 0.61731656763491, ...
 ```
+
+* Launch PgAdmin in `pgAdmin` shell
+```
+nix develop github:imincik/geonix#pgadmin
+```
+
+* Open PgAdmin in web browser via http://127.0.0.1:15050
 
 ### Start new project from templates
 
@@ -206,7 +216,6 @@ projects on top of Geonix environment.
 
 Current list of templates:
 
-* [postgis-db](templates/postgis-db): run PostgreSQL/PostGIS database with PgAdmin for queries
 * [python-app](templates/python-app): Python development environment with Poetry managed dependencies
 * [python-containers](templates/python-containers): build and run Python and Jupyter container images
 
