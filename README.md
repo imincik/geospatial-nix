@@ -100,6 +100,9 @@ speed when returning to the project after longer time period.
 
 For a list of Geonix maintained packages see [pkgs directory](pkgs/).
 
+## Container images
+
+For a list of Geonix built container images see [imgs directory](imgs/).
 
 ## Usage
 
@@ -314,5 +317,5 @@ nix why-depends .#<PACKAGE> .#<DEPENDENCY>
 
 _Credits belongs to all current and past [Nix](https://github.com/NixOS/nix/graphs/contributors),
 [Nixpkgs and NixOS](https://github.com/NixOS/nixpkgs/graphs/contributors) developers and
-maintainers._
+maintainers. Thank you !_
 
