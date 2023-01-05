@@ -102,6 +102,9 @@ For a list of Geonix maintained packages see [pkgs directory](pkgs/).
 
 ## Container images
 
+Container images are built only for development or demonstration purposes. They
+are configured with very relaxed or no authentication policies.
+
 For a list of Geonix built container images see [imgs directory](imgs/).
 
 ## Usage
@@ -129,8 +132,10 @@ sudo systemctl restart nix-daemon.service
 ```
 
 For Nix installation on Mac or Windows (WSL2) see
-[Install Nix documentation](https://nix.dev/tutorials/install-nix#install-nix) .
+[Install Nix](https://nix.dev/tutorials/install-nix#install-nix) .
 
+To uninstall Nix see
+[Uninstall Nix](https://nixos.org/manual/nix/stable/installation/installing-binary.html#uninstalling) .
 
 ### Explore Geonix Flake content
 
