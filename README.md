@@ -1,4 +1,6 @@
-![Build and populate cache](https://github.com/imincik/geonix/workflows/Build%20and%20populate%20cache/badge.svg)
+[![Build packages](https://github.com/imincik/geonix/actions/workflows/build-packages.yml/badge.svg)](https://github.com/imincik/geonix/actions/workflows/build-packages.yml)
+[![Build flake templates](https://github.com/imincik/geonix/actions/workflows/build-templates.yml/badge.svg)](https://github.com/imincik/geonix/actions/workflows/build-templates.yml)
+[![Build container images](https://github.com/imincik/geonix/actions/workflows/build-images.yml/badge.svg)](https://github.com/imincik/geonix/actions/workflows/build-images.yml)
 [![Cachix Cache](https://img.shields.io/badge/cachix-geonix-blue.svg)](https://geonix.cachix.org)
 
 # Geonix - the geospatial environment built on Nix
