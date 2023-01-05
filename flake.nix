@@ -302,6 +302,8 @@
                       if [ ! -d $PGDATA ]; then
                         pg_ctl initdb -o "${pkgs.lib.concatStringsSep " " postgresInitdbArgs} -U $PGUSER"
                         cat "${postgresConf}" >> $PGDATA/postgresql.conf
+
+                        echo -e "\nPostgreSQL init process complete. Ready for start up.\n"
                       fi
 
                       exec ${geonixPostgis}/bin/postgres -p $PGPORT -k $PGDATA
