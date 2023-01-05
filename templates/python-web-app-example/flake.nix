@@ -38,6 +38,7 @@
         pythonPackages = [
 
           # Geonix Python packages
+          pkgs.geonix.python-psycopg
           pkgs.geonix.python-shapely
 
           # Python packages from Nixpkgs.
@@ -47,7 +48,6 @@
 
           # pkgs.<PYTHON-VERSION>.pkgs.<PACKAGE>
           pkgs.python3.pkgs.matplotlib
-          pkgs.python3.pkgs.psycopg
         ];
 
       in
@@ -178,6 +178,7 @@
               echo -e "\n$WELCOME_MESSAGE"
 
               echo -e "\nLaunch Flask server:"
+              echo " poetry install"
               echo " poetry run flask run --reload"
 
               echo -e "\nLaunch Flask server with DB:"

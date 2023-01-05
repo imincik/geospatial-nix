@@ -108,10 +108,6 @@
         ```
         nix run github:<OWNER>/<REPOSITORY>
         ```
-        ```
-        or try:
-        nix run github:imincik/geonix-python-web-app-example
-        ```
 
       ## More info
 
