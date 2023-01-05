@@ -1,12 +1,10 @@
-name: Build all packages
+name: Build packages
 
 on:
   pull_request:
   push:
     branches:
       - master
-  schedule:
-    - cron:  '11 1 * * *'
   workflow_dispatch:
 
 jobs:
