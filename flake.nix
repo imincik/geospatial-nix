@@ -407,7 +407,7 @@
 
 
             # NIX dev shell
-            nixDev = pkgs.mkShellNoCC {
+            dev = pkgs.mkShellNoCC {
 
               packages = with pkgs; [
                 nix-prefetch-git
