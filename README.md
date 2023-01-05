@@ -66,13 +66,13 @@ software like QGIS and PostgreSQL/PostGIS database system, everything always
 consistently built together.
 
 For development purposes, Geonix provides OCI compatible container images which
-are always consistently built for the used version of the environment.
+are always consistently built with currently used version of the environment.
 
 Using the new Nix feature called Flakes, Geonix provides very easy way to build
 isolated geospatial software environments (think about it as a Python
 virtualenv, but containing all software above operating system kernel which is
 required to build, test, run and package the project) which are bit-to-bit (or
-bug-to-bug) reproducible on other machines at any time in the future.
+bug-to-bug) reproducible on other machines using the same platform.
 
 Whole Nix Flake environment (all software coming from nixpkgs, Geonix or other
 Flakes) is pinned to the exact Git commit revision using lock file and can be
