@@ -92,8 +92,12 @@
           poetryAppImage = pkgs.dockerTools.buildLayeredImage {
             name = "geonix-python-web-app-example";
             tag = "latest";
-            created = "now"; # optional - breaks reproducibility by updating timestamps
+
+            # Breaks reproducibility by setting current timestamp during each build.
+            # created = "now";
+
             contents = [ poetryApp ];
+
             config = {
               Cmd = [ "${poetryApp}/bin/run-app" ];
               ExposedPorts = {
