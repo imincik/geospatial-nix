@@ -13,7 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         template:
-          - python-app
+          - python-web-app-example
         os:
           - ubuntu-22.04
           - macos-11
@@ -66,22 +66,22 @@ jobs:
 
     # Docker is not available on MacOS runners. Containers tests are performed
     # only on Linux.
-    - name: Test template build output (if Linux and python-app template)
+    - name: Test template build output (if Linux and python-web-app-example template)
       run: |
         docker load < result
 
-        docker run -d -p 5000:5000 geonix-python-app
+        docker run -d -p 5000:5000 geonix-python-web-app-example
 
         curl --retry 10 --retry-all-errors localhost:5000 | grep POLYGON
-      if: ${{ runner.os == 'Linux' && matrix.template == 'python-app' }}
+      if: ${{ runner.os == 'Linux' && matrix.template == 'python-web-app-example' }}
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
 
-    - name: Test template build output (if MacOS and python-app template)
+    - name: Test template build output (if MacOS and python-web-app-example template)
       run: |
         nix develop --accept-flake-config --command poetry install
 
         nix develop --accept-flake-config --command poetry run flask run &
 
         curl --retry 10 --retry-all-errors localhost:5000 | grep POLYGON
-      if: ${{ runner.os == 'macOS' && matrix.template == 'python-app' }}
+      if: ${{ runner.os == 'macOS' && matrix.template == 'python-web-app-example' }}
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}

@@ -33,20 +33,21 @@
         # * python39
         # * python310
         # * python311
-        geonixPython = pkgs.python3;
+        pythonInterpreter = pkgs.python3;
 
-        geonixPackages = [
+        pythonPackages = [
 
           # Geonix Python packages
           pkgs.geonix.python-shapely
 
-          # Python packages from Nixpkgs
+          # Python packages from Nixpkgs.
           # Search for additional Python packages from Nixpkgs:
           # $ nix search nixpkgs/nixos-22.11 "python3.*Packages.<PACKAGE>"
           # and add them in following format below:
 
           # pkgs.<PYTHON-VERSION>.pkgs.<PACKAGE>
           pkgs.python3.pkgs.matplotlib
+          pkgs.python3.pkgs.psycopg
         ];
 
       in
@@ -56,7 +57,10 @@
         ### PACKAGES ###
         #
 
-        packages = rec {
+        packages = utils.lib.filterPackages system rec {
+
+          # PostgreSQL/PostGIS container image provided by Geonix
+          postgresImage = geonix.packages.x86_64-linux.image-postgres;
 
           # See mkPoetryApplication documentation:
           # https://github.com/nix-community/poetry2nix#mkPoetryApplication
@@ -67,12 +71,12 @@
             preferWheels = false;
 
             # Python interpreter
-            python = geonixPython;
+            python = pythonInterpreter;
 
             # Always add Geonix Python packages as buildInputs to avoid mixing
             # them with Poetry installed packages. buildInputs are installed on
             # separate PYTHONPATH.
-            propagatedBuildInputs = geonixPackages;
+            propagatedBuildInputs = pythonPackages;
 
             # If some package fails to build, see how to fix them.
             # https://github.com/nix-community/poetry2nix/blob/master/docs/edgecases.md
@@ -86,7 +90,7 @@
 
           # Poetry application container image
           poetryAppImage = pkgs.dockerTools.buildLayeredImage {
-            name = "geonix-python-app";
+            name = "geonix-python-web-app-example";
             tag = "latest";
             created = "now"; # optional - breaks reproducibility by updating timestamps
             contents = [ poetryApp ];
@@ -124,22 +128,22 @@
         ### SHELLS ###
         #
 
-        devShells = {
+        devShells = rec {
 
-          # Default development shell
-          default = pkgs.mkShellNoCC {
+          # Development shell
+          dev = pkgs.mkShellNoCC {
 
             # List of packages to be present in shell environment
             packages = [
 
               # Python interpreter
-              geonixPython
+              pythonInterpreter
 
               # Geonix Python packages
-              geonixPackages
+              pythonPackages
 
               # Poetry CLI running in Geonix Python interpreter
-              (pkgs.poetry.override { python = geonixPython; })
+              (pkgs.poetry.override { python = pythonInterpreter; })
 
               # Other useful packages from Nixpkgs
               # Search for additional packages from Nixpkgs:
@@ -150,17 +154,40 @@
               pkgs.black
               pkgs.isort
 
+              pkgs.docker-compose
+              pkgs.postgresql  # to get psql client
+
             ];
 
             # Environment variable passed to shell
+            PGHOST = "localhost";
+            PGPORT = "15432";
+            PGUSER = "postgres";
+
             WELCOME_MESSAGE = "Welcome Pythonista !";
 
             # Shell commands to execute after shell environment is started
             shellHook = ''
-              echo "$WELCOME_MESSAGE"
+              export DOCKER_UID=$(id -u)
+              export DOCKER_GID=$(id -g)
+
+              echo -e "\n$WELCOME_MESSAGE"
+
+              echo -e "\nLaunch Flask server:"
+              echo " poetry run flask run --reload"
+
+              echo -e "\nLaunch Flask server with DB:"
+              echo " nix build .#postgresImage"
+              echo " docker load < ./result"
+              echo " docker-compose up -d"
+              echo " BACKEND=db poetry run flask run --reload"
+
+              echo -e "\nConnect to DB:"
+              echo " psql"
             '';
           };
 
+          default = dev;
         };
       });
 }

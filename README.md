@@ -272,7 +272,7 @@ projects on top of Geonix environment.
 
 Current list of templates:
 
-* [python-app](templates/python-app): Python development environment with Poetry managed dependencies
+* [python-web-app-example](templates/python-web-app-example): example Python web application
 
 Flake templates must be initialized in Git-initialized directory.
 
