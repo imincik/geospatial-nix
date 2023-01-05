@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
+  update-package:
     strategy:
       fail-fast: false
       matrix:
