@@ -9,12 +9,14 @@
 , postgis
 , postgresql
 
+, extraPostgresqlPackages ? []
+
 }:
 
 let
   pg = postgresql;
 
-  postgresPackage = pg.withPackages (p: [ postgis ]);
+  postgresPackage = pg.withPackages (p: [ postgis ] ++ extraPostgresqlPackages);
 
   postgresServiceDir = ".geonix/services/postgres";
 

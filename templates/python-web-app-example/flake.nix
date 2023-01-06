@@ -42,12 +42,18 @@
           pkgs.geonix.python-shapely
 
           # Python packages from Nixpkgs.
-          # Search for additional Python packages from Nixpkgs:
-          # $ nix search nixpkgs/nixos-22.11 "python3.*Packages.<PACKAGE>"
-          # and add them in following format below:
 
           # pkgs.<PYTHON-VERSION>.pkgs.<PACKAGE>
           pkgs.python3.pkgs.matplotlib
+        ];
+
+        postgresqlPackages = [
+
+          # Additional PostgreSQL extensions built in to PostgreSQL container
+          # image.
+
+          # pkgs.<POSTGRESQL-VERSION>.pkgs.<PACKAGE>
+          # pkgs.postgresql.pkgs.pgrouting
         ];
 
       in
@@ -59,8 +65,12 @@
 
         packages = utils.lib.filterPackages system rec {
 
-          # PostgreSQL/PostGIS container image provided by Geonix
-          postgresImage = geonix.packages.x86_64-linux.image-postgres;
+          # Extendible PostgreSQL/PostGIS container image provided by Geonix
+          postgresImage = geonix.packages.x86_64-linux.image-postgres.override
+          {
+            extraPostgresqlPackages = postgresqlPackages;
+          };
+
 
           # See mkPoetryApplication documentation:
           # https://github.com/nix-community/poetry2nix#mkPoetryApplication
