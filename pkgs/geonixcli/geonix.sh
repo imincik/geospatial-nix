@@ -16,9 +16,11 @@ Available options:
 
 Available commands:
 
-search PACKAGE      Search for packages available in latest and pinned versions
-                    of Nixpkgs and Geonix found in flake.lock file. To search
-                    for multiple packages usage "PACKAGE-X|PACKAGE-Y" format.
+search PACKAGE      Search for packages available in Geonix and Nixpkgs in
+                    their pinned and latest versions according flake.lock
+                    file.
+                    To search for multiple package names separate them with
+                    pipe ("PACKAGE-X|PACKAGE-Y").
 EOF
   exit
 }
@@ -71,7 +73,7 @@ parse_params "$@"
 setup_colors
 
 
-NIX_FLAGS=( --show-trace --extra-experimental-features nix-command --extra-experimental-features flakes )
+NIX_FLAGS=( --no-warn-dirty --extra-experimental-features nix-command --extra-experimental-features flakes )
 
 nix_search() {
     results=$(nix "${NIX_FLAGS[@]}" search --json "$1" "$2")
@@ -91,25 +93,83 @@ geonix_search() {
 
 # SEARCH COMMAND
 if [ "${args[0]}" == "search" ]; then
-    nixpkgs_rev=$(nix "${NIX_FLAGS[@]}" flake metadata  --json | jq --raw-output '.locks.nodes.nixpkgs.locked.rev' | cut -c1-7)
-    geonix_rev=$(nix "${NIX_FLAGS[@]}" flake metadata  --json | jq --raw-output '.locks.nodes.geonix.locked.rev' | cut -c1-7)
+
+    nixpkgs_exists=$( \
+        nix "${NIX_FLAGS[@]}" flake metadata  --json \
+        | jq --raw-output '.locks.nodes.nixpkgs' \
+    )
+
+    nixpkgs_url=$( \
+        nix "${NIX_FLAGS[@]}" flake metadata  --json \
+        | jq --raw-output '(.locks.nodes.nixpkgs.original.type) + ":" + (.locks.nodes.nixpkgs.original.owner) + "/" + (.locks.nodes.nixpkgs.original.repo)' \
+    )
+
+    nixpkgs_ref=$( \
+        nix "${NIX_FLAGS[@]}" flake metadata  --json \
+            | jq --raw-output '.locks.nodes.nixpkgs.original.ref' \
+            | sed 's|/$||'
+    )
+
+    nixpkgs_rev=$( \
+        nix "${NIX_FLAGS[@]}" flake metadata  --json \
+            | jq --raw-output '.locks.nodes.nixpkgs.locked.rev' \
+            | cut -c1-7 \
+    )
+
+    geonix_exists=$( \
+        nix "${NIX_FLAGS[@]}" flake metadata  --json \
+        | jq --raw-output '.locks.nodes.geonix' \
+    )
+
+    geonix_url=$( \
+            nix "${NIX_FLAGS[@]}" flake metadata  --json \
+            | jq --raw-output ' (.locks.nodes.geonix.original.type) + ":" + (.locks.nodes.geonix.original.owner) + "/" + (.locks.nodes.geonix.original.repo)' \
+        )
+
+    geonix_ref=$( \
+        nix "${NIX_FLAGS[@]}" flake metadata  --json \
+            | jq --raw-output '.locks.nodes.geonix.original.ref' \
+            | sed 's|/$||'
+    )
+
+    geonix_rev=$( \
+        nix "${NIX_FLAGS[@]}" flake metadata  --json \
+        | jq --raw-output '.locks.nodes.geonix.locked.rev' \
+        | cut -c1-7 \
+    )
 
 
-    if [ "$nixpkgs_rev" != "null" ]; then
-        echo -e "\n${BOLD}PACKAGES: nixpkgs/flake (rev: $nixpkgs_rev) ${NOFORMAT}"
-        nix_search "nixpkgs/$nixpkgs_rev" "${args[@]:1}" | column -ts $'\t'
+    if [ "$nixpkgs_exists" != "null" ]; then
+
+        if [ "$nixpkgs_rev" != "null" ]; then
+            echo -e "\n${BOLD}$nixpkgs_url/$nixpkgs_rev ${NOFORMAT}"
+            nix_search "$nixpkgs_url/$nixpkgs_rev" "${args[@]:1}" | column -ts $'\t'
+        fi
+
+        if [ "$nixpkgs_ref" != "null" ]; then
+            echo -e "\n${BOLD}$nixpkgs_url/$nixpkgs_ref ${NOFORMAT}"
+            nix_search "$nixpkgs_url/$nixpkgs_ref" "${args[@]:1}" | column -ts $'\t'
+        else
+            echo -e "\n${BOLD}$nixpkgs_url ${NOFORMAT}"
+            nix_search "$nixpkgs_url" "${args[@]:1}" | column -ts $'\t'
+        fi
     fi
 
-    echo -e "\n${BOLD}PACKAGES: nixpkgs/nixos-unstable ${NOFORMAT}"
-    nix_search "nixpkgs/nixos-unstable" "${args[@]:1}" | column -ts $'\t'
+    if [ "$geonix_exists" != "null" ]; then
 
-    if [ "$geonix_rev" != "null" ]; then
-        echo -e "\n${BOLD}PACKAGES: geonix/flake (rev: $geonix_rev) ${NOFORMAT}"
-        geonix_search "github:imincik/geonix/$geonix_rev" "${args[@]:1}" | column -ts $'\t'
+        if [ "$geonix_rev" != "null" ]; then
+            echo -e "\n${BOLD}$geonix_url/$geonix_rev ${NOFORMAT}"
+            geonix_search "$geonix_url/$geonix_rev" "${args[@]:1}" | column -ts $'\t'
+        fi
+
+        if [ "$geonix_ref" != "null" ]; then
+            echo -e "\n${BOLD}$geonix_url/$geonix_ref ${NOFORMAT}"
+            geonix_search "$geonix_url/$geonix_ref" "${args[@]:1}" | column -ts $'\t'
+        else
+            echo -e "\n${BOLD}$geonix_url ${NOFORMAT}"
+            geonix_search "$geonix_url" "${args[@]:1}" | column -ts $'\t'
+        fi
     fi
-
-    echo -e "\n${BOLD}PACKAGES: geonix/master ${NOFORMAT}"
-    geonix_search "github:imincik/geonix" "${args[@]:1}" | column -ts $'\t'
 
 else
     die "Unknown command. Use --help to get more information."
