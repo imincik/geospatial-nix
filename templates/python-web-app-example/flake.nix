@@ -69,7 +69,7 @@
         packages = utils.lib.filterPackages system rec {
 
           # Extendible PostgreSQL/PostGIS container image provided by Geonix
-          postgresImage = geonix.packages.x86_64-linux.image-postgres.override
+          postgresImage = geonix.packages.x86_64-linux.geonix-postgresql-image.override
           {
             extraPostgresqlPackages = postgresqlPackages;
           };

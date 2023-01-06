@@ -82,7 +82,7 @@ let
 in
 dockerTools.buildLayeredImage
   {
-    name = "geonix-postgres";
+    name = "geonix-postgresql";
     tag = "latest";
 
     # Breaks reproducibility by setting current timestamp during each build.

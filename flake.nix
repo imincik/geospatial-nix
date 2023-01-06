@@ -200,7 +200,7 @@
 
 
             # Container images
-            image-python = pkgs.callPackage ./imgs/python {
+            geonix-python-image = pkgs.callPackage ./imgs/python {
               inherit
                 python-fiona
                 python-gdal
@@ -211,7 +211,7 @@
                 python-shapely;
             };
 
-            image-postgres = pkgs.callPackage ./imgs/postgres {
+            geonix-postgresql-image = pkgs.callPackage ./imgs/postgres {
               inherit postgis;
             };
 

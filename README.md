@@ -197,7 +197,7 @@ GDAL 3.6.1, released 2022/12/14
 
 * Build container image
 ```
-nix build --accept-flake-config github:imincik/geonix#image-python
+nix build --accept-flake-config github:imincik/geonix#geonix-python-image
 ```
 
 * Load built image to Docker
@@ -214,7 +214,7 @@ docker run --rm -u "$(id -u):$(id -g)" geonix-python -c "import fiona; print(fio
 
 * Build container image
 ```
-nix build --accept-flake-config github:imincik/geonix#image-postgres
+nix build --accept-flake-config github:imincik/geonix#geonix-postgresql-image
 ```
 
 * Load built image to Docker
@@ -224,7 +224,7 @@ docker load < ./result
 
 * Run container
 ```
-docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd):/data" -p 15432:5432 geonix-postgres
+docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd):/data" -p 15432:5432 geonix-postgresql
 ```
 
 _NOTE: for reproducibility reasons, creation time of all container images is
