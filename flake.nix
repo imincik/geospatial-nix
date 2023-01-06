@@ -251,7 +251,7 @@
               let
                 py = pkgs.python3;
 
-                geonixPython = py.withPackages (p: with self.packages.${system}; [
+                pythonPackage = py.withPackages (p: with self.packages.${system}; [
                   python-fiona
                   python-gdal
                   python-geopandas
@@ -268,7 +268,7 @@
                   geos
                   pdal
                   proj
-                  geonixPython
+                  pythonPackage
                 ];
               };
 
@@ -277,7 +277,7 @@
               let
                 pg = pkgs.postgresql;
 
-                geonixPostgis = pg.withPackages (p: with self.packages.${system}; [ postgis ]);
+                postgresPackage = pg.withPackages (p: with self.packages.${system}; [ postgis ]);
 
                 postgresServiceDir = ".geonix/services/postgres";
 
@@ -314,7 +314,7 @@
                         echo -e "\nPostgreSQL init process complete. Ready for start up.\n"
                       fi
 
-                      exec ${geonixPostgis}/bin/postgres -p $PGPORT -k $PGDATA
+                      exec ${postgresPackage}/bin/postgres -p $PGPORT -k $PGDATA
                     '';
 
                 postgresServiceProcfile =
@@ -324,7 +324,7 @@
                     '';
               in
               pkgs.mkShellNoCC {
-                packages = [ geonixPostgis pkgs.honcho ];
+                packages = [ postgresPackage pkgs.honcho ];
 
                 shellHook = ''
                   mkdir -p ${postgresServiceDir}
@@ -412,7 +412,6 @@
                   honcho -f ${pgAdminServiceProcfile} start pgadmin
                 '';
               };
-
 
             # NIX dev shell
             dev = pkgs.mkShellNoCC {
