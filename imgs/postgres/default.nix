@@ -1,12 +1,18 @@
-{ pkgs
-, lib
+{ lib
+, dockerTools
+, writeText
+, writeShellScriptBin
 
+, bash
+, coreutils
+, nss_wrapper
 , postgis
+, postgresql
 
 }:
 
 let
-  pg = pkgs.postgresql;
+  pg = postgresql;
 
   postgresPackage = pg.withPackages (p: [ postgis ]);
 
@@ -15,7 +21,7 @@ let
   postgresInitdbArgs = [ "--locale=C" "--encoding=UTF8" ];
 
   postgresConf =
-    pkgs.writeText "postgresql.conf"
+    writeText "postgresql.conf"
       ''
         listen_addresses = '*'
         port = ${toString postgresPort}
@@ -30,7 +36,7 @@ let
   postgresPort = 5432;
 
   entrypoint =
-    pkgs.writeShellScriptBin "entrypoint"
+    writeShellScriptBin "entrypoint"
       ''
         set -euo pipefail
 
@@ -48,14 +54,14 @@ let
           NSS_WRAPPER_PASSWD="$(mktemp)"
           NSS_WRAPPER_GROUP="$(mktemp)"
 
-          export LD_PRELOAD=${pkgs.nss_wrapper}/lib/libnss_wrapper.so NSS_WRAPPER_PASSWD NSS_WRAPPER_GROUP
+          export LD_PRELOAD=${nss_wrapper}/lib/libnss_wrapper.so NSS_WRAPPER_PASSWD NSS_WRAPPER_GROUP
           printf 'postgres:x:%s:%s:PostgreSQL:%s:/bin/false\n' "$uid" "$gid" "$PGDATA" > "$NSS_WRAPPER_PASSWD"
           printf 'postgres:x:%s:\n' "$gid" > "$NSS_WRAPPER_GROUP"
 
           initdb \
             --username $PGUSER \
             --pgdata $PGDATA \
-            ${pkgs.lib.concatStringsSep " " postgresInitdbArgs}
+            ${lib.concatStringsSep " " postgresInitdbArgs}
 
           cat "${postgresConf}" >> $PGDATA/postgresql.conf
           echo "host  all  all  0.0.0.0/0  trust" >> $PGDATA/pg_hba.conf
@@ -72,7 +78,7 @@ let
 
 
 in
-pkgs.dockerTools.buildLayeredImage
+dockerTools.buildLayeredImage
   {
     name = "geonix-postgres";
     tag = "latest";
@@ -84,9 +90,9 @@ pkgs.dockerTools.buildLayeredImage
       postgresPackage
       entrypoint
 
-      pkgs.bash
-      pkgs.coreutils
-      pkgs.nss_wrapper
+      bash
+      coreutils
+      nss_wrapper
     ];
 
     extraCommands = ''
@@ -121,7 +127,7 @@ pkgs.dockerTools.buildLayeredImage
     description = "PostgreSQL/PostGIS OCI compatible container image";
     homepage = "https://github.com/imincik/geonix";
     license = lib.licenses.mit;
-    maintainers = [ pkgs.lib.maintainers.imincik ];
+    maintainers = [ lib.maintainers.imincik ];
     platforms = lib.platforms.linux;
   };
 }

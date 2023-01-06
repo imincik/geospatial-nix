@@ -1,6 +1,8 @@
-{ pkgs
-, lib
+{ lib
+, dockerTools
 
+, fakeNss
+, python3
 , python-fiona
 , python-gdal
 , python-geopandas
@@ -12,7 +14,7 @@
 }:
 
 let
-  py = pkgs.python3;
+  py = python3;
 
   pythonPackage = py.withPackages (p: [
     python-fiona
@@ -25,7 +27,7 @@ let
   ]);
 
 in
-pkgs.dockerTools.buildLayeredImage
+dockerTools.buildLayeredImage
   {
     name = "geonix-python";
     tag = "latest";
@@ -33,7 +35,7 @@ pkgs.dockerTools.buildLayeredImage
     # Breaks reproducibility by setting current timestamp during each build.
     # created = "now";
 
-    contents = [ pythonPackage pkgs.fakeNss ];
+    contents = [ pythonPackage fakeNss ];
 
     maxLayers = 100;
 
@@ -46,7 +48,7 @@ pkgs.dockerTools.buildLayeredImage
     description = "PostgreSQL/PostGIS OCI compatible container image";
     homepage = "https://github.com/imincik/geonix";
     license = lib.licenses.mit;
-    maintainers = [ pkgs.lib.maintainers.imincik ];
+    maintainers = [ lib.maintainers.imincik ];
     platforms = lib.platforms.linux;
   };
 }
