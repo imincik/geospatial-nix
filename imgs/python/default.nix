@@ -45,7 +45,7 @@ dockerTools.buildLayeredImage
     };
   } // {
   meta = {
-    description = "PostgreSQL/PostGIS OCI compatible container image";
+    description = "Python OCI compatible container image";
     homepage = "https://github.com/imincik/geonix";
     license = lib.licenses.mit;
     maintainers = [ lib.maintainers.imincik ];
