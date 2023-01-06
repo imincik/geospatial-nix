@@ -13,8 +13,8 @@ jobs:
       fail-fast: false
       matrix:
         image:
-          - image-python
-          - image-postgres
+          - geonix-python-image
+          - geonix-postgresql-image
         os:
           - ubuntu-22.04
 
@@ -39,19 +39,19 @@ jobs:
       run: >
         nix build --accept-flake-config .#${{ matrix.image }}
 
-    - name: Test image (if image-python)
+    - name: Test image (if geonix-python-image)
       run: |
         docker load < result
 
         docker run -u "$(id -u):$(id -g)" geonix-python -c "import fiona; print(fiona.supported_drivers)"
-      if: ${{ matrix.image == 'image-python' }}
+      if: ${{ matrix.image == 'geonix-python-image' }}
 
-    - name: Test image (if image-postgres)
+    - name: Test image (if geonix-postgresql-image)
       run: |
         docker load < result
 
-        docker run -d -u "$(id -u):$(id -g)" -v "$(pwd):/data" -p 15432:5432 geonix-postgres
+        docker run -d -u "$(id -u):$(id -g)" -v "$(pwd):/data" -p 15432:5432 geonix-postgresql
 
         nix develop .#psql \
         --command psql -h localhost -p 15432 -c 'CREATE EXTENSION postgis; SELECT postgis_full_version();'
-      if: ${{ matrix.image == 'image-postgres' }}
+      if: ${{ matrix.image == 'geonix-postgresql-image' }}
