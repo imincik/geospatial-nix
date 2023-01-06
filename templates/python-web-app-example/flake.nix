@@ -26,6 +26,10 @@
           overlays = [ geonix.overlays.${system} ];
         };
 
+
+        # To search for packages, use Geonix CLI in development shell.
+        # geonix search <PACKAGE>
+
         # Choose your Python version here.
         # Supported versions:
         # * python37
@@ -42,7 +46,6 @@
           pkgs.geonix.python-shapely
 
           # Python packages from Nixpkgs.
-
           # pkgs.<PYTHON-VERSION>.pkgs.<PACKAGE>
           pkgs.python3.pkgs.matplotlib
         ];
@@ -150,6 +153,9 @@
             # List of packages to be present in shell environment
             packages = [
 
+              # Geonix CLI
+              pkgs.geonix.geonixcli
+
               # Python interpreter
               pythonInterpreter
 
@@ -160,10 +166,6 @@
               (pkgs.poetry.override { python = pythonInterpreter; })
 
               # Other useful packages from Nixpkgs
-              # Search for additional packages from Nixpkgs:
-              # $ nix search nixpkgs/nixos-22.11 "<PACKAGE>"
-              # and add them in following format below:
-
               # pkgs.<PACKAGE>
               pkgs.black
               pkgs.isort
@@ -199,6 +201,9 @@
 
               echo -e "\nConnect to DB:"
               echo " psql"
+
+              echo -e "\nSearch for additional packages:"
+              echo " geonix search <PACKAGE>"
             '';
           };
 
