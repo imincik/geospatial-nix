@@ -265,10 +265,10 @@ PgAdmin will start automatically.
 
 * Open PgAdmin in web browser via http://127.0.0.1:15050
 
-### Start new project from templates
+### Start new project from template
 
-Geonix provides multiple ready to use Flake templates for starting different types of geospatial
-projects on top of Geonix environment.
+Geonix provides example Flake templates for starting geospatial projects on top
+of Geonix environment.
 
 Current list of templates:
 
