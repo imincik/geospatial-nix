@@ -1,6 +1,5 @@
 { lib, makeWrapper, symlinkJoin
 , extraPythonPackages ? (ps: [ ])
-, libsForQt5
 , qgis-ltr-unwrapped
 }:
 with lib;
