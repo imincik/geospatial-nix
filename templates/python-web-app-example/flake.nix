@@ -17,27 +17,26 @@
         # accept CVE-2022-42966
         insecurePackages = [ "python3.10-poetry-1.2.2" ];
 
-        pkgs = import nixpkgs {
+        nix = import nixpkgs {
           inherit system;
-
           config = { permittedInsecurePackages = insecurePackages; };
-
-          # add Geonix overlay with packages under geonix namespace (pkgs.geonix.<PACKAGE>)
-          overlays = [ geonix.overlays.${system} ];
         };
 
+        pkgs = {
+          nixpkgs = nixpkgs.legacyPackages.${system};
 
-        # To search for packages, use Geonix CLI in development shell.
-        # geonix search <PACKAGE>
+          geonix = geonix.packages.${system};
+          imgs = geonix.packages.x86_64-linux;
+        };
 
-        # Choose your Python version here.
+        # Choose Python version here.
         # Supported versions:
         # * python37
         # * python38
         # * python39
         # * python310
         # * python311
-        pythonInterpreter = pkgs.python3;
+        pythonInterpreter = pkgs.nixpkgs.python3;
 
         pythonPackages = [
 
@@ -46,8 +45,8 @@
           pkgs.geonix.python-shapely
 
           # Python packages from Nixpkgs.
-          # pkgs.<PYTHON-VERSION>.pkgs.<PACKAGE>
-          pkgs.python3.pkgs.matplotlib
+          # pkgs.nixpkgs.<PYTHON-VERSION>.pkgs.<PACKAGE>
+          pkgs.nixpkgs.python3.pkgs.matplotlib
         ];
 
         postgresqlPackages = [
@@ -66,10 +65,10 @@
         ### PACKAGES ###
         #
 
-        packages = utils.lib.filterPackages system rec {
+        packages = rec {
 
           # Extendible PostgreSQL/PostGIS container image provided by Geonix
-          postgresImage = geonix.packages.x86_64-linux.geonix-postgresql-image.override
+          postgresImage = pkgs.imgs.geonix-postgresql-image.override
           {
             extraPostgresqlPackages = postgresqlPackages;
           };
@@ -79,7 +78,7 @@
           # https://github.com/nix-community/poetry2nix#mkPoetryApplication
 
           # Poetry application packaged by Nix
-          poetryApp = pkgs.poetry2nix.mkPoetryApplication {
+          poetryApp = nix.poetry2nix.mkPoetryApplication {
             projectDir = ./.;
             preferWheels = false;
 
@@ -102,7 +101,7 @@
           # https://nixos.org/manual/nixpkgs/stable/#sec-pkgs-dockerTools
 
           # Poetry application container image
-          poetryAppImage = pkgs.dockerTools.buildLayeredImage {
+          poetryAppImage = nix.dockerTools.buildLayeredImage {
             name = "geonix-python-web-app-example";
             tag = "latest";
 
@@ -148,7 +147,7 @@
         devShells = rec {
 
           # Development shell
-          dev = pkgs.mkShellNoCC {
+          dev = nix.mkShellNoCC {
 
             # List of packages to be present in shell environment
             packages = [
@@ -163,16 +162,15 @@
               pythonPackages
 
               # Poetry CLI running in Geonix Python interpreter
-              (pkgs.poetry.override { python = pythonInterpreter; })
+              (pkgs.nixpkgs.poetry.override { python = pythonInterpreter; })
 
               # Other useful packages from Nixpkgs
-              # pkgs.<PACKAGE>
-              pkgs.black
-              pkgs.isort
+              # pkgs.nixpkgs.<PACKAGE>
+              pkgs.nixpkgs.black
+              pkgs.nixpkgs.isort
 
-              pkgs.docker-compose
-              pkgs.postgresql  # to get psql client
-
+              pkgs.nixpkgs.docker-compose
+              pkgs.nixpkgs.postgresql # to get psql client
             ];
 
             # Environment variable passed to shell
