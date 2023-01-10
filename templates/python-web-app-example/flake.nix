@@ -14,12 +14,8 @@
   outputs = { self, nixpkgs, geonix, utils }:
     utils.lib.eachSystem [ "x86_64-linux" "x86_64-darwin" ] (system:
       let
-        # accept CVE-2022-42966
-        insecurePackages = [ "python3.10-poetry-1.2.2" ];
-
         nix = import nixpkgs {
           inherit system;
-          config = { permittedInsecurePackages = insecurePackages; };
         };
 
         pkgs = {
