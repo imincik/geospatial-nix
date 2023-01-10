@@ -80,14 +80,14 @@ nix_search() {
 
     if [ "$results" != "{}" ]; then
         # jq expression taken from devenv (https://github.com/cachix/devenv). Thank you !
-        jq -r '[to_entries[] | {name: ("pkgs." + (.key | split(".") | del(.[0, 1]) | join("."))) } * (.value | { version, description})] | (.[0] |keys_unsorted | @tsv) , (["----", "-------", "-----------"] | @tsv), (.[]  |map(.) |@tsv)' <<< "$results"
+        jq -r '[to_entries[] | {name: ("pkgs.nixpkgs." + (.key | split(".") | del(.[0, 1]) | join("."))) } * (.value | { version, description})] | (.[0] |keys_unsorted | @tsv) , (["----", "-------", "-----------"] | @tsv), (.[]  |map(.) |@tsv)' <<< "$results"
     else
         echo "No packages found for $2"
     fi
 }
 
 geonix_search() {
-    nix_search "$1" "$2" | sed "s/^pkgs./pkgs.geonix./"
+    nix_search "$1" "$2" | sed "s/^pkgs.nixpkgs./pkgs.geonix./"
 }
 
 
