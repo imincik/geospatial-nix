@@ -74,9 +74,7 @@
               inherit gdal;
             };
 
-            python-gdal = pkgs.python3.pkgs.toPythonModule (gdal.override {
-              inherit geos libgeotiff libspatialite proj;
-            });
+            python-gdal = pkgs.python3.pkgs.toPythonModule (gdal);
 
             python-geopandas = pkgs.python3.pkgs.callPackage ./pkgs/geopandas {
               fiona = python-fiona;
