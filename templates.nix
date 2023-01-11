@@ -1,4 +1,64 @@
 {
+  custom-packages = {
+    description = "Custom Geonix packages build";
+    path = ./templates/custom-packages;
+    welcomeText = ''
+      This is a example demonstrating building of customized Geonix packages
+      using overrides template file.
+
+      ## Usage
+
+      * Lock flake dependencies
+
+        ```
+        nix flake lock
+        ```
+
+      * Add all files to git !
+
+        ```
+        git add *
+        ```
+
+      ### Customize packages
+
+      * Enter development shell
+
+        ```
+        nix develop
+        ```
+
+      * Run `geonix customize` command to generate `overrides.nix` file template
+
+
+      * Exit development shell
+
+        ```
+        exit
+        ```
+
+      * Enable `overridesFile` parameter of `geonix.lib.getPackages` function
+        in `flake.nix` file.
+
+      * Edit `overrides.nix` file. Add changes to desired packages. Use
+        examples on top of the file.
+
+      * Run `nix flake check` to check for syntax errors.
+
+      * Just re-enter development shell. Required packages will be rebuilt
+        before shell environment is created.
+
+        ```
+        nix develop
+        ```
+
+      ## More info
+
+      * [Nix tutorials](https://nix.dev)
+    '';
+  };
+
+
   python-web-app-example = {
     description = "Python example web application";
     path = ./templates/python-web-app-example;

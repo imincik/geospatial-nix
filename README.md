@@ -272,6 +272,7 @@ of Geonix environment.
 
 Current list of templates:
 
+* [custom-packages](templates/custom-packages): example of building custom Geonix packages
 * [python-web-app-example](templates/python-web-app-example): example Python web application
 
 Flake templates must be initialized in Git-initialized directory.

@@ -18,11 +18,16 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ makeWrapper ];
 
   installPhase = ''
-    mkdir -p $out/bin
+    mkdir -p $out/bin $out/nix
+
+    cp $src/nix/overrides.nix $out/nix
+
     cp $src/geonix.sh $out/bin/geonix
     chmod +x $out/bin/geonix
 
-    wrapProgram $out/bin/geonix --prefix PATH : ${lib.makeBinPath [ bash jq ]}
+    wrapProgram $out/bin/geonix \
+      --set GEONIX_NIX_DIR $out/nix \
+      --prefix PATH : ${lib.makeBinPath [ bash jq ]}
   '';
 
   meta = with lib; {
