@@ -104,6 +104,9 @@
               shapely = python-shapely;
             };
 
+            python-pyqt5 = pkgs.python3.pkgs.pyqt5.override {
+              withLocation = true;
+            };
 
             # PostgreSQL
             postgis = pkgs.callPackage ./pkgs/postgis/postgis.nix {
@@ -112,63 +115,48 @@
 
 
             # QGIS
-            qgis =
+            qgis-unwrapped =
               let
                 qgis-python =
                   let
                     packageOverrides = final: prev: {
-                      pyqt5 = prev.pyqt5.override { withLocation = true; };
+                      pyqt5 = python-pyqt5;
                       owslib = python-owslib;
-                      gdal = gdal;
+                      gdal = python-gdal;
                     };
                   in
                   pkgs.python3.override { inherit packageOverrides; self = qgis-python; };
-
-                # geonix-grass = pkgs.grass.override {
-                #   gdal = gdal;
-                #   geos = geos;
-                #   pdal = pdal;
-                #   proj = proj;
-                # };
               in
-              pkgs.callPackage ./pkgs/qgis {
-                qgis-unwrapped = pkgs.libsForQt5.callPackage ./pkgs/qgis/unwrapped.nix {
+              pkgs.libsForQt5.callPackage ./pkgs/qgis/unwrapped.nix {
                   inherit geos gdal libspatialindex libspatialite pdal proj;
 
                   python3 = qgis-python;
-                  # grass = geonix-grass;
                   withGrass = false;
-                };
               };
 
-            qgis-ltr =
+            qgis = pkgs.callPackage ./pkgs/qgis { qgis-unwrapped = qgis-unwrapped; };
+
+            # QGIS-LTR
+            qgis-ltr-unwrapped =
               let
                 qgis-python =
                   let
                     packageOverrides = final: prev: {
-                      pyqt5 = prev.pyqt5.override { withLocation = true; };
+                      pyqt5 = python-pyqt5;
                       owslib = python-owslib;
-                      gdal = gdal;
+                      gdal = python-gdal;
                     };
                   in
                   pkgs.python3.override { inherit packageOverrides; self = qgis-python; };
-
-                # geonix-grass = pkgs.grass.override {
-                #   gdal = gdal;
-                #   geos = geos;
-                #   pdal = pdal;
-                #   proj = proj;
-                # };
               in
-              pkgs.callPackage ./pkgs/qgis/ltr.nix {
-                qgis-ltr-unwrapped = pkgs.libsForQt5.callPackage ./pkgs/qgis/unwrapped-ltr.nix {
+              pkgs.libsForQt5.callPackage ./pkgs/qgis/unwrapped-ltr.nix {
                   inherit geos gdal libspatialindex libspatialite pdal proj;
 
                   python3 = qgis-python;
-                  # grass = geonix-grass;
                   withGrass = false;
-                };
               };
+
+            qgis-ltr = pkgs.callPackage ./pkgs/qgis/ltr.nix { qgis-ltr-unwrapped = qgis-ltr-unwrapped; };
 
 
             # all-packages is built in CI. Add all packages here !
@@ -191,6 +179,7 @@
                 python-owslib
                 python-psycopg
                 python-pyproj
+                python-pyqt5
                 python-rasterio
                 python-shapely
               ] ++ pkgs.lib.optionals pkgs.stdenv.isLinux [ qgis qgis-ltr ];
