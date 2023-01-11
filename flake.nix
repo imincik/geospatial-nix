@@ -115,6 +115,16 @@
 
 
             # QGIS
+            qca-qt5 = pkgs.libsForQt5.qca-qt5.overrideAttrs (old: {
+              meta = with pkgs.lib; {
+                description = "Qt 5 Cryptographic Architecture";
+                homepage = "http://delta.affinix.com/qca";
+                maintainers = with maintainers; [ ttuegel ];
+                license = licenses.lgpl21Plus;
+                platforms = with platforms; unix;
+              };
+            });
+
             qgis-unwrapped =
               let
                 qgis-python =
@@ -128,7 +138,7 @@
                   pkgs.python3.override { inherit packageOverrides; self = qgis-python; };
               in
               pkgs.libsForQt5.callPackage ./pkgs/qgis/unwrapped.nix {
-                  inherit geos gdal libspatialindex libspatialite pdal proj;
+                  inherit geos gdal libspatialindex libspatialite pdal proj qca-qt5;
 
                   python3 = qgis-python;
                   withGrass = false;
@@ -182,7 +192,8 @@
                 python-pyqt5
                 python-rasterio
                 python-shapely
-              ] ++ pkgs.lib.optionals pkgs.stdenv.isLinux [ qgis qgis-ltr ];
+                qgis
+              ] ++ pkgs.lib.optionals pkgs.stdenv.isLinux [ qgis-ltr ];
             };
 
 

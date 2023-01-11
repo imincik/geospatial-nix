@@ -147,7 +147,7 @@ in mkDerivation rec {
     description = "A Free and Open Source Geographic Information System";
     homepage = "https://www.qgis.org";
     license = lib.licenses.gpl2Plus;
-    platforms = with lib.platforms; linux;
+    platforms = with lib.platforms; unix;
     maintainers = with lib.maintainers; [ lsix sikmir erictapen willcohen ];
   };
 }
