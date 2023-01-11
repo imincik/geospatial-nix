@@ -34,6 +34,7 @@
           # Each new package must be added to:
           # * flake.nix: packages
           # * flake.nix: packages.all-packages
+          # * pkgs/geonixcli/nix/overrides.nix
           # * .github/workflows/update-version.yml: matrix.package
 
           #
@@ -438,6 +439,13 @@
       #
 
       templates = import ./templates.nix;
+
+
+      #
+      ### LIB ###
+      #
+
+      lib = import ./lib { };
 
     };
 }

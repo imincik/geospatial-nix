@@ -1,0 +1,19 @@
+--- overrides.nix	2023-01-12 13:01:52.322942865 +0100
++++ overrides-gdal.nix	2023-01-12 12:59:18.199666044 +0100
+@@ -65,6 +65,16 @@
+ 
+     # >>> CUSTOMIZE HERE
+ 
++     version = "1000.0.0";
++
++     patches = [
++       (nixpkgs.fetchpatch {
++         name = "test-patch.patch";
++         url = "https://github.com/imincik/gdal/commit/6f91f4f91beea38cd8085866310589f4bb34caac.patch";
++         hash = "sha256-NinvL2aMabkofX5D2RGR0cokj9rWGvcTjdC4v/Iehe8=";
++       })
++     ];
++
+   })).override { inherit geos libgeotiff libspatialite proj; };
+ 
+   #####################################################################

@@ -5,7 +5,7 @@ trap cleanup SIGINT SIGTERM ERR EXIT
 
 usage() {
   cat <<EOF
-Usage: $(basename "${BASH_SOURCE[0]}") [-h] [-v] command arg1 [arg2...]
+Usage: geonix [-h] [-v] command arg1 [arg2...]
 
 Geonix convenience tools.
 
@@ -21,6 +21,18 @@ search PACKAGE      Search for packages available in Geonix and Nixpkgs in
                     file.
                     To search for multiple package names separate them with
                     pipe ("PACKAGE-X|PACKAGE-Y").
+
+override            Create override template file (overrides.nix) in current
+                    directory to build customized Geonix packages.
+
+                    To build customized packages:
+
+                    * add overrides.nix file git
+
+                    * use it as overridesFile parameter in geonix.lib.getPackages
+                      function in flake.nix
+
+                    * edit overrides.nix file
 EOF
   exit
 }
@@ -63,7 +75,7 @@ parse_params() {
   args=("$@")
 
   # check required params and arguments
-  [[ ${#args[@]} -lt 2 ]] \
+  [[ ${#args[@]} -lt 1 ]] \
       && die "Missing script command or arguments. Use --help to get more information."
 
   return 0
@@ -93,6 +105,9 @@ geonix_search() {
 
 # SEARCH COMMAND
 if [ "${args[0]}" == "search" ]; then
+
+  [[ ${#args[@]} -lt 2 ]] \
+      && die "Missing package search string. Use --help to get more information."
 
     nixpkgs_exists=$( \
         nix "${NIX_FLAGS[@]}" flake metadata  --json \
@@ -171,6 +186,21 @@ if [ "${args[0]}" == "search" ]; then
         fi
     fi
 
+
+# OVERRIDES COMMAND
+elif [ "${args[0]}" == "override" ]; then
+
+    if [ -f "$(pwd)/overrides.nix" ]; then
+        die "Overrides template file already exists in $(pwd)/overrides.nix ."
+    else
+        cp $GEONIX_NIX_DIR/overrides.nix $(pwd)/overrides.nix
+        chmod u+w $(pwd)/overrides.nix
+        echo "Overrides template file created in $(pwd)/overrides.nix ."
+        echo "This file must be added to git before use."
+    fi
+
+
+# UNKNOWN COMMAND
 else
     die "Unknown command. Use --help to get more information."
 fi
