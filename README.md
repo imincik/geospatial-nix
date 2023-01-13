@@ -131,18 +131,24 @@ B. outputs
   -- apps: list of applications built on top of packages
   |
   -- devShells: list of pre-configured development environments
+  |
+  -- templates: list of templates provided by Flake
 ```
 
 Flake can use all outputs provided by input Flakes to build it's own outputs.
 
 #### Flake commands
 
-* **nix develop** - enter selected development environment. This command will
-  also build all packages required for environment if needed
+* **nix flake init** - create new Flake. If used with `--template`, Flake is
+  created from template provided by other Flake.
 
-* **nix build** - build package
+* **nix develop** - enter selected development environment. This command
+  also automatically builds all required packages.
 
-* **nix run** - run application
+* **nix build** - build package from source code if it's not present in
+  local `/nix/store` directory or in any of configured binary caches.
+
+* **nix run** - run selected application from Flake.
 
 ### Install and configure Nix
 
