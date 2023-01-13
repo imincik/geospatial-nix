@@ -150,6 +150,10 @@ Flake can use all outputs provided by input Flakes to build it's own outputs.
 
 * **nix run** - run selected application from Flake.
 
+IMPORTANT NOTE: all files used with Flake must be added in to Git first.
+Otherwise Flake is not able to see them and will throw
+`No such file or directory` error message !
+
 ### Install and configure Nix
 
 * Install Nix on Linux, macOS or Windows (WSL2)
