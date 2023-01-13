@@ -202,7 +202,7 @@ elif [ "${args[0]}" == "override" ]; then
         cp $GEONIX_NIX_DIR/overrides.nix $(pwd)/overrides.nix
         chmod u+w $(pwd)/overrides.nix
         echo -e "\nOverrides template file created in $(pwd)/overrides.nix ."
-        echo -e "\nThis file must be added to git before use."
+        echo -e "This file must be added to git before use."
     fi
 
 
