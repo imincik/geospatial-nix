@@ -52,6 +52,8 @@
           # PostgreSQL/PostGIS container image provided by Geonix
           postgresImage = pkgs.imgs.geonix-postgresql-image;
 
+          # Python container image provided by Geonix
+          pythonImage = pkgs.imgs.geonix-python-image;
         };
 
 
