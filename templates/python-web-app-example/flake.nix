@@ -1,5 +1,5 @@
 {
-  description = "Python application";
+  description = "Example Python web application";
 
   nixConfig.extra-substituters = [ "https://geonix.cachix.org" ];
   nixConfig.extra-trusted-public-keys = [ "geonix.cachix.org-1:iyhIXkDLYLXbMhL3X3qOLBtRF8HEyAbhPXjjPeYsCl0=" ];
@@ -14,16 +14,16 @@
   outputs = { self, nixpkgs, geonix, utils }:
     utils.lib.eachSystem [ "x86_64-linux" "x86_64-darwin" ] (system:
       let
-        nix = import nixpkgs {
-          inherit system;
+
+        pkgs = geonix.lib.getPackages {
+          inherit system nixpkgs geonix;
+
+          # Run 'geonix override' command to get overrides.nix template file and
+          # enable following line to start customizing Geonix packages.
+
+          # overridesFile = ./overrides.nix;
         };
 
-        pkgs = {
-          nixpkgs = nixpkgs.legacyPackages.${system};
-
-          geonix = geonix.packages.${system};
-          imgs = geonix.packages.x86_64-linux;
-        };
 
         # Choose Python version here.
         # Supported versions:
@@ -50,8 +50,8 @@
           # Additional PostgreSQL extensions built in to PostgreSQL container
           # image.
 
-          # pkgs.<POSTGRESQL-VERSION>.pkgs.<PACKAGE>
-          # pkgs.postgresql.pkgs.pgrouting
+          # pkgs.nixpkgs.<POSTGRESQL-VERSION>.pkgs.<PACKAGE>
+          # pkgs.nixpkgs.postgresql.pkgs.pgrouting
         ];
 
       in
@@ -65,16 +65,16 @@
 
           # Extendible PostgreSQL/PostGIS container image provided by Geonix
           postgresImage = pkgs.imgs.geonix-postgresql-image.override
-          {
-            extraPostgresqlPackages = postgresqlPackages;
-          };
+            {
+              extraPostgresqlPackages = postgresqlPackages;
+            };
 
 
           # See mkPoetryApplication documentation:
           # https://github.com/nix-community/poetry2nix#mkPoetryApplication
 
           # Poetry application packaged by Nix
-          poetryApp = nix.poetry2nix.mkPoetryApplication {
+          poetryApp = pkgs.nixpkgs.poetry2nix.mkPoetryApplication {
             projectDir = ./.;
             preferWheels = false;
 
@@ -97,7 +97,7 @@
           # https://nixos.org/manual/nixpkgs/stable/#sec-pkgs-dockerTools
 
           # Poetry application container image
-          poetryAppImage = nix.dockerTools.buildLayeredImage {
+          poetryAppImage = pkgs.nixpkgs.dockerTools.buildLayeredImage {
             name = "geonix-python-web-app-example";
             tag = "latest";
 
@@ -143,7 +143,7 @@
         devShells = rec {
 
           # Development shell
-          dev = nix.mkShellNoCC {
+          dev = pkgs.nixpkgs.mkShellNoCC {
 
             # List of packages to be present in shell environment
             packages = [

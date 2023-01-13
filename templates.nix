@@ -60,7 +60,7 @@
 
 
   python-web-app-example = {
-    description = "Python example web application";
+    description = "Example Python web application";
     path = ./templates/python-web-app-example;
     welcomeText = ''
       This is a example web application demonstrating development of Python
