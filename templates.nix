@@ -28,7 +28,13 @@
         nix develop
         ```
 
-      * Run `geonix customize` command to generate `overrides.nix` file template
+      * Run `geonix override` command to generate `overrides.nix` template file
+        and add `overrides.nix` file to git.
+
+        ```
+        geonix override
+        git add overrides.nix
+        ```
 
 
       * Exit development shell
@@ -37,7 +43,7 @@
         exit
         ```
 
-      * Enable `overridesFile` parameter of `geonix.lib.getPackages` function
+      * Enable `overridesFile` parameter in `geonix.lib.getPackages` function
         in `flake.nix` file.
 
       * Edit `overrides.nix` file. Add changes to desired packages. Use
@@ -51,6 +57,10 @@
         ```
         nix develop
         ```
+
+      * To return back to non-customized Geonix packages, just disable
+        `overridesFile` parameter in `geonix.lib.getPackages` function.
+
 
       ## More info
 
