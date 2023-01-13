@@ -111,33 +111,63 @@ For a list of Geonix built container images see [imgs directory](imgs/).
 
 ## Usage
 
+### Understanding Nix Flakes
+
+#### Very basic Flake schema
+
+```
+A. inputs
+  |
+  -- configuration: list of enabled binary caches, bash prompt configuration, ...
+  |
+  -- inputs: list of Flake dependencies (nixpkgs, other Flakes)
+```
+
+```
+B. outputs
+  |
+  -- packages: list of packages or container images provided by Flake
+  |
+  -- apps: list of applications built on top of packages
+  |
+  -- devShells: list of pre-configured development environments
+```
+
+Flake can use all outputs provided by input Flakes to build it's own outputs.
+
+#### Flake commands
+
+* **nix develop** - enter selected development environment. This command will
+  also build all packages required for environment if needed
+
+* **nix build** - build package
+
+* **nix run** - run application
+
 ### Install and configure Nix
 
-* Install Nix on non-NixOS Linux (Ubuntu, Fedora, ...)
+* Install Nix on Linux, macOS or Windows (WSL2)
 ```
 sh <(curl -L https://nixos.org/nix/install) --daemon
 ```
 
-* Enable new Nix command interface and Nix Flakes
+* Enable new Nix command interface and Nix Flakes (on Linux)
 ```
 echo "experimental-features = nix-command flakes" | sudo tee -a /etc/nix/nix.conf
 ```
 
-* Add current user to Nix trusted users group
+* Add current user to Nix trusted users group (on Linux)
 ```
 echo "trusted-users = $USER" | sudo tee -a /etc/nix/nix.conf
 ```
 
-* Restart Nix daemon
+* Restart Nix daemon (on Linux)
 ```
 sudo systemctl restart nix-daemon.service
 ```
 
-For Nix installation on Mac or Windows (WSL2) see
-[Install Nix](https://nix.dev/tutorials/install-nix#install-nix) .
-
-To uninstall Nix see
-[Uninstall Nix](https://nixos.org/manual/nix/stable/installation/installing-binary.html#uninstalling) .
+_To uninstall Nix see
+[Uninstall Nix](https://nixos.org/manual/nix/stable/installation/installing-binary.html#uninstalling) ._
 
 ### Explore Geonix Flake content
 
@@ -311,6 +341,11 @@ nix-build -A packages.x86_64-linux.<PACKAGE>.passthru.tests
 
 _To re-build already built package or to re-run already succeeded tests use
 `--check` switch._
+
+* Explore derivation
+```
+nix show-derivation .#<PACKAGE>
+```
 
 * Explore package store path content
 ```
