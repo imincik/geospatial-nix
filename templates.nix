@@ -22,25 +22,12 @@
 
       ### Customize packages
 
-      * Enter development shell
-
-        ```
-        nix develop
-        ```
-
       * Run `geonix override` command to generate `overrides.nix` template file
         and add `overrides.nix` file to git.
 
         ```
-        geonix override
+        nix develop --command geonix override
         git add overrides.nix
-        ```
-
-
-      * Exit development shell
-
-        ```
-        exit
         ```
 
       * Enable `overridesFile` parameter in `geonix.lib.getPackages` function
