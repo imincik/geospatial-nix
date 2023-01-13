@@ -51,7 +51,7 @@ setup_colors() {
 }
 
 msg() {
-  echo >&2 -e "${1-}"
+  echo >&2 -e "\n${1-}"
 }
 
 die() {
@@ -174,15 +174,21 @@ if [ "${args[0]}" == "search" ]; then
 
         if [ "$geonix_rev" != "null" ]; then
             echo -e "\n${BOLD}$geonix_url/$geonix_rev ${NOFORMAT}"
-            geonix_search "$geonix_url/$geonix_rev" "${args[@]:1}" | column -ts $'\t'
+            geonix_search "$geonix_url/$geonix_rev" "${args[@]:1}" \
+                | grep -v "unwrapped" \
+                | column -ts $'\t'
         fi
 
         if [ "$geonix_ref" != "null" ]; then
             echo -e "\n${BOLD}$geonix_url/$geonix_ref ${NOFORMAT}"
-            geonix_search "$geonix_url/$geonix_ref" "${args[@]:1}" | column -ts $'\t'
+            geonix_search "$geonix_url/$geonix_ref" "${args[@]:1}" \
+                | grep -v "unwrapped" \
+                | column -ts $'\t'
         else
             echo -e "\n${BOLD}$geonix_url ${NOFORMAT}"
-            geonix_search "$geonix_url" "${args[@]:1}" | column -ts $'\t'
+            geonix_search "$geonix_url" "${args[@]:1}" \
+                | grep -v "unwrapped" \
+                | column -ts $'\t'
         fi
     fi
 
@@ -195,8 +201,8 @@ elif [ "${args[0]}" == "override" ]; then
     else
         cp $GEONIX_NIX_DIR/overrides.nix $(pwd)/overrides.nix
         chmod u+w $(pwd)/overrides.nix
-        echo "Overrides template file created in $(pwd)/overrides.nix ."
-        echo "This file must be added to git before use."
+        echo -e "\nOverrides template file created in $(pwd)/overrides.nix ."
+        echo -e "\nThis file must be added to git before use."
     fi
 
 
