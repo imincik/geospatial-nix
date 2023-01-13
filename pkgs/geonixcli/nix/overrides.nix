@@ -301,6 +301,12 @@ rec {
       python-rasterio
       python-shapely;
 
+    # Available parameters:
+    # extraPythonPackages = with nixpkgs.python3.pkgs; [
+    #   <PACKAGE>
+    #   ipython
+    # ];
+
     # >>> CUSTOMIZE HERE
 
   };

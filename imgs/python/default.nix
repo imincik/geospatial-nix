@@ -1,7 +1,10 @@
 { lib
 , dockerTools
 
+, bash
+, coreutils
 , fakeNss
+
 , python3
 , python-fiona
 , python-gdal
@@ -10,6 +13,8 @@
 , python-pyproj
 , python-rasterio
 , python-shapely
+
+, extraPythonPackages ? []
 
 }:
 
@@ -24,7 +29,8 @@ let
     python-pyproj
     python-rasterio
     python-shapely
-  ]);
+  ] ++ extraPythonPackages);
+
 
 in
 dockerTools.buildLayeredImage
@@ -35,13 +41,32 @@ dockerTools.buildLayeredImage
     # Breaks reproducibility by setting current timestamp during each build.
     # created = "now";
 
-    contents = [ pythonPackage fakeNss ];
+    contents = [
+      pythonPackage
+
+      bash
+      coreutils
+      fakeNss
+    ];
+
+    extraCommands = ''
+      mkdir data tmp
+      chmod 777 data tmp
+    '';
 
     maxLayers = 100;
 
     config = {
+      Env = [
+        "IPYTHONDIR=/tmp"
+      ];
+
       User = "nobody";
       Entrypoint = [ "${pythonPackage}/bin/python" ];
+
+      Volumes = {
+        "/data" = { };
+      };
     };
   } // {
   meta = {
