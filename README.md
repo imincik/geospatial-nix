@@ -170,7 +170,7 @@ Otherwise Flake is not able to see them and will throw
 
 ### Install and configure Nix
 
-* Install Nix on Linux, macOS or Windows (WSL2)
+* Install Nix on Linux, macOS or Windows
 ```
 sh <(curl -L https://nixos.org/nix/install) --daemon
 ```
@@ -180,14 +180,22 @@ sh <(curl -L https://nixos.org/nix/install) --daemon
 echo "experimental-features = nix-command flakes" | sudo tee -a /etc/nix/nix.conf
 ```
 
-* Add current user to Nix trusted users group (on Linux)
+* Add current user to Nix trusted users group
 ```
 echo "trusted-users = $USER" | sudo tee -a /etc/nix/nix.conf
 ```
 
-* Restart Nix daemon (on Linux)
+* Restart Nix daemon
+
+on Linux
 ```
 sudo systemctl restart nix-daemon.service
+```
+
+on macOS
+```
+sudo launchctl stop org.nixos.nix-daemon
+sudo launchctl start org.nixos.nix-daemon
 ```
 
 _To uninstall Nix see
