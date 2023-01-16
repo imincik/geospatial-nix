@@ -45,9 +45,13 @@
 
             geonixcli = pkgs.callPackage ./pkgs/geonixcli { };
 
+
+            # Core libs
+            gdal = pkgs.callPackage ./pkgs/gdal {
+              inherit geos libgeotiff libspatialite proj;
+            };
+
             geos = pkgs.callPackage ./pkgs/geos { };
-            libspatialindex = pkgs.callPackage ./pkgs/libspatialindex { };
-            proj = pkgs.callPackage ./pkgs/proj { };
 
             libgeotiff = pkgs.callPackage ./pkgs/libgeotiff {
               inherit proj;
@@ -57,17 +61,17 @@
               inherit geos;
             };
 
+            libspatialindex = pkgs.callPackage ./pkgs/libspatialindex { };
+
             libspatialite = pkgs.callPackage ./pkgs/libspatialite {
               inherit geos librttopo proj;
-            };
-
-            gdal = pkgs.callPackage ./pkgs/gdal {
-              inherit geos libgeotiff libspatialite proj;
             };
 
             pdal = pkgs.callPackage ./pkgs/pdal {
               inherit gdal libgeotiff;
             };
+
+            proj = pkgs.callPackage ./pkgs/proj { };
 
 
             # Python packages
@@ -87,9 +91,17 @@
               pyproj = python3-pyproj;
             };
 
+            python3-psycopg = pkgs.python3.pkgs.psycopg.override {
+              shapely = python3-shapely;
+            };
+
             python3-pyproj = pkgs.python3.pkgs.callPackage ./pkgs/pyproj {
               inherit proj;
               shapely = python3-shapely;
+            };
+
+            python3-pyqt5 = pkgs.python3.pkgs.pyqt5.override {
+              withLocation = true;
             };
 
             python3-rasterio = pkgs.python3.pkgs.callPackage ./pkgs/rasterio {
@@ -101,13 +113,6 @@
               inherit geos;
             };
 
-            python3-psycopg = pkgs.python3.pkgs.psycopg.override {
-              shapely = python3-shapely;
-            };
-
-            python3-pyqt5 = pkgs.python3.pkgs.pyqt5.override {
-              withLocation = true;
-            };
 
             # PostgreSQL
             postgis = pkgs.callPackage ./pkgs/postgis/postgis.nix {
@@ -188,6 +193,10 @@
 
 
             # Container images
+            geonix-postgresql-image = pkgs.callPackage ./imgs/postgres {
+              inherit postgis;
+            };
+
             geonix-python-image = pkgs.callPackage ./imgs/python {
               inherit
                 python3-fiona
@@ -197,10 +206,6 @@
                 python3-pyproj
                 python3-rasterio
                 python3-shapely;
-            };
-
-            geonix-postgresql-image = pkgs.callPackage ./imgs/postgres {
-              inherit postgis;
             };
 
             default = all-packages;
