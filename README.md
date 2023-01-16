@@ -3,10 +3,24 @@
 [![Build container images](https://github.com/imincik/geonix/actions/workflows/build-images.yml/badge.svg)](https://github.com/imincik/geonix/actions/workflows/build-images.yml)
 [![Cachix Cache](https://img.shields.io/badge/cachix-geonix-blue.svg)](https://geonix.cachix.org)
 
-# Geonix - the geospatial environment built on Nix
 
-**WARNING: this project is safely usable right now, but things are in active
+# Geonix - cross-platform geospatial packages distribution and development environment builder
+
+## Features
+
+* Latest geospatial software packages for all Linux distributions, Mac and
+  Windows WSL2
+* Easy custom re-builds with patches, builds from PRs or custom build
+  configurations
+* Developer friendly container images based on latest or customized software
+* Isolated and reproducible development environments per
+  product/project/branch/commit
+* Container images output for your applications
+
+
+**WARNING: this project is safe to run for testing, but things are in active
 development. Incompatible changes without any notice can occur at any time !**
+
 
 Geospatial software environment is a complex system of software packages, tools
 and libraries built to work together. For example [GDAL](https://gdal.org/),
