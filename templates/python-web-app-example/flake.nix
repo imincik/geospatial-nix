@@ -37,8 +37,8 @@
         pythonPackages = [
 
           # Geonix Python packages
-          pkgs.geonix.python-psycopg
-          pkgs.geonix.python-shapely
+          pkgs.geonix.python3-psycopg
+          pkgs.geonix.python3-shapely
 
           # Python packages from Nixpkgs.
           # pkgs.nixpkgs.<PYTHON-VERSION>.pkgs.<PACKAGE>
