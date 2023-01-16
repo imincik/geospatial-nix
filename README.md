@@ -295,9 +295,9 @@ be surprised if you see image created more than 50 years ago in your system._
 
 ### Try PostgreSQL/PostGIS database shells
 
-* Launch PostGIS database in `postgres` shell
+* Launch PostGIS database in `postgresql` shell
 ```
-nix develop github:imincik/geonix#postgres
+nix develop github:imincik/geonix#postgresql
 
 PostgreSQL database will start automatically.
 ```

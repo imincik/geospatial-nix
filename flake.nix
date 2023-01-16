@@ -266,7 +266,7 @@
               };
 
             # PostgreSQL shell
-            postgres =
+            postgresql =
               let
                 pg = pkgs.postgresql;
 

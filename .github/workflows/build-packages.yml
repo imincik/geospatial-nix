@@ -54,7 +54,7 @@ jobs:
         --command python -c "import fiona; print(fiona.supported_drivers)"
 
     # FIXME: re-enable this test
-    # - name: Test postgres shell
+    # - name: Test postgresql shell
     #   run: >
-    #     nix develop --accept-flake-config .#postgres
+    #     nix develop --accept-flake-config .#postgresql
     #     --command psql -c 'CREATE EXTENSION postgis; SELECT postgis_full_version();'
