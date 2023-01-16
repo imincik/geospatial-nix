@@ -101,6 +101,23 @@ jobs:
         nix develop --command gdalinfo --help | grep "THIS IS MY PATCH"
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
 
+    - name: Test if only single GDAL dependency exists in dev shell
+      run: |
+        system=$(nix eval --impure --raw --expr 'builtins.currentSystem')
+        nix path-info --derivation --recursive $(nix eval --raw .\#devShells."$system".dev) \
+        | grep gdal \
+        | wc -l \
+        | sed -e 's/^[[:space:]]*//' \
+        | grep -E "^1$"
+      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
+
+    - name: Test if dev shell depends on patched GDAL package
+      run: |
+        system=$(nix eval --impure --raw --expr 'builtins.currentSystem')
+        nix path-info --derivation --recursive $(nix eval --raw .\#devShells."$system".dev) \
+        | grep gdal-1000.0.0
+      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
+
     - name: Test if PostgreSQL container image depends on patched GDAL package
       run: >
        nix path-info --derivation --recursive .\#postgresImage | grep gdal-1000.0.0
