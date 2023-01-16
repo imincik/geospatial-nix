@@ -71,41 +71,41 @@
 
 
             # Python packages
-            python-fiona = pkgs.python3.pkgs.callPackage ./pkgs/fiona {
+            python3-fiona = pkgs.python3.pkgs.callPackage ./pkgs/fiona {
               inherit gdal;
             };
 
-            python-gdal = pkgs.python3.pkgs.toPythonModule (gdal);
+            python3-gdal = pkgs.python3.pkgs.toPythonModule (gdal);
 
-            python-geopandas = pkgs.python3.pkgs.callPackage ./pkgs/geopandas {
-              fiona = python-fiona;
-              pyproj = python-pyproj;
-              shapely = python-shapely;
+            python3-geopandas = pkgs.python3.pkgs.callPackage ./pkgs/geopandas {
+              fiona = python3-fiona;
+              pyproj = python3-pyproj;
+              shapely = python3-shapely;
             };
 
-            python-owslib = pkgs.python3.pkgs.callPackage ./pkgs/owslib {
-              pyproj = python-pyproj;
+            python3-owslib = pkgs.python3.pkgs.callPackage ./pkgs/owslib {
+              pyproj = python3-pyproj;
             };
 
-            python-pyproj = pkgs.python3.pkgs.callPackage ./pkgs/pyproj {
+            python3-pyproj = pkgs.python3.pkgs.callPackage ./pkgs/pyproj {
               inherit proj;
-              shapely = python-shapely;
+              shapely = python3-shapely;
             };
 
-            python-rasterio = pkgs.python3.pkgs.callPackage ./pkgs/rasterio {
+            python3-rasterio = pkgs.python3.pkgs.callPackage ./pkgs/rasterio {
               inherit gdal;
-              shapely = python-shapely;
+              shapely = python3-shapely;
             };
 
-            python-shapely = pkgs.python3.pkgs.callPackage ./pkgs/shapely {
+            python3-shapely = pkgs.python3.pkgs.callPackage ./pkgs/shapely {
               inherit geos;
             };
 
-            python-psycopg = pkgs.python3.pkgs.psycopg.override {
-              shapely = python-shapely;
+            python3-psycopg = pkgs.python3.pkgs.psycopg.override {
+              shapely = python3-shapely;
             };
 
-            python-pyqt5 = pkgs.python3.pkgs.pyqt5.override {
+            python3-pyqt5 = pkgs.python3.pkgs.pyqt5.override {
               withLocation = true;
             };
 
@@ -121,9 +121,9 @@
                 qgis-python =
                   let
                     packageOverrides = final: prev: {
-                      pyqt5 = python-pyqt5;
-                      owslib = python-owslib;
-                      gdal = python-gdal;
+                      pyqt5 = python3-pyqt5;
+                      owslib = python3-owslib;
+                      gdal = python3-gdal;
                     };
                   in
                   pkgs.python3.override { inherit packageOverrides; self = qgis-python; };
@@ -143,9 +143,9 @@
                 qgis-python =
                   let
                     packageOverrides = final: prev: {
-                      pyqt5 = python-pyqt5;
-                      owslib = python-owslib;
-                      gdal = python-gdal;
+                      pyqt5 = python3-pyqt5;
+                      owslib = python3-owslib;
+                      gdal = python3-gdal;
                     };
                   in
                   pkgs.python3.override { inherit packageOverrides; self = qgis-python; };
@@ -174,15 +174,15 @@
                 pdal
                 postgis
                 proj
-                python-fiona
-                python-gdal
-                python-geopandas
-                python-owslib
-                python-psycopg
-                python-pyproj
-                python-pyqt5
-                python-rasterio
-                python-shapely
+                python3-fiona
+                python3-gdal
+                python3-geopandas
+                python3-owslib
+                python3-psycopg
+                python3-pyproj
+                python3-pyqt5
+                python3-rasterio
+                python3-shapely
               ] ++ pkgs.lib.optionals pkgs.stdenv.isLinux [ qgis qgis-ltr ];
             };
 
@@ -190,13 +190,13 @@
             # Container images
             geonix-python-image = pkgs.callPackage ./imgs/python {
               inherit
-                python-fiona
-                python-gdal
-                python-geopandas
-                python-owslib
-                python-pyproj
-                python-rasterio
-                python-shapely;
+                python3-fiona
+                python3-gdal
+                python3-geopandas
+                python3-owslib
+                python3-pyproj
+                python3-rasterio
+                python3-shapely;
             };
 
             geonix-postgresql-image = pkgs.callPackage ./imgs/postgres {
@@ -240,13 +240,13 @@
                 py = pkgs.python3;
 
                 pythonPackage = py.withPackages (p: with self.packages.${system}; [
-                  python-fiona
-                  python-gdal
-                  python-geopandas
-                  python-owslib
-                  python-pyproj
-                  python-rasterio
-                  python-shapely
+                  python3-fiona
+                  python3-gdal
+                  python3-geopandas
+                  python3-owslib
+                  python3-pyproj
+                  python3-rasterio
+                  python3-shapely
                 ]);
 
               in

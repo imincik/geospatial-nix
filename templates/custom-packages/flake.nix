@@ -30,14 +30,14 @@
         pythonPackage = py.withPackages (p: [
 
           # Geonix Python packages
-          pkgs.geonix.python-fiona
-          pkgs.geonix.python-gdal
-          pkgs.geonix.python-geopandas
-          pkgs.geonix.python-owslib
-          pkgs.geonix.python-pyproj
-          pkgs.geonix.python-rasterio
-          pkgs.geonix.python-psycopg
-          pkgs.geonix.python-shapely
+          pkgs.geonix.python3-fiona
+          pkgs.geonix.python3-gdal
+          pkgs.geonix.python3-geopandas
+          pkgs.geonix.python3-owslib
+          pkgs.geonix.python3-pyproj
+          pkgs.geonix.python3-rasterio
+          pkgs.geonix.python3-psycopg
+          pkgs.geonix.python3-shapely
         ]);
 
       in

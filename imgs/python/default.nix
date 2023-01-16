@@ -6,13 +6,13 @@
 , fakeNss
 
 , python3
-, python-fiona
-, python-gdal
-, python-geopandas
-, python-owslib
-, python-pyproj
-, python-rasterio
-, python-shapely
+, python3-fiona
+, python3-gdal
+, python3-geopandas
+, python3-owslib
+, python3-pyproj
+, python3-rasterio
+, python3-shapely
 
 , extraPythonPackages ? []
 
@@ -22,13 +22,13 @@ let
   py = python3;
 
   pythonPackage = py.withPackages (p: [
-    python-fiona
-    python-gdal
-    python-geopandas
-    python-owslib
-    python-pyproj
-    python-rasterio
-    python-shapely
+    python3-fiona
+    python3-gdal
+    python3-geopandas
+    python3-owslib
+    python3-pyproj
+    python3-rasterio
+    python3-shapely
   ] ++ extraPythonPackages);
 
 
