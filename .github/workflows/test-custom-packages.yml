@@ -120,6 +120,6 @@ jobs:
 
     - name: Test if PostgreSQL container image depends on patched GDAL package
       run: >
-       nix path-info --derivation --recursive .\#postgresImage | grep gdal-1000.0.0
+       nix path-info --derivation --recursive .\#postgresqlImage | grep gdal-1000.0.0
       if: ${{ runner.os == 'Linux' }}
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}

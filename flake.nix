@@ -26,7 +26,7 @@
 
           # Each new package must be added to:
           # * flake.nix: packages
-          # * flake.nix: packages.all-packages
+          # * flake.nix: packages.all-packages or packages.python-packages.all-packages
           # * pkgs/geonixcli/nix/overrides.nix
           # * .github/workflows/update-version.yml: matrix.package
 
@@ -34,175 +34,231 @@
           ### PACKAGES ###
           #
 
-          packages = flake-utils.lib.filterPackages system rec {
+          packages =
 
-            geonixcli = pkgs.callPackage ./pkgs/geonixcli { };
+            let
+              inherit (nixpkgs.lib) mapAttrs';
 
+              pythonVersions = [
+                "python3"
+                "python39"
+                "python310"
+                "python311"
+              ];
 
-            # Core libs
-            gdal = pkgs.callPackage ./pkgs/gdal {
-              inherit geos libgeotiff libspatialite proj;
-            };
-
-            geos = pkgs.callPackage ./pkgs/geos { };
-
-            libgeotiff = pkgs.callPackage ./pkgs/libgeotiff {
-              inherit proj;
-            };
-
-            librttopo = pkgs.callPackage ./pkgs/librttopo {
-              inherit geos;
-            };
-
-            libspatialindex = pkgs.callPackage ./pkgs/libspatialindex { };
-
-            libspatialite = pkgs.callPackage ./pkgs/libspatialite {
-              inherit geos librttopo proj;
-            };
-
-            pdal = pkgs.callPackage ./pkgs/pdal {
-              inherit gdal libgeotiff;
-            };
-
-            proj = pkgs.callPackage ./pkgs/proj { };
+              forAllPythonVersions = f: nixpkgs.lib.genAttrs pythonVersions (python: f python);
 
 
-            # Python packages
-            python3-fiona = pkgs.python3.pkgs.callPackage ./pkgs/fiona {
-              inherit gdal;
-            };
-
-            python3-gdal = pkgs.python3.pkgs.toPythonModule (gdal);
-
-            python3-geopandas = pkgs.python3.pkgs.callPackage ./pkgs/geopandas {
-              fiona = python3-fiona;
-              pyproj = python3-pyproj;
-              shapely = python3-shapely;
-            };
-
-            python3-owslib = pkgs.python3.pkgs.callPackage ./pkgs/owslib {
-              pyproj = python3-pyproj;
-            };
-
-            python3-psycopg = pkgs.python3.pkgs.psycopg.override {
-              shapely = python3-shapely;
-            };
-
-            python3-pyproj = pkgs.python3.pkgs.callPackage ./pkgs/pyproj {
-              inherit proj;
-              shapely = python3-shapely;
-            };
-
-            python3-pyqt5 = pkgs.python3.pkgs.pyqt5.override {
-              withLocation = true;
-            };
-
-            python3-rasterio = pkgs.python3.pkgs.callPackage ./pkgs/rasterio {
-              inherit gdal;
-              shapely = python3-shapely;
-            };
-
-            python3-shapely = pkgs.python3.pkgs.callPackage ./pkgs/shapely {
-              inherit geos;
-            };
+              geonixcli = pkgs.callPackage ./pkgs/geonixcli { };
 
 
-            # PostgreSQL
-            postgis = pkgs.callPackage ./pkgs/postgis/postgis.nix {
-              inherit gdal geos proj;
-            };
+              # Core libs
+              gdal = pkgs.callPackage ./pkgs/gdal {
+                inherit geos libgeotiff libspatialite proj;
+              };
+              _gdal = gdal;
+
+              geos = pkgs.callPackage ./pkgs/geos { };
+
+              libgeotiff = pkgs.callPackage ./pkgs/libgeotiff {
+                inherit proj;
+              };
+
+              librttopo = pkgs.callPackage ./pkgs/librttopo {
+                inherit geos;
+              };
+
+              libspatialindex = pkgs.callPackage ./pkgs/libspatialindex { };
+
+              libspatialite = pkgs.callPackage ./pkgs/libspatialite {
+                inherit geos librttopo proj;
+              };
+
+              pdal = pkgs.callPackage ./pkgs/pdal {
+                inherit gdal libgeotiff;
+              };
+
+              proj = pkgs.callPackage ./pkgs/proj { };
 
 
-            # QGIS
-            qgis-unwrapped =
-              let
-                qgis-python =
-                  let
-                    packageOverrides = final: prev: {
-                      pyqt5 = python3-pyqt5;
-                      owslib = python3-owslib;
-                      gdal = python3-gdal;
-                    };
-                  in
-                  pkgs.python3.override { inherit packageOverrides; self = qgis-python; };
-              in
-              pkgs.libsForQt5.callPackage ./pkgs/qgis/unwrapped.nix {
+              # Python packages
+              python-packages = forAllPythonVersions (python: rec {
+                fiona = pkgs.${python}.pkgs.callPackage ./pkgs/fiona {
+                  inherit gdal;
+                };
+
+                gdal = pkgs.${python}.pkgs.toPythonModule (_gdal);
+
+                geopandas = pkgs.${python}.pkgs.callPackage ./pkgs/geopandas {
+                  inherit fiona pyproj shapely;
+                };
+
+                owslib = pkgs.${python}.pkgs.callPackage ./pkgs/owslib {
+                  inherit pyproj;
+                };
+
+                psycopg = pkgs.${python}.pkgs.psycopg.override {
+                  inherit shapely;
+                };
+
+                pyproj = pkgs.${python}.pkgs.callPackage ./pkgs/pyproj {
+                  inherit proj shapely;
+                };
+
+                pyqt5 = pkgs.${python}.pkgs.pyqt5.override {
+                  withLocation = true;
+                };
+
+                rasterio = pkgs.${python}.pkgs.callPackage ./pkgs/rasterio {
+                  inherit gdal shapely;
+                };
+
+                shapely = pkgs.${python}.pkgs.callPackage ./pkgs/shapely {
+                  inherit geos;
+                };
+
+                # all packages (single Python version)
+                all-packages = pkgs.symlinkJoin {
+                  name = "all-${python}-packages";
+                  paths = [
+                    fiona
+                    gdal
+                    geopandas
+                    owslib
+                    psycopg
+                    pyproj
+                    pyqt5
+                    rasterio
+                    shapely
+                  ];
+                };
+              });
+
+
+              # PostgreSQL
+              postgis = pkgs.callPackage ./pkgs/postgis/postgis.nix {
+                inherit gdal geos proj;
+              };
+
+
+              # QGIS
+              qgis-unwrapped =
+                let
+                  qgis-python =
+                    let
+                      packageOverrides = final: prev: {
+                        pyqt5 = python-packages.python3.pyqt5;
+                        owslib = python-packages.python3.owslib;
+                        gdal = python-packages.python3.gdal;
+                      };
+                    in
+                    pkgs.python3.override { inherit packageOverrides; self = qgis-python; };
+                in
+                pkgs.libsForQt5.callPackage ./pkgs/qgis/unwrapped.nix {
                   inherit geos gdal libspatialindex libspatialite pdal proj;
 
                   python3 = qgis-python;
                   withGrass = false;
-              };
+                };
 
-            qgis = pkgs.callPackage ./pkgs/qgis { qgis-unwrapped = qgis-unwrapped; };
+              qgis = pkgs.callPackage ./pkgs/qgis { qgis-unwrapped = qgis-unwrapped; };
 
-            # QGIS-LTR
-            qgis-ltr-unwrapped =
-              let
-                qgis-python =
-                  let
-                    packageOverrides = final: prev: {
-                      pyqt5 = python3-pyqt5;
-                      owslib = python3-owslib;
-                      gdal = python3-gdal;
-                    };
-                  in
-                  pkgs.python3.override { inherit packageOverrides; self = qgis-python; };
-              in
-              pkgs.libsForQt5.callPackage ./pkgs/qgis/unwrapped-ltr.nix {
+              # QGIS-LTR
+              qgis-ltr-unwrapped =
+                let
+                  qgis-python =
+                    let
+                      packageOverrides = final: prev: {
+                        pyqt5 = python-packages.python3.pyqt5;
+                        owslib = python-packages.python3.owslib;
+                        gdal = python-packages.python3.gdal;
+                      };
+                    in
+                    pkgs.python3.override { inherit packageOverrides; self = qgis-python; };
+                in
+                pkgs.libsForQt5.callPackage ./pkgs/qgis/unwrapped-ltr.nix {
                   inherit geos gdal libspatialindex libspatialite pdal proj;
 
                   python3 = qgis-python;
                   withGrass = false;
+                };
+
+              qgis-ltr = pkgs.callPackage ./pkgs/qgis/ltr.nix { qgis-ltr-unwrapped = qgis-ltr-unwrapped; };
+
+
+              # all-packages
+              all-packages = pkgs.symlinkJoin {
+                name = "all-packages";
+                paths = with self.packages; [
+                  gdal
+                  geonixcli
+                  geos
+                  libgeotiff
+                  librttopo
+                  libspatialindex
+                  libspatialite
+                  pdal
+                  postgis
+                  proj
+
+                  python-packages.python3.all-packages
+                  python-packages.python39.all-packages
+                  python-packages.python310.all-packages
+
+                  # TODO: build 3.11 packages as well
+                  # python-packages.python311.all-packages
+
+                ] ++ pkgs.lib.optionals pkgs.stdenv.isLinux [ qgis qgis-ltr ];
               };
 
-            qgis-ltr = pkgs.callPackage ./pkgs/qgis/ltr.nix { qgis-ltr-unwrapped = qgis-ltr-unwrapped; };
 
+              # Container images
+              geonix-postgresql-image = pkgs.callPackage ./imgs/postgres {
+                inherit postgis;
+              };
 
-            # all-packages is built in CI. Add all packages here !
-            all-packages = pkgs.symlinkJoin {
-              name = "all-packages";
-              paths = with self.packages; [
-                gdal
-                geonixcli
-                geos
-                libgeotiff
-                librttopo
-                libspatialindex
-                libspatialite
-                pdal
-                postgis
-                proj
-                python3-fiona
-                python3-gdal
-                python3-geopandas
-                python3-owslib
-                python3-psycopg
-                python3-pyproj
-                python3-pyqt5
-                python3-rasterio
-                python3-shapely
-              ] ++ pkgs.lib.optionals pkgs.stdenv.isLinux [ qgis qgis-ltr ];
-            };
+              geonix-python-image = pkgs.callPackage ./imgs/python {
+                python3-fiona = python-packages.python3.fiona;
+                python3-gdal = python-packages.python3.gdal;
+                python3-geopandas = python-packages.python3.geopandas;
+                python3-owslib = python-packages.python3.owslib;
+                python3-pyproj = python-packages.python3.pyproj;
+                python3-rasterio = python-packages.python3.rasterio;
+                python3-shapely = python-packages.python3.shapely;
+              };
 
+            in
+            flake-utils.lib.filterPackages system
+              {
+                inherit
 
-            # Container images
-            geonix-postgresql-image = pkgs.callPackage ./imgs/postgres {
-              inherit postgis;
-            };
+                  # Core libs
+                  gdal
+                  geonixcli
+                  geos
+                  libgeotiff
+                  librttopo
+                  libspatialindex
+                  libspatialite
+                  pdal
+                  postgis
+                  proj
+                  qgis
+                  qgis-unwrapped
+                  qgis-ltr
+                  qgis-ltr-unwrapped
 
-            geonix-python-image = pkgs.callPackage ./imgs/python {
-              inherit
-                python3-fiona
-                python3-gdal
-                python3-geopandas
-                python3-owslib
-                python3-pyproj
-                python3-rasterio
-                python3-shapely;
-            };
+                  # Container images
+                  geonix-postgresql-image
+                  geonix-python-image
 
-            default = all-packages;
-          };
+                  # Meta packages
+                  all-packages;
+              }
+            // mapAttrs' (name: value: { name = "python3-" + name; value = value; }) python-packages.python3
+            // mapAttrs' (name: value: { name = "python39-" + name; value = value; }) python-packages.python39
+            // mapAttrs' (name: value: { name = "python310-" + name; value = value; }) python-packages.python310
+            // mapAttrs' (name: value: { name = "python311-" + name; value = value; }) python-packages.python311;
 
 
           #
@@ -443,7 +499,7 @@
       ### LIB ###
       #
 
-      lib = import ./lib { };
+      lib = import ./lib { inherit (nixpkgs) lib; };
 
     };
 }

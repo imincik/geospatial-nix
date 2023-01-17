@@ -19,25 +19,32 @@
         pkgs = geonix.lib.getPackages {
           inherit system nixpkgs geonix;
 
+          pythonVersion = pythonVersion;
+
           # Run 'geonix override' command to get overrides.nix template file and
           # enable following line to start customizing Geonix packages.
 
           # overridesFile = ./overrides.nix;
         };
 
-        py = pkgs.nixpkgs.python3;
+        # Choose Python version here.
+        # Supported versions:
+        # * python3   - default Python version (3.10)
+        # * python39  - Python 3.9
+        # * python310 - Python 3.10
+        # * python311 - Python 3.11
+        pythonVersion = "python3";
 
-        pythonPackage = py.withPackages (p: [
-
+        pythonEnv = pkgs.nixpkgs.${pythonVersion}.withPackages (p: [
           # Geonix Python packages
-          pkgs.geonix.python3-fiona
-          pkgs.geonix.python3-gdal
-          pkgs.geonix.python3-geopandas
-          pkgs.geonix.python3-owslib
-          pkgs.geonix.python3-pyproj
-          pkgs.geonix.python3-rasterio
-          pkgs.geonix.python3-psycopg
-          pkgs.geonix.python3-shapely
+          pkgs.geonix."${pythonVersion}-fiona"
+          pkgs.geonix."${pythonVersion}-gdal"
+          pkgs.geonix."${pythonVersion}-geopandas"
+          pkgs.geonix."${pythonVersion}-owslib"
+          pkgs.geonix."${pythonVersion}-pyproj"
+          pkgs.geonix."${pythonVersion}-rasterio"
+          pkgs.geonix."${pythonVersion}-psycopg"
+          pkgs.geonix."${pythonVersion}-shapely"
         ]);
 
       in
@@ -50,7 +57,7 @@
         packages = utils.lib.filterPackages system rec {
 
           # PostgreSQL/PostGIS container image provided by Geonix
-          postgresImage = pkgs.imgs.geonix-postgresql-image;
+          postgresqlImage = pkgs.imgs.geonix-postgresql-image;
 
           # Python container image provided by Geonix
           pythonImage = pkgs.imgs.geonix-python-image;
@@ -68,12 +75,11 @@
 
             # List of packages to be present in shell environment
             packages = [
-
               # Geonix CLI
               pkgs.geonix.geonixcli
 
               # Python with packages
-              pythonPackage
+              pythonEnv
 
               # Tools
               pkgs.geonix.gdal

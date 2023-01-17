@@ -96,6 +96,7 @@
       * Install Python virtual environment managed by Poetry
 
         ```
+        poetry env use $(which python)
         poetry install
         ```
 
@@ -108,7 +109,7 @@
       * Launch Python application development server (with database data backend)
 
         ```
-        nix build .#postgresImage
+        nix build .#postgresqlImage
         docker load < ./result
         docker-compose up -d
 
@@ -119,51 +120,6 @@
 
         ```
         exit
-        ```
-
-      ### Building application container image
-
-      * Build container image
-
-        ```
-        nix build .#poetryAppImage
-        ```
-
-      * Load image to Docker
-
-        ```
-        docker load < result
-        ```
-
-      * Run container
-
-        ```
-        docker run -p 5000:5000 geonix-python-web-app-example
-        ```
-
-      ### Publish application and run it from GitHub
-
-      * Create new GitHub repository
-
-      * Add and commit all files to git
-
-        ```
-        git add *
-        git commit -m "Python application from Geonix python-web-app-example template"
-        ```
-
-      * Push application to GitHub
-
-        ```
-        git remote add origin https://github.com/<OWNER>/<REPOSITORY>.git
-        git branch -M master
-        git push -u origin master
-        ```
-
-      * Launch application from GitHub
-
-        ```
-        nix run github:<OWNER>/<REPOSITORY>
         ```
 
       ## More info

@@ -1,4 +1,4 @@
-{ nixpkgs, pkgs }:
+{ nixpkgs, pkgs, pythonVersion }:
 
 rec {
 
@@ -66,6 +66,7 @@ rec {
     # >>> CUSTOMIZE HERE
 
   })).override { inherit geos libgeotiff libspatialite proj; };
+  _gdal = gdal;
 
   #####################################################################
   ### GEOS
@@ -153,11 +154,13 @@ rec {
 
   })).override { };
 
+  python-packages = rec { ### PYTHON PACKAGES
+
   #####################################################################
   ### PYTHON3-FIONA
   #####################################################################
 
-  python3-fiona = (pkgs.python3-fiona.overrideAttrs (old: {
+  fiona = (pkgs."${pythonVersion}-fiona".overrideAttrs (old: {
 
     # >>> CUSTOMIZE HERE
 
@@ -167,73 +170,75 @@ rec {
   ### PYTHON3-GDAL
   #####################################################################
 
-  python3-gdal = nixpkgs.python3.pkgs.toPythonModule (gdal);   # nothing to override here
+  gdal = nixpkgs.${pythonVersion}.pkgs.toPythonModule (_gdal);   # nothing to override here
 
   #####################################################################
   ### PYTHON3-GEOPANDAS
   #####################################################################
 
-  python3-geopandas = (pkgs.python3-geopandas.overrideAttrs (old: {
+  geopandas = (pkgs."${pythonVersion}-geopandas".overrideAttrs (old: {
 
     # >>> CUSTOMIZE HERE
 
-  })).override { fiona = python3-fiona; pyproj = python3-pyproj; shapely = python3-shapely; };
+  })).override { inherit fiona pyproj shapely; };
 
   #####################################################################
   ### PYTHON3-OWSLIB
   #####################################################################
 
-  python3-owslib = (pkgs.python3-owslib.overrideAttrs (old: {
+  owslib = (pkgs."${pythonVersion}-owslib".overrideAttrs (old: {
 
     # >>> CUSTOMIZE HERE
 
-  })).override { pyproj = python3-pyproj; };
+  })).override { inherit pyproj; };
 
   #####################################################################
   ### PYTHON3-PSYCOPG
   #####################################################################
 
-  python3-psycopg = (pkgs.python3-psycopg.overrideAttrs (old: {
+  psycopg = (pkgs."${pythonVersion}-psycopg".overrideAttrs (old: {
 
     # >>> CUSTOMIZE HERE
 
-  })).override { shapely = python3-shapely; };
+  })).override { inherit shapely; };
 
   #####################################################################
   ### PYTHON3-PYPROJ
   #####################################################################
 
-  python3-pyproj = (pkgs.python3-pyproj.overrideAttrs (old: {
+  pyproj = (pkgs."${pythonVersion}-pyproj".overrideAttrs (old: {
 
     # >>> CUSTOMIZE HERE
 
-  })).override { inherit proj; shapely = python3-shapely; };
+  })).override { inherit proj shapely; };
 
   #####################################################################
   ### PYTHON3-PYQT5
   #####################################################################
 
-  python3-pyqt5 = pkgs.python3-pyqt5;  # nothing to override here
+  pyqt5 = pkgs."${pythonVersion}-pyqt5";  # nothing to override here
 
   #####################################################################
   ### PYTHON3-RASTERIO
   #####################################################################
 
-  python3-rasterio = (pkgs.python3-rasterio.overrideAttrs (old: {
+  rasterio = (pkgs."${pythonVersion}-rasterio".overrideAttrs (old: {
 
     # >>> CUSTOMIZE HERE
 
-  })).override { inherit gdal; shapely = python3-shapely; };
+  })).override { inherit gdal shapely; };
 
   #####################################################################
   ### PYTHON3-SHAPELY
   #####################################################################
 
-  python3-shapely = (pkgs.python3-shapely.overrideAttrs (old: {
+  shapely = (pkgs."${pythonVersion}-shapely".overrideAttrs (old: {
 
     # >>> CUSTOMIZE HERE
 
   })).override { inherit geos; };
+
+  }; ### PYTHON PACKAGES
 
   #####################################################################
   ### QGIS
@@ -245,12 +250,12 @@ rec {
       qgis-python =
         let
           packageOverrides = final: prev: {
-            pyqt5 = python3-pyqt5;
-            owslib = python3-owslib;
-            gdal = python3-gdal;
+            pyqt5 = python-packages.pyqt5;
+            owslib = python-packages.owslib;
+            gdal = python-packages.gdal;
           };
         in
-        nixpkgs.python3.override { inherit packageOverrides; self = qgis-python; };
+        nixpkgs.${pythonVersion}.override { inherit packageOverrides; self = qgis-python; };
     in
     (pkgs.qgis-unwrapped.overrideAttrs (old: {
 
@@ -269,12 +274,12 @@ rec {
       qgis-python =
         let
           packageOverrides = final: prev: {
-            pyqt5 = python3-pyqt5;
-            owslib = python3-owslib;
-            gdal = python3-gdal;
+            pyqt5 = python-packages.pyqt5;
+            owslib = python-packages.owslib;
+            gdal = python-packages.gdal;
           };
         in
-        nixpkgs.python3.override { inherit packageOverrides; self = qgis-python; };
+        nixpkgs.${pythonVersion}.override { inherit packageOverrides; self = qgis-python; };
     in
     (pkgs.qgis-ltr-unwrapped.overrideAttrs (old: {
 
@@ -292,17 +297,17 @@ rec {
   #####################################################################
 
   geonix-python-image = pkgs.geonix-python-image.override {
-    inherit
-      python3-fiona
-      python3-gdal
-      python3-geopandas
-      python3-owslib
-      python3-pyproj
-      python3-rasterio
-      python3-shapely;
+
+    python3-fiona = python-packages.fiona;
+    python3-gdal = python-packages.gdal;
+    python3-geopandas = python-packages.geopandas;
+    python3-owslib = python-packages.owslib;
+    python3-pyproj = python-packages.pyproj;
+    python3-rasterio = python-packages.rasterio;
+    python3-shapely = python-packages.shapely;
 
     # Available parameters:
-    # extraPythonPackages = with nixpkgs.python3.pkgs; [
+    # extraPythonPackages = with nixpkgs.${pythonVersion}.pkgs; [
     #   <PACKAGE>
     #   ipython
     # ];
