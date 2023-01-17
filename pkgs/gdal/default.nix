@@ -199,7 +199,7 @@ stdenv.mkDerivation rec {
   meta = {
     description = "Translator library for raster geospatial data formats";
     homepage = "https://www.gdal.org/";
-    changelog = "https://docs.unidata.ucar.edu/netcdf-c/${src.rev}/RELEASE_NOTES.html";
+    changelog = "https://github.com/OSGeo/gdal/blob/${src.rev}/NEWS.md";
     license = lib.licenses.mit;
     maintainers = with lib.maintainers; [ marcweber dotlambda ];
     platforms = lib.platforms.unix;
