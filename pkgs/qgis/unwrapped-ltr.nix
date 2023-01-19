@@ -76,7 +76,7 @@ in mkDerivation rec {
     owner = "qgis";
     repo = "QGIS";
     rev = "final-${lib.replaceStrings [ "." ] [ "_" ] version}";
-    hash = "sha256-VT85cVeKuHQCGQokID9yrbents7ewHK1j7I17oFTvlo=";
+    hash = "sha256-";
   };
 
   passthru = {
