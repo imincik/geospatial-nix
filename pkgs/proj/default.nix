@@ -22,7 +22,7 @@ stdenv.mkDerivation (finalAttrs: rec {
     owner = "OSGeo";
     repo = "PROJ";
     rev = version;
-    hash = "sha256-yw7eSm64qFFt9egJWKVyVo0e7xQRSmfUY7pk6Cwvwdk=";
+    hash = "sha256-";
   };
 
   patches = [
