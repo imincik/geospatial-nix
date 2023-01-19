@@ -8,7 +8,7 @@ buildPythonPackage rec {
     owner = "geopython";
     repo = "OWSLib";
     rev = "${version}";
-    hash = "sha256-H1CaDWQxGNi3CyfMFz+ofsMNVow1fTR0ymKbDq95jdQ=";
+    hash = "sha256-";
   };
 
   # as now upstream https://github.com/geopython/OWSLib/pull/824
