@@ -119,22 +119,6 @@
 
               echo "$WELCOME_MESSAGE"
               echo -e "\nUsing $(python --version)."
-
-              echo -e "\nLaunch Flask server:"
-              echo " poetry install"
-              echo " poetry run flask run --reload"
-
-              echo -e "\nLaunch Flask server with DB:"
-              echo " nix build .#postgresqlImage"
-              echo " docker load < ./result"
-              echo " docker-compose up -d"
-              echo " BACKEND=db poetry run flask run --reload"
-
-              echo -e "\nConnect to DB:"
-              echo " psql"
-
-              echo -e "\nSearch for additional packages:"
-              echo " geonix search <PACKAGE>"
               echo
             '';
           };
