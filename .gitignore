@@ -3,4 +3,4 @@ result-*
 
 .geonix/services/*
 
-templates/python-web-app-example/app/__pycache__/*
+templates/python-web-app-example/src/python_app/__pycache__/*
