@@ -29,6 +29,12 @@ jobs:
     - name: Install nix
       uses: cachix/install-nix-action@v18
 
+    - name: Setup cachix
+      uses: cachix/cachix-action@v12
+      with:
+        name: geonix
+        authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+
     - name: Set new project directory
       run: |
         echo "TEMPLATE_PROJECT_DIR=$(dirname $GITHUB_WORKSPACE)/template-project" >> $GITHUB_ENV
