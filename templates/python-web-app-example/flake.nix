@@ -47,12 +47,14 @@
           # See: pyproject.toml file.
         ];
 
+        poetry = pkgs.nixpkgs.poetry.override { python = pkgs.nixpkgs.${pythonVersion}; };
+
         extraDevPackages = [
           # Geonix CLI
           pkgs.geonix.geonixcli
 
           # Poetry CLI
-          (pkgs.nixpkgs.poetry.override { python = pkgs.nixpkgs.${pythonVersion}; })
+          poetry
 
           # Non-Python packages from Nixpkgs.
           # pkgs.nixpkgs.<PACKAGE>
@@ -62,6 +64,20 @@
 
       in
       {
+
+
+        #
+        ### PACKAGES ###
+        #
+
+        packages = utils.lib.filterPackages system rec {
+
+          # container deployment
+          deployment = pkgs.nixpkgs.callPackage ./deployment.nix {
+            pythonVersion = pythonVersion;
+            pythonPackages = pythonPackages;
+          };
+        };
 
 
         #
@@ -100,6 +116,15 @@
               echo -e "\nUsing $(python --version)."
               echo
             '';
+          };
+
+          # Deployment shell
+          deployment = pkgs.nixpkgs.mkShellNoCC {
+
+            # List of packages to be present in shell environment
+            packages = [
+              poetry
+            ];
           };
 
           default = dev;

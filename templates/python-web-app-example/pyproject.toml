@@ -1,21 +1,22 @@
 [tool.poetry]
-name = "app"
+name = "python-app"
 version = "0.1.0"
-description = "Example app"
+description = "Example Python web application"
 authors = ["Your Name <you@example.com>"]
 readme = "README.md"
-packages = [{include = "app"}]
+packages = [{include = "python_app", from = "src"}]
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.12"
 flask = "^2.2.2"
 
 [tool.poetry.group.dev.dependencies]
-isort = "^5.11.4"
-black = "^22.12.0"
+black = "*"
+isort = "*"
+pytest = "*"
 
 [tool.poetry.scripts]
-run-app = "app.__init__:run"
+app = "python_app.__init__:run"
 
 [build-system]
 requires = ["poetry-core"]

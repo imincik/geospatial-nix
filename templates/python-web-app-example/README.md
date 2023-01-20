@@ -20,9 +20,10 @@ PostgreSQL/PostGIS database backend.
 
 ### Provided by Poetry
 
-* flask
 * black
+* flask
 * isort
+* pytest
 
 
 ## Usage
@@ -57,7 +58,7 @@ poetry install
 * Launch Python application development server (with local data backend)
 
 ```
-poetry run flask run --reload
+poetry run flask --app src/python_app run --reload
 ```
 
 * Launch Python application development server (with database data backend)
@@ -67,7 +68,7 @@ geonix build geonix-postgresql-image
 docker load < ./result
 docker-compose up -d
 
-BACKEND=db poetry run flask run --reload
+BACKEND=db poetry run flask --app src/python_app run --reload
 ```
 
 * Exit development shell
@@ -90,6 +91,35 @@ psql
 
 ```
 geonix search <PACKAGE>
+```
+
+
+## Deployment
+
+* Build and load base container image
+
+```
+nix develop --command geonix build geonix-base-image
+docker load < ./result
+```
+
+* Test container entrypoint script (optional)
+
+```
+nix build .\#deployment
+./result/bin/entrypoint
+```
+
+* Build a container image
+
+```
+docker build -t python-app:latest .
+```
+
+* Run container
+
+```
+docker run --rm -p 8000:8000 python-app:latest
 ```
 
 
