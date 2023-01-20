@@ -213,6 +213,15 @@
 
 
               # Container images
+              geonix-base-image = pkgs.callPackage ./imgs/base {
+                name = "geonix-base";
+                tag = "latest";
+                bundleNixpkgs = true;
+                channelName = "nixpkgs";
+                channelURL = "https://nixos.org/channels/nixos-22.11";
+                nixConf = { experimental-features = "nix-command flakes"; };
+              };
+
               geonix-postgresql-image = pkgs.callPackage ./imgs/postgres {
                 inherit postgis;
               };
@@ -249,6 +258,7 @@
                   qgis-ltr-unwrapped
 
                   # Container images
+                  geonix-base-image
                   geonix-postgresql-image
                   geonix-python-image
 
