@@ -25,20 +25,15 @@
               pythonVersion = pythonVersion;
             };
           in
-          geonixOverPkgs
-          // lib.mapAttrs' (name: value: { name = "${pythonVersion}-" + name; value = value; }) geonixOverPkgs.python-packages;
-
-        imgs = import overridesFile {
-          nixpkgs = nixpkgs.legacyPackages.x86_64-linux;
-          pkgs = geonix.packages.x86_64-linux;
-          pythonVersion = pythonVersion;
-        };
+            geonixOverPkgs
+            // lib.mapAttrs'
+                (name: value: { name = "${pythonVersion}-" + name; value = value; })
+                geonixOverPkgs.python-packages;
       }
 
     else
       {
         nixpkgs = nixpkgs.legacyPackages.${system};
         geonix = geonix.packages.${system};
-        imgs = geonix.packages.x86_64-linux;
       };
 }
