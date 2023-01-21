@@ -1,4 +1,4 @@
-name: Build flake templates
+name: Test flake templates
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-template:
+  test-template:
     strategy:
       fail-fast: false
       matrix:
