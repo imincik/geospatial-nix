@@ -63,17 +63,6 @@
       in
       {
 
-        #
-        ### PACKAGES ###
-        #
-
-        packages = utils.lib.filterPackages system {
-
-          # PostgreSQL/PostGIS container image provided by Geonix
-          postgresqlImage = pkgs.nixpkgs.lib.optionals pkgs.nixpkgs.stdenv.isLinux
-            pkgs.geonix.geonix-postgresql-image;
-        };
-
 
         #
         ### SHELLS ###

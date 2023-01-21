@@ -16,18 +16,26 @@ Available options:
 
 Available commands:
 
-search PACKAGE      Search for packages available in Geonix and Nixpkgs in
-                    their pinned and latest versions according flake.lock
-                    file.
+search PACKAGE/     Search for packages or container images available in Geonix
+       IMAGE        or Nixpkgs repository. Search is perfomed for revisions
+                    according flake.lock file and latest revisions.
+
                     To search for multiple package names separate them with
                     pipe ("PACKAGE-X|PACKAGE-Y").
+
+build PACKAGE/      Build Geonix package of container image in revision
+      IMAGE         according flake.lock file. This command is mostly useful
+                    for building and retrieving container images.
+
+                    Warning: this command can't be used to get container
+                    images on macOS.
 
 override            Create override template file (overrides.nix) in current
                     directory to build customized Geonix packages.
 
                     To build customized packages:
 
-                    * add overrides.nix file git
+                    * add overrides.nix file to git
 
                     * use it as overridesFile parameter in geonix.lib.getPackages
                       function in flake.nix
@@ -85,7 +93,53 @@ parse_params "$@"
 setup_colors
 
 
+GEONIX_URL="github:imincik/geonix"
 NIX_FLAGS=( --no-warn-dirty --extra-experimental-features nix-command --extra-experimental-features flakes )
+
+
+nixpkgs_exists=$( \
+    nix "${NIX_FLAGS[@]}" flake metadata  --json \
+    | jq --raw-output '.locks.nodes.nixpkgs' \
+)
+
+nixpkgs_url=$( \
+    nix "${NIX_FLAGS[@]}" flake metadata  --json \
+    | jq --raw-output '(.locks.nodes.nixpkgs.original.type) + ":" + (.locks.nodes.nixpkgs.original.owner) + "/" + (.locks.nodes.nixpkgs.original.repo)' \
+)
+
+nixpkgs_ref=$( \
+    nix "${NIX_FLAGS[@]}" flake metadata  --json \
+        | jq --raw-output '.locks.nodes.nixpkgs.original.ref' \
+        | sed 's|/$||'
+)
+
+nixpkgs_rev=$( \
+    nix "${NIX_FLAGS[@]}" flake metadata  --json \
+        | jq --raw-output '.locks.nodes.nixpkgs.locked.rev' \
+        | cut -c1-7 \
+)
+
+geonix_exists=$( \
+    nix "${NIX_FLAGS[@]}" flake metadata  --json \
+    | jq --raw-output '.locks.nodes.geonix' \
+)
+
+geonix_url=$( \
+        nix "${NIX_FLAGS[@]}" flake metadata  --json \
+        | jq --raw-output ' (.locks.nodes.geonix.original.type) + ":" + (.locks.nodes.geonix.original.owner) + "/" + (.locks.nodes.geonix.original.repo)' \
+    )
+
+geonix_ref=$( \
+    nix "${NIX_FLAGS[@]}" flake metadata  --json \
+        | jq --raw-output '.locks.nodes.geonix.original.ref' \
+        | sed 's|/$||'
+)
+
+geonix_rev=$( \
+    nix "${NIX_FLAGS[@]}" flake metadata  --json \
+    | jq --raw-output '.locks.nodes.geonix.locked.rev' \
+    | cut -c1-7 \
+)
 
 nix_search() {
     results=$(nix "${NIX_FLAGS[@]}" search --json "$1" "$2")
@@ -106,52 +160,8 @@ geonix_search() {
 # SEARCH COMMAND
 if [ "${args[0]}" == "search" ]; then
 
-  [[ ${#args[@]} -lt 2 ]] \
-      && die "Missing package search string. Use --help to get more information."
-
-    nixpkgs_exists=$( \
-        nix "${NIX_FLAGS[@]}" flake metadata  --json \
-        | jq --raw-output '.locks.nodes.nixpkgs' \
-    )
-
-    nixpkgs_url=$( \
-        nix "${NIX_FLAGS[@]}" flake metadata  --json \
-        | jq --raw-output '(.locks.nodes.nixpkgs.original.type) + ":" + (.locks.nodes.nixpkgs.original.owner) + "/" + (.locks.nodes.nixpkgs.original.repo)' \
-    )
-
-    nixpkgs_ref=$( \
-        nix "${NIX_FLAGS[@]}" flake metadata  --json \
-            | jq --raw-output '.locks.nodes.nixpkgs.original.ref' \
-            | sed 's|/$||'
-    )
-
-    nixpkgs_rev=$( \
-        nix "${NIX_FLAGS[@]}" flake metadata  --json \
-            | jq --raw-output '.locks.nodes.nixpkgs.locked.rev' \
-            | cut -c1-7 \
-    )
-
-    geonix_exists=$( \
-        nix "${NIX_FLAGS[@]}" flake metadata  --json \
-        | jq --raw-output '.locks.nodes.geonix' \
-    )
-
-    geonix_url=$( \
-            nix "${NIX_FLAGS[@]}" flake metadata  --json \
-            | jq --raw-output ' (.locks.nodes.geonix.original.type) + ":" + (.locks.nodes.geonix.original.owner) + "/" + (.locks.nodes.geonix.original.repo)' \
-        )
-
-    geonix_ref=$( \
-        nix "${NIX_FLAGS[@]}" flake metadata  --json \
-            | jq --raw-output '.locks.nodes.geonix.original.ref' \
-            | sed 's|/$||'
-    )
-
-    geonix_rev=$( \
-        nix "${NIX_FLAGS[@]}" flake metadata  --json \
-        | jq --raw-output '.locks.nodes.geonix.locked.rev' \
-        | cut -c1-7 \
-    )
+    [[ ${#args[@]} -lt 2 ]] \
+        && die "Missing package search string. Use --help to get more information."
 
 
     if [ "$nixpkgs_exists" != "null" ]; then
@@ -193,14 +203,30 @@ if [ "${args[0]}" == "search" ]; then
     fi
 
 
-# OVERRIDES COMMAND
+# BUILD COMMAND
+elif [ "${args[0]}" == "build" ]; then
+
+    [[ ${#args[@]} -lt 2 ]] \
+        && die "Missing image name. Use --help to get more information."
+
+    image="${args[1]}"
+
+    if [ "$geonix_exists" != "null" ] && [ "$geonix_rev" != "null" ]; then
+        nix build --accept-flake-config "$GEONIX_URL/$geonix_rev#$image"
+    else
+        msg "warning: Geonix revision not found in flake.lock file, building from latest revision"
+        nix build --accept-flake-config "$GEONIX_URL#$image"
+    fi
+
+
+# OVERRIDE COMMAND
 elif [ "${args[0]}" == "override" ]; then
 
     if [ -f "$(pwd)/overrides.nix" ]; then
         die "Overrides template file already exists in $(pwd)/overrides.nix ."
     else
-        cp $GEONIX_NIX_DIR/overrides.nix $(pwd)/overrides.nix
-        chmod u+w $(pwd)/overrides.nix
+        cp "$GEONIX_NIX_DIR"/overrides.nix "$(pwd)"/overrides.nix
+        chmod u+w "$(pwd)"/overrides.nix
         echo -e "\nOverrides template file created in $(pwd)/overrides.nix ."
         echo -e "This file must be added to git before use."
     fi
@@ -208,7 +234,7 @@ elif [ "${args[0]}" == "override" ]; then
 
 # UNKNOWN COMMAND
 else
-    die "Unknown command. Use --help to get more information."
+    die "Unknown command '${args[0]}'. Use --help to get more information."
 fi
 
 # vim: set ts=4 sts=4 sw=4 et:
