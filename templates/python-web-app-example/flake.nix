@@ -60,14 +60,6 @@
           pkgs.nixpkgs.postgresql # to get psql client
         ];
 
-        postgresqlPackages = [
-          # Additional PostgreSQL extensions built in to PostgreSQL container
-          # image.
-
-          # pkgs.nixpkgs.<POSTGRESQL-VERSION>.pkgs.<PACKAGE>
-          # pkgs.nixpkgs.postgresql.pkgs.pgrouting
-        ];
-
       in
       {
 
@@ -75,13 +67,11 @@
         ### PACKAGES ###
         #
 
-        packages = rec {
+        packages = utils.lib.filterPackages system {
 
-          # Extendible PostgreSQL/PostGIS container image provided by Geonix
-          postgresqlImage = pkgs.imgs.geonix-postgresql-image.override
-            {
-              extraPostgresqlPackages = postgresqlPackages;
-            };
+          # PostgreSQL/PostGIS container image provided by Geonix
+          postgresqlImage = pkgs.nixpkgs.lib.optionals pkgs.nixpkgs.stdenv.isLinux
+            pkgs.geonix.geonix-postgresql-image;
         };
 
 

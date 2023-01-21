@@ -54,13 +54,15 @@
         ### PACKAGES ###
         #
 
-        packages = utils.lib.filterPackages system rec {
+        packages = utils.lib.filterPackages system {
 
           # PostgreSQL/PostGIS container image provided by Geonix
-          postgresqlImage = pkgs.imgs.geonix-postgresql-image;
+          postgresqlImage = pkgs.nixpkgs.lib.optionals pkgs.nixpkgs.stdenv.isLinux
+            pkgs.geonix.geonix-postgresql-image;
 
           # Python container image provided by Geonix
-          pythonImage = pkgs.imgs.geonix-python-image;
+          pythonImage = pkgs.nixpkgs.lib.optionals pkgs.nixpkgs.stdenv.isLinux
+            pkgs.geonix.geonix-python-image;
         };
 
 
