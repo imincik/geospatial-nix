@@ -1,4 +1,4 @@
-name: Build container images
+name: Test container images
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-image:
+  test-image:
     strategy:
       fail-fast: false
       matrix:
@@ -28,12 +28,6 @@ jobs:
 
     - name: Install nix
       uses: cachix/install-nix-action@v18
-
-    - name: Setup cachix
-      uses: cachix/cachix-action@v12
-      with:
-        name: geonix
-        authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
 
     - name: Build image
       run: >
