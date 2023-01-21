@@ -63,7 +63,7 @@ poetry run flask run --reload
 * Launch Python application development server (with database data backend)
 
 ```
-nix build .#postgresqlImage
+geonix build geonix-postgresql-image
 docker load < ./result
 docker-compose up -d
 

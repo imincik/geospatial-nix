@@ -58,12 +58,27 @@ jobs:
         nix flake check --no-build --accept-flake-config
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
 
-    - name: Test template build output (if python-web-app-example template)
+    - name: Test template (if macOS + python-web-app-example template - local backend)
       run: |
         nix develop --accept-flake-config --command poetry install
 
         nix develop --accept-flake-config --command poetry run flask run &
 
         curl --retry 10 --retry-all-errors localhost:5000 | grep POLYGON
-      if: ${{ matrix.template == 'python-web-app-example' }}
+      if: ${{ runner.os == 'macOS' && matrix.template == 'python-web-app-example' }}
+      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
+
+    - name: Test template (if Linux + python-web-app-example template - DB backend)
+      run: |
+        nix develop --accept-flake-config --command geonix build geonix-postgresql-image
+        docker load < ./result
+        nix develop --accept-flake-config --command docker-compose up -d
+
+        nix develop --accept-flake-config --command poetry install
+
+        export BACKEND=db
+        nix develop --accept-flake-config --command poetry run flask run &
+
+        curl --retry 10 --retry-all-errors localhost:5000 | grep POLYGON
+      if: ${{ runner.os == 'Linux' && matrix.template == 'python-web-app-example' }}
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
