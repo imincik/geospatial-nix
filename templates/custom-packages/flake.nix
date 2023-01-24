@@ -20,6 +20,7 @@
           inherit system nixpkgs geonix;
 
           pythonVersion = pythonVersion;
+          postgresqlVersion = postgresqlVersion;
 
           # Run 'geonix override' command to get overrides.nix template file and
           # enable following line to start customizing Geonix packages.
@@ -29,11 +30,21 @@
 
         # Choose Python version here.
         # Supported versions:
-        # * python3   - default Python version (3.10)
+        # * python3   - default Python version
         # * python39  - Python 3.9
         # * python310 - Python 3.10
         # * python311 - Python 3.11
         pythonVersion = "python3";
+
+        # Choose PostgreSQL version here.
+        # Supported versions:
+        # * postgresql    - default PostgreSQL version
+        # * postgresql_11 - PostgreSQL 11
+        # * postgresql_12 - PostgreSQL 12
+        # * postgresql_13 - PostgreSQL 13
+        # * postgresql_14 - PostgreSQL 14
+        # * postgresql_15 - PostgreSQL 15
+        postgresqlVersion = "postgresql";
 
         pythonEnv = pkgs.nixpkgs.${pythonVersion}.withPackages (p: [
           # Geonix Python packages
@@ -58,10 +69,12 @@
 
           # PostgreSQL/PostGIS container image provided by Geonix
           postgresqlImage = pkgs.nixpkgs.lib.optionals pkgs.nixpkgs.stdenv.isLinux
+
             pkgs.geonix.geonix-postgresql-image;
 
           # Python container image provided by Geonix
           pythonImage = pkgs.nixpkgs.lib.optionals pkgs.nixpkgs.stdenv.isLinux
+
             pkgs.geonix.geonix-python-image;
         };
 

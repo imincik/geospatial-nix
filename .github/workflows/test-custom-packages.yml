@@ -80,15 +80,17 @@ jobs:
         nix develop --command geonix override
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
 
-    - name: Add custom GDAL patch in to override template file
+    - name: Enable overrides template file in getPackages function
       run: |
-        patch -u overrides.nix -i ${GITHUB_WORKSPACE}/pkgs/geonixcli/nix/example.patch
+        sed -i.orig "s|#.overridesFile.*=.*./overrides.nix;|overridesFile = ./overrides.nix;|" flake.nix
         git add overrides.nix
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
 
-    - name: Enable overrides template file in getPackages function
-      run: >
-        sed -i.orig "s|#.overridesFile.*=.*./overrides.nix;|overridesFile = ./overrides.nix;|" flake.nix
+
+    # Custom GDAL
+    - name: Add custom GDAL patch to override template file
+      run: |
+        patch -u overrides.nix -i ${GITHUB_WORKSPACE}/tests/custom-packages/gdal.patch
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
 
     - name: Flake check
@@ -121,5 +123,23 @@ jobs:
     - name: Test if PostgreSQL container image depends on patched GDAL package
       run: >
        nix path-info --derivation --recursive .\#postgresqlImage | grep gdal-1000.0.0
+      if: ${{ runner.os == 'Linux' }}
+      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
+
+
+      # Custom PostgreSQL container image
+    - name: Add custom PostgreSQL patch to override template file
+      run: |
+        patch -u overrides.nix -i ${GITHUB_WORKSPACE}/tests/custom-packages/postgresql-image.patch
+      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
+
+    - name: Flake check
+      run: >
+        nix flake check --no-build --accept-flake-config
+      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
+
+    - name: Test if PostgreSQL container image depends on pgrouting package
+      run: >
+       nix path-info --derivation --recursive .\#postgresqlImage | grep pgrouting
       if: ${{ runner.os == 'Linux' }}
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}

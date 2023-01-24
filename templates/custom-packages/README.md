@@ -43,6 +43,18 @@ git add overrides.nix
 nix develop
 ```
 
+* Get customized PostgreSQL container image
+
+```
+nix build .#postgresqlImage
+```
+
+* Get customized Python container image
+
+```
+nix build .#pythonImage
+```
+
 * To return back to non-customized Geonix packages, just disable `overridesFile`
   parameter in `geonix.lib.getPackages` function.
 

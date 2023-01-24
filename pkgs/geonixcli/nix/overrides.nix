@@ -1,4 +1,4 @@
-{ nixpkgs, pkgs, pythonVersion }:
+{ nixpkgs, pkgs, pythonVersion, postgresqlVersion }:
 
 rec {
 
@@ -134,17 +134,6 @@ rec {
 
 
   #####################################################################
-  ### POSTGIS
-  #####################################################################
-
-  postgis = (pkgs.postgis.overrideAttrs (fina: prev: {
-
-    # >>> CUSTOMIZE HERE
-
-  })).override { inherit gdal geos proj; };
-
-
-  #####################################################################
   ### PROJ
   #####################################################################
 
@@ -153,6 +142,7 @@ rec {
     # >>> CUSTOMIZE HERE
 
   })).override { };
+
 
   python-packages = rec { ### PYTHON PACKAGES
 
@@ -240,6 +230,22 @@ rec {
 
   }; ### PYTHON PACKAGES
 
+
+  postgresql-packages = rec { ### POSTGRESQL PACKAGES
+
+  #####################################################################
+  ### POSTGIS
+  #####################################################################
+
+  postgis = (pkgs."${postgresqlVersion}-postgis".overrideAttrs (old: {
+
+    # >>> CUSTOMIZE HERE
+
+  })).override { inherit gdal geos proj; };
+
+  }; ### POSTGRESQL PACKAGES
+
+
   #####################################################################
   ### QGIS
   #####################################################################
@@ -321,10 +327,11 @@ rec {
   #####################################################################
 
   geonix-postgresql-image = pkgs.geonix-postgresql-image.override {
-    inherit postgis;
+
+    postgis = postgresql-packages.postgis;
 
     # Available parameters:
-    # extraPostgresqlPackages = with nixpkgs.postgresql.pkgs; [
+    # extraPostgresqlPackages = with nixpkgs.${postgresqlVersion}.pkgs; [
     #   <PACKAGE>
     #   pgrouting
     # ];
