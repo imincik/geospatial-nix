@@ -3,6 +3,7 @@
 , makeWrapper
 , bash
 , jq
+, shellcheck
 }:
 
 stdenv.mkDerivation rec {
@@ -15,14 +16,18 @@ stdenv.mkDerivation rec {
   buildPhase = "true";
 
   buildInputs = [ bash jq ];
+  checkInputs = [ shellcheck ];
   nativeBuildInputs = [ makeWrapper ];
+
+  doCheck = true;
+  checkPhase = ''shellcheck $src/geonix.bash'';
 
   installPhase = ''
     mkdir -p $out/bin $out/nix
 
     cp $src/nix/overrides.nix $out/nix
 
-    cp $src/geonix.sh $out/bin/geonix
+    cp $src/geonix.bash $out/bin/geonix
     chmod +x $out/bin/geonix
 
     wrapProgram $out/bin/geonix \
