@@ -230,19 +230,19 @@ if [ "${args[0]}" == "search" ]; then
         if [ "$geonix_rev" != "null" ]; then
             echo -e "\n${BOLD}$geonix_url/$geonix_rev ${NOFORMAT}"
             geonix_search "$geonix_url/$geonix_rev" "${args[@]:1}" \
-                | grep -v "unwrapped" \
+                | grep -v "\-unwrapped\|\-all-packages" \
                 | column -ts $'\t'
         fi
 
         if [ "$geonix_ref" != "null" ]; then
             echo -e "\n${BOLD}$geonix_url/$geonix_ref ${NOFORMAT}"
             geonix_search "$geonix_url/$geonix_ref" "${args[@]:1}" \
-                | grep -v "unwrapped" \
+                | grep -v "\-unwrapped\|\-all-packages" \
                 | column -ts $'\t'
         else
             echo -e "\n${BOLD}$geonix_url ${NOFORMAT}"
             geonix_search "$geonix_url" "${args[@]:1}" \
-                | grep -v "unwrapped" \
+                | grep -v "\-unwrapped\|\-all-packages" \
                 | column -ts $'\t'
         fi
     fi

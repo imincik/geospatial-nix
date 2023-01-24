@@ -40,13 +40,24 @@
               inherit (nixpkgs.lib) mapAttrs';
 
               pythonVersions = [
-                "python3"
+                "python3" # default
                 "python39"
                 "python310"
                 "python311"
               ];
 
               forAllPythonVersions = f: nixpkgs.lib.genAttrs pythonVersions (python: f python);
+
+              postgresqlVersions = [
+                "postgresql"
+                "postgresql_11"
+                "postgresql_12"
+                "postgresql_13"
+                "postgresql_14"
+                "postgresql_15"
+              ];
+
+              forAllPostgresqlVersions = f: nixpkgs.lib.genAttrs postgresqlVersions (postgresql: f postgresql);
 
 
               geonixcli = pkgs.callPackage ./pkgs/geonixcli { };
@@ -135,10 +146,23 @@
               });
 
 
-              # PostgreSQL
-              postgis = pkgs.callPackage ./pkgs/postgis/postgis.nix {
-                inherit gdal geos proj;
-              };
+              # Postgresql packages
+              postgresql-packages = forAllPostgresqlVersions (postgresql: rec {
+
+                postgis = pkgs.callPackage ./pkgs/postgis/postgis.nix {
+                  inherit gdal geos proj;
+
+                  postgresql = pkgs.${postgresql};
+                };
+
+                # all packages (single Postgresql version)
+                all-packages = pkgs.symlinkJoin {
+                  name = "all-${postgresql}-packages";
+                  paths = [
+                    postgis
+                  ];
+                };
+              });
 
 
               # QGIS
@@ -198,7 +222,6 @@
                   libspatialindex
                   libspatialite
                   pdal
-                  postgis
                   proj
 
                   python-packages.python3.all-packages
@@ -207,6 +230,13 @@
 
                   # TODO: build 3.11 packages as well
                   # python-packages.python311.all-packages
+
+                  postgresql-packages.postgresql.all-packages
+                  postgresql-packages.postgresql_11.all-packages
+                  postgresql-packages.postgresql_12.all-packages
+                  postgresql-packages.postgresql_13.all-packages
+                  postgresql-packages.postgresql_14.all-packages
+                  postgresql-packages.postgresql_15.all-packages
 
                 ] ++ pkgs.lib.optionals pkgs.stdenv.isLinux [ qgis qgis-ltr ];
               };
@@ -223,7 +253,7 @@
               };
 
               geonix-postgresql-image = pkgs.callPackage ./imgs/postgres {
-                inherit postgis;
+                postgis = postgresql-packages.postgresql.postgis;
               };
 
               geonix-python-image = pkgs.callPackage ./imgs/python {
@@ -250,7 +280,6 @@
                   libspatialindex
                   libspatialite
                   pdal
-                  postgis
                   proj
                   qgis
                   qgis-unwrapped
@@ -265,10 +294,20 @@
                   # Meta packages
                   all-packages;
               }
+
+            # Add Python packages in all versions
             // mapAttrs' (name: value: { name = "python3-" + name; value = value; }) python-packages.python3
             // mapAttrs' (name: value: { name = "python39-" + name; value = value; }) python-packages.python39
             // mapAttrs' (name: value: { name = "python310-" + name; value = value; }) python-packages.python310
-            // mapAttrs' (name: value: { name = "python311-" + name; value = value; }) python-packages.python311;
+            // mapAttrs' (name: value: { name = "python311-" + name; value = value; }) python-packages.python311
+
+            # Add Postgresql packages in all versions
+            // mapAttrs' (name: value: { name = "postgresql-" + name; value = value; }) postgresql-packages.postgresql
+            // mapAttrs' (name: value: { name = "postgresql_11-" + name; value = value; }) postgresql-packages.postgresql_11
+            // mapAttrs' (name: value: { name = "postgresql_12-" + name; value = value; }) postgresql-packages.postgresql_12
+            // mapAttrs' (name: value: { name = "postgresql_13-" + name; value = value; }) postgresql-packages.postgresql_13
+            // mapAttrs' (name: value: { name = "postgresql_14-" + name; value = value; }) postgresql-packages.postgresql_14
+            // mapAttrs' (name: value: { name = "postgresql_15-" + name; value = value; }) postgresql-packages.postgresql_15;
 
 
           #
@@ -329,7 +368,7 @@
               let
                 pg = pkgs.postgresql;
 
-                postgresPackage = pg.withPackages (p: with self.packages.${system}; [ postgis ]);
+                postgresPackage = pg.withPackages (p: with self.packages.${system}; [ postgresql-postgis ]);
 
                 postgresServiceDir = ".geonix/services/postgres";
 

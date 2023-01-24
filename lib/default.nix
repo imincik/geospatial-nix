@@ -12,7 +12,11 @@
 
   # If overridesFile parameter is used, apply packages overrides from this file.
 
-  getPackages = { system, nixpkgs, geonix, pythonVersion ? "python3", overridesFile ? false }:
+  getPackages = {
+    system, nixpkgs, geonix,
+    pythonVersion ? "python3", postgresqlVersion ? "postgresql",
+    overridesFile ? false
+  }:
 
     if overridesFile != false then
       {
@@ -23,12 +27,20 @@
               nixpkgs = nixpkgs.legacyPackages.${system};
               pkgs = geonix.packages.${system};
               pythonVersion = pythonVersion;
+              postgresqlVersion = postgresqlVersion;
             };
           in
             geonixOverPkgs
+
+            # Python packages
             // lib.mapAttrs'
                 (name: value: { name = "${pythonVersion}-" + name; value = value; })
-                geonixOverPkgs.python-packages;
+                geonixOverPkgs.python-packages
+
+            # PostgreSQL packages
+            // lib.mapAttrs'
+                (name: value: { name = "${postgresqlVersion}-" + name; value = value; })
+                geonixOverPkgs.postgresql-packages;
       }
 
     else
