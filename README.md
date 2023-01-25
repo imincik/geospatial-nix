@@ -165,6 +165,9 @@ IMPORTANT NOTE: all files used with Flake must be added in to Git first.
 Otherwise Flake is not able to see them and will throw
 `No such file or directory` error message !
 
+For in more detailed Nix and Nix Flakes documentation see
+[Zero to Nix](https://zero-to-nix.com/).
+
 ### Install and configure Nix
 
 * Install Nix on Linux, macOS or Windows

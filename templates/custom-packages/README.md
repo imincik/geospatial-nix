@@ -57,4 +57,4 @@ geonix search <PACKAGE>
 
 ## More info
 
-* [Nix tutorials](https://nix.dev)
+* [Zero to Nix](https://zero-to-nix.com/)
