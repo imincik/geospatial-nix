@@ -26,19 +26,22 @@ PostgreSQL/PostGIS database backend.
 * pytest
 
 
-## Usage
-
-* Lock Flake dependencies
+## Template initialization
 
 ```
+mkdir my-project
+cd my-project
+
+git init
+
+nix flake init --accept-flake-config --template github:imincik/geonix#python-web-app-example
+
 nix flake lock
-```
-
-* Add all files to git !
-
-```
 git add *
 ```
+
+
+## Usage
 
 ### Development
 
