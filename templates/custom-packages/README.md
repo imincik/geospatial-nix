@@ -3,20 +3,22 @@
 This is a example demonstrating building of customized Geonix packages using
 a overrides template file.
 
-
-## Usage
-
-* Lock Flake dependencies
+## Template initialization
 
 ```
+mkdir my-project
+cd my-project
+
+git init
+
+nix flake init --accept-flake-config --template github:imincik/geonix#custom-packages
+
 nix flake lock
-```
-
-* Add all files to git !
-
-```
 git add *
 ```
+
+
+## Usage
 
 ### Customize packages
 
