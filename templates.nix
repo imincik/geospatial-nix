@@ -8,9 +8,9 @@
   };
 
 
-  python-web-app-example = {
+  python-web-app = {
     description = "Example Python web application";
-    path = ./templates/python-web-app-example;
+    path = ./templates/python-web-app;
     welcomeText = ''
       See README.md file for instructions how to use this template.
     '';

@@ -34,7 +34,7 @@ cd my-project
 
 git init
 
-nix flake init --accept-flake-config --template github:imincik/geonix#python-web-app-example
+nix flake init --accept-flake-config --template github:imincik/geonix#python-web-app
 
 nix flake lock
 git add *
