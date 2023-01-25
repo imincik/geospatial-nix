@@ -125,4 +125,4 @@ docker run --rm -p 8000:8000 python-app:latest
 
 ## More info
 
-* [Nix tutorials](https://nix.dev)
+* [Zero to Nix](https://zero-to-nix.com/)
