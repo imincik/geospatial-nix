@@ -48,4 +48,10 @@
         nixpkgs = nixpkgs.legacyPackages.${system};
         geonix = geonix.packages.${system};
       };
+
+
+  # mkShell functions
+  mkpgAdminShell = import ./pgadmin-shell.nix;
+  mkPostgresqlShell = import ./postgresql-shell.nix;
+  mkpsqlShell = import ./psql-shell.nix;
 }

@@ -126,6 +126,13 @@ docker run --rm -p 8000:8000 python-app:latest
 ```
 
 
+## Customized packages
+
+See
+[CUSTOMIZED-PACKAGES.md](https://github.com/imincik/geonix/blob/master/CUSTOMIZED-PACKAGES.md)
+for instructions how to customize packages.
+
+
 ## More info
 
 * [Zero to Nix](https://zero-to-nix.com/)
