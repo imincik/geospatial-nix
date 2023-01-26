@@ -1,5 +1,5 @@
 {
-  description = "Custom Geonix packages build";
+  description = "Geospatial workspace";
 
   nixConfig.extra-substituters = [ "https://geonix.cachix.org" ];
   nixConfig.extra-trusted-public-keys = [ "geonix.cachix.org-1:iyhIXkDLYLXbMhL3X3qOLBtRF8HEyAbhPXjjPeYsCl0=" ];
@@ -36,16 +36,6 @@
         # * python311 - Python 3.11
         pythonVersion = "python3";
 
-        # Choose PostgreSQL version here.
-        # Supported versions:
-        # * postgresql    - default PostgreSQL version
-        # * postgresql_11 - PostgreSQL 11
-        # * postgresql_12 - PostgreSQL 12
-        # * postgresql_13 - PostgreSQL 13
-        # * postgresql_14 - PostgreSQL 14
-        # * postgresql_15 - PostgreSQL 15
-        postgresqlVersion = "postgresql";
-
         pythonEnv = pkgs.nixpkgs.${pythonVersion}.withPackages (p: [
           # Geonix Python packages
           pkgs.geonix."${pythonVersion}-fiona"
@@ -58,8 +48,48 @@
           pkgs.geonix."${pythonVersion}-shapely"
         ]);
 
+
+        # Choose PostgreSQL version here.
+        # Supported versions:
+        # * postgresql    - default PostgreSQL version
+        # * postgresql_11 - PostgreSQL 11
+        # * postgresql_12 - PostgreSQL 12
+        # * postgresql_13 - PostgreSQL 13
+        # * postgresql_14 - PostgreSQL 14
+        # * postgresql_15 - PostgreSQL 15
+        postgresqlVersion = "postgresql";
+
+        # PostgreSQL init DB arguments
+        # See: https://www.postgresql.org/docs/current/app-initdb.html
+        postgresqlInitdbArgs = [ "--locale=C" "--encoding=UTF8" ];
+
+        # Add more PostgreSQL extensions
+        extraPostgresqlPackages = [
+          # pkgs.nixpkgs.${postgresqlVersion}.pkgs.pgrouting
+        ];
+
       in
       {
+
+        #
+        ### APPS ##
+        #
+
+        apps = rec {
+
+          qgis = {
+            type = "app";
+            program = "${pkgs.geonix.qgis}/bin/qgis";
+          };
+
+          qgis-ltr = {
+            type = "app";
+            program = "${pkgs.geonix.qgis-ltr}/bin/qgis";
+          };
+
+          default = qgis;
+        };
+
 
         #
         ### PACKAGES ###
@@ -85,7 +115,25 @@
 
         devShells = rec {
 
-          # Development shell
+          # PostgreSQL shell
+          postgresql = geonix.lib.mkPostgresqlShell {
+            inherit pkgs;
+            version = postgresqlVersion;
+            extraPackages = extraPostgresqlPackages;
+          };
+
+          # PSQL shell
+          psql = geonix.lib.mkpsqlShell {
+            inherit pkgs;
+            version = postgresqlVersion;
+          };
+
+          # pgAdmin shell
+          pgadmin = geonix.lib.mkpgAdminShell {
+            inherit pkgs;
+          };
+
+          # Main workspace shell
           dev = pkgs.nixpkgs.mkShellNoCC {
 
             # List of packages to be present in shell environment

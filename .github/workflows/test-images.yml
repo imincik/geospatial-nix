@@ -47,8 +47,8 @@ jobs:
 
         docker run -d -u "$(id -u):$(id -g)" -v "$(pwd):/data" -p 15432:5432 geonix-postgresql
 
-        nix develop .#psql \
-        --command psql -h localhost -p 15432 -c 'CREATE EXTENSION postgis; SELECT postgis_full_version();'
+        nix develop .#ci \
+        --command psql -U postgres -h localhost -p 15432 -c 'CREATE EXTENSION postgis; SELECT postgis_full_version();'
       if: ${{ matrix.image == 'geonix-postgresql-image' }}
 
     - name: Test image (if geonix-python-image)

@@ -1,0 +1,83 @@
+name: Test shell functions
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  test-shell:
+    strategy:
+      fail-fast: false
+      matrix:
+        shell:
+          - postgresql
+          - pgadmin
+        os:
+          - ubuntu-22.04
+          - macos-11
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Install nix
+      uses: cachix/install-nix-action@v18
+
+    - name: Flake check
+      run: >
+        nix flake check --no-build --accept-flake-config
+      working-directory: tests/shells
+
+
+    # postgresql shell
+    - name: Launch shell environment (if postgresql shell)
+      run: >
+        nix develop --accept-flake-config .#postgresql
+        --command echo &
+      if: ${{ matrix.shell == 'postgresql' }}
+      working-directory: tests/shells
+
+    - name: Wait until shell is ready (if postgresql shell)
+      run: >
+        nix develop --accept-flake-config .#ci
+        --command timeout 300 sh -c 'until nc -z localhost 15432; do sleep 1; done'
+      if: ${{ matrix.shell == 'postgresql' }}
+      working-directory: tests/shells
+
+    - name: Test shell environment (if postgresql shell)
+      run: >
+        nix develop --accept-flake-config .#psql
+        --command psql -c 'CREATE EXTENSION postgis; SELECT postgis_full_version();'
+        | grep "POSTGIS="
+      if: ${{ matrix.shell == 'postgresql' }}
+      working-directory: tests/shells
+
+
+    # pgadmin shell
+    - name: Launch shell environment (if pgadmin shell)
+      run: >
+        nix develop --accept-flake-config .#pgadmin
+        --command echo &
+      if: ${{ matrix.shell == 'pgadmin' }}
+      working-directory: tests/shells
+
+    - name: Wait until shell is ready (if pgadmin shell)
+      run: >
+        nix develop --accept-flake-config .#ci
+        --command timeout 300 sh -c 'until nc -z localhost 15050; do sleep 1; done'
+      if: ${{ matrix.shell == 'pgadmin' }}
+      working-directory: tests/shells
+
+    - name: Test shell environment (if pgadmin shell)
+      run: >
+        curl --retry 10 --retry-all-errors --head localhost:15050/browser/
+        | grep "HTTP/1.1 200 OK"
+      if: ${{ matrix.shell == 'pgadmin' }}
+      working-directory: tests/shells

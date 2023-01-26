@@ -113,12 +113,24 @@ speed when returning to the project after longer time period.
 
 For a list of Geonix maintained packages see [pkgs directory](pkgs/).
 
+
 ## Container images
 
 Container images are built only for development or demonstration purposes. They
 are configured with very relaxed or no authentication policies.
 
 For a list of Geonix built container images see [imgs directory](imgs/).
+
+
+## mkShell functions
+
+Geonix provides multiple functions for building out-of-box working shell
+environments.
+
+* **mkPostgresqlShell:** PostgreSQL/PostGIS database with extensions
+* **mkpsqlShell:** PostgreSQL CLI client tools
+* **mkpgAdminShell:** pgAdmin web interface for PostgreSQL
+
 
 ## Usage
 
@@ -293,65 +305,23 @@ _NOTE: for reproducibility reasons, creation time of all container images is
 always set to one second past the UNIX Epoch which is January 1st, 1970. Don't
 be surprised if you see image created more than 50 years ago in your system._
 
-### Try PostgreSQL/PostGIS database shells
 
-* Launch PostGIS database in `postgresql` shell
-```
-nix develop github:imincik/geonix#postgresql
+## Templates
 
-PostgreSQL database will start automatically.
-```
-
-* Connect to PostGIS database in `psql` shell
-```
-nix develop github:imincik/geonix#psql
-```
-```
-psql -c "CREATE EXTENSION postgis";
-
-CREATE EXTENSION
-```
-```
-psql -c "SELECT ST_AsText(ST_Buffer(ST_GeomFromText('POINT(1 1)'), 1));"
-
-POLYGON((2 1,1.98078528040323 0.804909677983872,1.923879532511287
-0.61731656763491, ...
-```
-
-* Launch PgAdmin in `pgAdmin` shell
-```
-nix develop github:imincik/geonix#pgadmin
-
-PgAdmin will start automatically.
-```
-
-* Open PgAdmin in web browser via http://127.0.0.1:15050
-
-### Start new project from template
-
-Geonix provides example Flake templates for starting geospatial projects on top
-of Geonix environment.
+Geonix provides Flake templates for starting geospatial projects on top of
+Geonix environment.
 
 Current list of templates:
 
-* [custom-packages](templates/custom-packages): example of building custom Geonix packages
-* [python-web-app](templates/python-web-app): example Python web application
+* [workspace](templates/workspace):
+  geospatial workspace containing CLI tool, applications and
+  PostgreSQL/PostGIS database
 
-Flake templates must be initialized in Git-initialized directory.
+* [python-web-app](templates/python-web-app):
+  example Python web application
 
-* Create new project directory and initialize it with Git
-```
-mkdir my-project
-cd my-project
-git init
-```
-
-* Initialize new Flake project from template
-```
-nix flake init --accept-flake-config --template github:imincik/geonix#<TEMPLATE>
-```
-
-* Follow instructions displayed during Flake initialization
+See README file in template directory for instructions how to initialize a new
+project from template and how to use it.
 
 
 ## Geonix development

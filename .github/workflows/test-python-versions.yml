@@ -47,7 +47,7 @@ jobs:
       run: |
         git init
 
-        nix flake init --accept-flake-config --template ${GITHUB_WORKSPACE}#custom-packages
+        nix flake init --accept-flake-config --template ${GITHUB_WORKSPACE}#workspace
 
         git add flake.nix
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
@@ -64,7 +64,6 @@ jobs:
         sed -i.orig "s|pkgs.geonix.geos|# pkgs.geonix.geos|" flake.nix
         sed -i.orig "s|pkgs.geonix.pdal|# pkgs.geonix.pdal|" flake.nix
         sed -i.orig "s|pkgs.geonix.proj|# pkgs.geonix.proj|" flake.nix
-        sed -i.orig "s|pkgs.geonix.qgis|# pkgs.geonix.qgis|" flake.nix
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
 
     - name: Set Python version
