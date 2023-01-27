@@ -36,74 +36,44 @@ jobs:
         name: geonix
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
 
-    - name: Set new project directory
-      run: |
-        echo "TEMPLATE_PROJECT_DIR=$(dirname $GITHUB_WORKSPACE)/template-project" >> $GITHUB_ENV
-
-    - name: Prepare new project directory
-      run: |
-        mkdir $TEMPLATE_PROJECT_DIR
-
-    - name: Create new flake project
-      run: |
-        git init
-
-        nix flake init --accept-flake-config --template ${GITHUB_WORKSPACE}#workspace
-
-        git add flake.nix
-      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
-
-    - name: Point Geonix input to the local source code directory
-      run: |
-        sed -i.orig "s|inputs.geonix.url = \".*\";|inputs.geonix.url = \"path:${GITHUB_WORKSPACE}\";|" flake.nix
-
-        nix --access-tokens github.com=${{ secrets.GITHUB_TOKEN }} flake lock --update-input geonix
-      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
-
-    - name: Disable some packages in development shell
-      run: |
-        sed -i.orig "s|pkgs.geonix.geos|# pkgs.geonix.geos|" flake.nix
-        sed -i.orig "s|pkgs.geonix.pdal|# pkgs.geonix.pdal|" flake.nix
-        sed -i.orig "s|pkgs.geonix.proj|# pkgs.geonix.proj|" flake.nix
-      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
-
     - name: Flake check
       run: >
         nix flake check --no-build --accept-flake-config
-      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
+      working-directory: tests/custom-packages
+
 
     - name: Prepare development shell environment
       run: >
-        nix develop --command echo OK
-      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
+        nix develop --accept-flake-config --command echo OK
+      working-directory: tests/custom-packages
 
     - name: Generate override template file
       run: >
         nix develop --command geonix override
-      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
+      working-directory: tests/custom-packages
 
     - name: Enable overrides template file in getPackages function
       run: |
         sed -i.orig "s|#.overridesFile.*=.*./overrides.nix;|overridesFile = ./overrides.nix;|" flake.nix
         git add overrides.nix
-      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
+      working-directory: tests/custom-packages
 
 
     # Custom GDAL
     - name: Add custom GDAL patch to override template file
       run: |
         patch -u overrides.nix -i ${GITHUB_WORKSPACE}/tests/custom-packages/gdal.patch
-      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
+      working-directory: tests/custom-packages
 
     - name: Flake check
       run: >
         nix flake check --no-build --accept-flake-config
-      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
+      working-directory: tests/custom-packages
 
     - name: Build and test patched GDAL package
       run: >
         nix develop --command gdalinfo --help | grep "THIS IS MY PATCH"
-      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
+      working-directory: tests/custom-packages
 
     - name: Test if only single GDAL dependency exists in dev shell
       run: |
@@ -113,11 +83,11 @@ jobs:
         | wc -l \
         | sed -e 's/^[[:space:]]*//' \
         | grep -E "^1$"
-      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
+      working-directory: tests/custom-packages
 
     - name: Test if dev shell depends on patched GDAL package
       run: |
         system=$(nix eval --impure --raw --expr 'builtins.currentSystem')
         nix path-info --derivation --recursive $(nix eval --raw .\#devShells."$system".dev) \
         | grep gdal-1000.0.0
-      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
+      working-directory: tests/custom-packages

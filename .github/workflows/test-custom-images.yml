@@ -43,7 +43,7 @@ jobs:
 
     - name: Prepare development shell environment
       run: >
-        nix develop --command echo OK
+        nix develop --accept-flake-config --command echo OK
       working-directory: tests/custom-images
 
     - name: Generate override template file
