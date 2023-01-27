@@ -7,6 +7,9 @@ on:
       - master
   workflow_dispatch:
 
+env:
+  NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}"
+
 jobs:
   test-shell:
     strategy:
