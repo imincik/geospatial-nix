@@ -128,8 +128,8 @@ Geonix provides multiple functions for building out-of-box working shell
 environments.
 
 * **mkPostgresqlShell:** PostgreSQL/PostGIS database with extensions
-* **mkpsqlShell:** PostgreSQL CLI client tools
-* **mkpgAdminShell:** pgAdmin web interface for PostgreSQL
+* **mkPsqlShell:** PostgreSQL CLI client tools
+* **mkPgAdminShell:** pgAdmin web interface for PostgreSQL
 
 
 ## Usage
