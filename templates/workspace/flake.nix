@@ -106,13 +106,13 @@
           };
 
           # PSQL shell
-          psql = geonix.lib.mkpsqlShell {
+          psql = geonix.lib.mkPsqlShell {
             inherit pkgs;
             version = postgresqlVersion;
           };
 
           # pgAdmin shell
-          pgadmin = geonix.lib.mkpgAdminShell {
+          pgadmin = geonix.lib.mkPgAdminShell {
             inherit pkgs;
           };
 

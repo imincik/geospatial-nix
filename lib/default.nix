@@ -51,7 +51,7 @@
 
 
   # mkShell functions
-  mkpgAdminShell = import ./pgadmin-shell.nix;
+  mkPgAdminShell = import ./pgadmin-shell.nix;
   mkPostgresqlShell = import ./postgresql-shell.nix;
-  mkpsqlShell = import ./psql-shell.nix;
+  mkPsqlShell = import ./psql-shell.nix;
 }
