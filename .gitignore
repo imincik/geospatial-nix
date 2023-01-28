@@ -1,4 +1,5 @@
 result
 result-*
 
-.geonix/services/*
+.direnv/*
+.geonix/*
