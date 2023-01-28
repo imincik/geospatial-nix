@@ -62,7 +62,7 @@ nix_file="$(nix --experimental-features 'nix-command flakes' --accept-flake-conf
 echo "Nix file: $nix_file"
 
 # update version and hash in nix file
-sed -i " /1/,/fetchFromGitHub/ s|version = \".*\";|version = \"${src_version}\";|" pkgs/"$nix_file"
+sed -i "/^/,/fetchFromGitHub/ s|version = \".*\";|version = \"${src_version}\";|" pkgs/"$nix_file"
 sed -i "/fetchFromGitHub/,/};/ s|hash = \".*\";|hash = \"sha256-${src_hash}\";|" pkgs/"$nix_file"
 
 echo "Git diff after update:"
