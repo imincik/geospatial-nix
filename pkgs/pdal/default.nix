@@ -28,7 +28,7 @@ stdenv.mkDerivation rec {
     owner = "PDAL";
     repo = "PDAL";
     rev = version;
-    hash = "sha256-wM9gV6VcTzWxQBb0+7mhGcKJ06xFu8dmBGptS0mSP9Y=";
+    hash = "sha256-9TQlhuGSTnHsTlJos9Hwnyl1CxI0tXLZdqsaGdp6WIE=";
   };
 
   nativeBuildInputs = [
