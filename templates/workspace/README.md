@@ -135,7 +135,7 @@ geonix search <PACKAGE>
 ## Customized packages
 
 See
-[CUSTOMIZED-PACKAGES.md](https://github.com/imincik/geonix/blob/master/CUSTOMIZED-PACKAGES.md)
+[Customized packages](https://github.com/imincik/geonix/wiki/Customized-packages)
 for instructions how to customize packages.
 
 
