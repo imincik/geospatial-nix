@@ -1,16 +1,35 @@
 { lib }:
 
 {
-  # Function: getPackages
-  # Return packages as packages attribute sets in following format:
+  /*
 
-    # pkgs = {
-    #   nixpkgs;
-    #   geonix;
-    #   imgs;
-    # };
+  Function: getPackages
+  Description: Return packages as packages attribute sets in following format:
 
-  # If overridesFile parameter is used, apply packages overrides from this file.
+    pkgs = {
+      nixpkgs;
+      geonix;
+    };
+
+  If overridesFile parameter is used, apply packages overrides from this file.
+
+  Parameters:
+  * system:             supported system name. Use `inherit system;`
+                        Example: `x86_64-linux`.
+
+  * nixpkgs:            nixpkgs attribute set. Use `inherit nixpkgs;`
+
+  * geonix:             geonix attribute set. User `inherit geonix;`
+
+  * pythonVersion:      Python version.
+                        Example: `python39`. Default: `python3`
+
+  * postgresqlVersion:  PostgreSQL version.
+                        Example: `postgresql_12. `Default: `python3`
+
+  * overridesFile:      file containing packages overrides definitions.
+                        Default: false
+  */
 
   getPackages = {
     system, nixpkgs, geonix,

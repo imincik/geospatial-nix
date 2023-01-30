@@ -1,3 +1,19 @@
+/*
+
+Function:         mkPsqlShell
+Description:      Create PostgreSQL CLI client shell.
+
+Parameters:
+* pkgs:           packages attribute set. Use `inherit pkgs;`
+
+* version:        PostgreSQL version.
+                  Example: `postgresql_12`. Default: `postgresql`
+
+* port:           PostgreSQL port.
+                  Default: `15432`
+
+*/
+
 { pkgs
 , version ? "postgresql"
 , port ? 15432
