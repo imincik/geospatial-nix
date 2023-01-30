@@ -3,7 +3,7 @@
 set -Eeuo pipefail
 trap cleanup SIGINT SIGTERM ERR EXIT
 
-usage() {
+function usage {
   cat <<EOF
 Usage: geonix [-h] [-v] command arg1 [arg2...]
 
@@ -45,12 +45,12 @@ EOF
   exit
 }
 
-cleanup() {
+function cleanup {
   trap - SIGINT SIGTERM ERR EXIT
   # script cleanup here
 }
 
-setup_colors() {
+function setup_colors {
   if [[ -t 2 ]] && [[ "${TERM-}" != "dumb" ]]; then
     NOFORMAT='\033[1m' BOLD='\033[1m'
   else
@@ -58,23 +58,23 @@ setup_colors() {
   fi
 }
 
-msg() {
+function msg {
   echo >&2 "${1-}"
 }
 
-warn() {
+function warn {
   local msg=$1
   msg "warning: $msg"
 }
 
-die() {
+function die {
   local msg=$1
   local code=${2-1} # default exit status 1
   msg "error: $msg"
   exit "$code"
 }
 
-parse_params() {
+function parse_params {
   while :; do
     case "${1-}" in
     -h | --help) usage ;;
@@ -99,7 +99,6 @@ setup_colors
 
 
 NIX_FLAGS=( --no-warn-dirty --extra-experimental-features nix-command --extra-experimental-features flakes )
-
 
 # get nixpkgs metadata
 nixpkgs_exists=$( \
@@ -186,7 +185,7 @@ if [ "${args[0]}" == "search" ]; then
     [[ ${#args[@]} -lt 2 ]] \
         && die "Missing package search string. Use --help to get more information."
 
-    nix_search() {
+    function nix_search {
         results=$(nix "${NIX_FLAGS[@]}" search --json "$1" "$2")
 
         if [ "$results" != "{}" ]; then
@@ -205,7 +204,7 @@ if [ "${args[0]}" == "search" ]; then
         fi
     }
 
-    geonix_search() {
+    function geonix_search {
         nix_search "$1" "$2" | sed "s/^pkgs.nixpkgs./pkgs.geonix./"
     }
 
