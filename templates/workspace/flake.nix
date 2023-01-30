@@ -117,7 +117,7 @@
           };
 
           # Main workspace shell
-          dev = pkgs.nixpkgs.mkShellNoCC {
+          cli = pkgs.nixpkgs.mkShellNoCC {
 
             # List of packages to be present in shell environment
             packages = [
@@ -138,7 +138,7 @@
             ];
           };
 
-          default = dev;
+          default = cli;
         };
       });
 }

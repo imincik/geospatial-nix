@@ -1,8 +1,8 @@
 # Geospatial workspace
 
 This template provides general purpose geospatial environment with multiple
-shell environments containing various CLI tools, Python environment,
-applications and PostgreSQL/PostGIS database.
+shell environments containing basic geospatial CLI tools, Python environment,
+QGIS, QGIS-LTR and PostgreSQL/PostGIS database.
 
 
 ### Shell environments
@@ -35,16 +35,41 @@ git add *
 
 ## Usage
 
-### QGIS
+Python and PostgreSQL versions and list of included Python packages or
+PostgreSQL extensions can be configured in `flake.nix` file.
 
-* Launch latest stable QGIS version
+
+### CLI shell
+
+* Enter shell environment
 ```
-nix run .#qgis
+nix develop .#cli
 ```
 
-* Launch QGIS LTR version
+* Try Python environment
 ```
-nix run .#qgis-ltr
+[geonix] > python -c "import fiona; print(fiona.supported_drivers)"
+
+{'DXF': 'rw', 'CSV': 'raw', 'OpenFileGDB': 'r', 'ESRIJSON': 'r', ... }
+```
+
+* Try GDAL
+```
+[geonix] > gdalinfo --version
+
+GDAL 3.6.1, released 2022/12/14
+```
+
+* Try PDAL
+```
+[geonix] > pdal --version
+
+pdal 2.5.0 (git-version: Release)
+```
+
+* Exit shell environment
+```
+exit
 ```
 
 ### PostgreSQL/PostGIS shell
@@ -82,6 +107,20 @@ pgAdmin will start automatically.
 ```
 
 * Open pgAdmin in web browser via http://127.0.0.1:15050
+
+### QGIS
+
+* Launch latest stable QGIS version
+```
+nix run .#qgis
+```
+
+* Launch QGIS LTR version
+```
+nix run .#qgis-ltr
+```
+
+_NOTE: QGIS is currently available only for Linux._
 
 
 ## Geonix CLI
