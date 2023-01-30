@@ -6,6 +6,8 @@
 development. Incompatible changes without any notice can occur at any time !**
 
 
+## Documentation
+
 User documentation is available via
 [Geonix Wiki pages](https://github.com/imincik/geonix/wiki).
 
