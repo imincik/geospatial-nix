@@ -1,6 +1,6 @@
 /*
 
-Function:         mkPsqlShell
+Function:         mkPostgresqlClientShell
 Description:      Create PostgreSQL CLI client shell.
 
 Parameters:

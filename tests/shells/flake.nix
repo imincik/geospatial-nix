@@ -46,7 +46,7 @@
           };
 
           # PSQL shell
-          psql = geonix.lib.mkPsqlShell {
+          psql = geonix.lib.mkPostgresqlClientShell {
             inherit pkgs;
             version = postgresqlVersion;
           };
