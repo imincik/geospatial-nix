@@ -4,7 +4,8 @@ Function:         mkPostgresqlClientShell
 Description:      Create PostgreSQL CLI client shell.
 
 Parameters:
-* pkgs:           packages attribute set. Use `inherit pkgs;`
+* pkgs:           packages attribute set used to build shell environment. Must
+                  be in format as returned by getPackages function.
 
 * version:        PostgreSQL version.
                   Example: `postgresql_12`. Default: `postgresql`

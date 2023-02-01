@@ -4,7 +4,8 @@ Function:         mkPgAdminShell
 Description:      Create pgAdmin shell.
 
 Parameters:
-* pkgs:           packages attribute set. Use `inherit pkgs;`
+* pkgs:           packages attribute set used to build shell environment. Must
+                  be in format as returned by getPackages function.
 
 * port:           pgAdmin port.
                   Default: `15050`
