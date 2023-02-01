@@ -2,27 +2,18 @@
 , attrs, click, cligj, click-plugins, six, munch, enum34
 , pytestCheckHook, boto3, mock, giflib, pytz
 , gdal, certifi
-, fetchpatch
 }:
 
 buildPythonPackage rec {
   pname = "fiona";
-  version = "1.8.22";
+  version = "1.9.0";
 
   src = fetchFromGitHub {
     owner = "Toblerity";
     repo = "Fiona";
     rev = "${version}";
-    hash = "sha256-C/k+udhRAVsMWUNVE8DdKsXWqlik8Vt2GOuID2X2zJs=";
+    hash = "sha256-P4uL3R/PBymgKVKpJJhwVlhJ0ELSbf6yn+46UOC6Mhk=";
   };
-
-  patches = [
-    # https://github.com/Toblerity/Fiona/pull/1122
-    (fetchpatch {
-      url = "https://github.com/Toblerity/Fiona/commit/fa632130dcd9dfbb982ecaa4911b3fab3459168f.patch";
-      hash = "sha256-IuNHr3yBqS1jY9Swvcq8XPv6BpVlInDx0FVuzEMaYTY=";
-    })
-  ];
 
   CXXFLAGS = lib.optionalString stdenv.cc.isClang "-std=c++11";
 
