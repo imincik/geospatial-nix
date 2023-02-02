@@ -55,6 +55,8 @@ buildPythonPackage rec {
     "test_no_append_driver_cannot_append"
   ];
 
+  pythonImportsCheck = [ "fiona" ];
+
   meta = with lib; {
     description = "OGR's neat, nimble, no-nonsense API for Python";
     homepage = "https://fiona.readthedocs.io/";
