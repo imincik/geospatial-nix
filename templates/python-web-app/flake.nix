@@ -60,6 +60,7 @@
           # pkgs.nixpkgs.<PACKAGE>
           pkgs.nixpkgs.docker-compose
           pkgs.nixpkgs.postgresql # to get psql client
+          pkgs.nixpkgs.zlib
         ];
 
       in
