@@ -12,14 +12,14 @@
 
 buildPythonPackage rec {
   pname = "Shapely";
-  version = "1.8.5";
+  version = "2.0.1";
   disabled = pythonOlder "3.6";
 
   src = fetchFromGitHub {
     owner = "shapely";
     repo = "shapely";
     rev = "${version}";
-    hash = "sha256-Q21waCogITF+YxCJLsU7zaQl/AB/7tSsSIGhkWV6/VE=";
+    hash = "sha256-SY6/myRpf0Ho8aYnaQYzu9YwvQLS+FS3WZX6QlRvqtk=";
   };
 
 
