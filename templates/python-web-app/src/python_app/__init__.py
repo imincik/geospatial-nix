@@ -76,8 +76,7 @@ def shape():
     points = get_points(backend=backend)
 
     # create resulting geometry shape
-    polygon = Polygon(points)
-    shape = polygon.convex_hull
+    shape = points.convex_hull
 
     # draw shape
     x, y = shape.exterior.xy
