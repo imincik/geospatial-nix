@@ -99,7 +99,7 @@ jobs:
         git restore flake.nix
         nix flake update
 
-        nix develop --command geonix build geonix-base-image
+        nix develop --accept-flake-config --command geonix build geonix-base-image
         docker load < ./result
 
         docker build -t python-app:latest .
