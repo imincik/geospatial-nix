@@ -21,7 +21,7 @@ buildPythonPackage rec {
     owner = "shapely";
     repo = "shapely";
     rev = "${version}";
-    hash = "sha256-vkzdWG8QQE/avAl3+F5dyKx6cRWN+CkOEFru/51UKkM=";
+    hash = "sha256-SY6/myRpf0Ho8aYnaQYzu9YwvQLS+FS3WZX6QlRvqtk=";
   };
 
   nativeBuildInputs = [
