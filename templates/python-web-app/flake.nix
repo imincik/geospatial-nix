@@ -1,17 +1,22 @@
 {
   description = "Example Python web application";
 
-  nixConfig.extra-substituters = [ "https://geonix.cachix.org" ];
-  nixConfig.extra-trusted-public-keys = [ "geonix.cachix.org-1:iyhIXkDLYLXbMhL3X3qOLBtRF8HEyAbhPXjjPeYsCl0=" ];
+  nixConfig = {
+    extra-substituters = [ "https://geonix.cachix.org" ];
+    extra-trusted-public-keys = [ "geonix.cachix.org-1:iyhIXkDLYLXbMhL3X3qOLBtRF8HEyAbhPXjjPeYsCl0=" ];
 
-  nixConfig.bash-prompt = "\\[\\033[1m\\][geonix]\\[\\033\[m\\]\\040\\w >\\040";
+    bash-prompt = "\\[\\033[1m\\][geonix]\\[\\033\[m\\]\\040\\w >\\040";
+  };
 
-  inputs.geonix.url = "github:imincik/geonix";
-  inputs.nixpkgs.follows = "geonix/nixpkgs";
+  inputs = {
+    geonix.url = "github:imincik/geonix";
+    nixpkgs.follows = "geonix/nixpkgs";
 
-  inputs.utils.url = "github:numtide/flake-utils";
+    utils.url = "github:numtide/flake-utils";
+  };
 
   outputs = { self, nixpkgs, geonix, utils }:
+
     utils.lib.eachSystem [ "x86_64-linux" "x86_64-darwin" ] (system:
       let
 
@@ -47,7 +52,9 @@
           # See: pyproject.toml file.
         ];
 
-        poetry = pkgs.nixpkgs.poetry.override { python = pkgs.nixpkgs.${pythonVersion}; };
+        poetry = pkgs.nixpkgs.poetry.override {
+          python = pkgs.nixpkgs.${pythonVersion};
+        };
 
         extraDevPackages = [
           # Geonix CLI
