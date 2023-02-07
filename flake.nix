@@ -1,18 +1,22 @@
 {
   description = "Geonix - geospatial environment for Nix";
 
-  nixConfig.extra-substituters = [ "https://geonix.cachix.org" ];
-  nixConfig.extra-trusted-public-keys = [ "geonix.cachix.org-1:iyhIXkDLYLXbMhL3X3qOLBtRF8HEyAbhPXjjPeYsCl0=" ];
+  nixConfig = {
+    extra-substituters = [ "https://geonix.cachix.org" ];
+    extra-trusted-public-keys = [ "geonix.cachix.org-1:iyhIXkDLYLXbMhL3X3qOLBtRF8HEyAbhPXjjPeYsCl0=" ];
 
-  nixConfig.bash-prompt = "\\[\\033[1m\\][geonix]\\[\\033\[m\\]\\040\\w >\\040";
+    bash-prompt = "\\[\\033[1m\\][geonix]\\[\\033\[m\\]\\040\\w >\\040";
+  };
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
 
-  inputs.flake-utils.url = "github:numtide/flake-utils";
+    flake-utils.url = "github:numtide/flake-utils";
 
-  inputs.flake-compat = {
-    url = "github:edolstra/flake-compat";
-    flake = false;
+    flake-compat = {
+      url = "github:edolstra/flake-compat";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }:
