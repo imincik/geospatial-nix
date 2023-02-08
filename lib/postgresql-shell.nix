@@ -8,16 +8,16 @@ Parameters:
                   be in format as returned by getPackages function.
 
 * version:        PostgreSQL version.
-                  Example: `postgresql_12`. Default: `postgresql`
+                  Example: `postgresql_12`. Default: `postgresql`.
 
 * port:           PostgreSQL port.
-                  Default: `15432`
+                  Default: `15432`.
 
 * initdbArgs:     PostgreSQL initdb arguments.
-                  Default: `[ "--locale=C" "--encoding=UTF8" ]`
+                  Default: `[ "--locale=C" "--encoding=UTF8" ]`.
 
 * extraPackages:  extra PostgreSQL extensions.
-                  Default [ pkgs.nixpkgs.postgresql_12.pkgs.pgrouting ].
+                  Example: `[ pkgs.nixpkgs.postgresql_12.pkgs.pgrouting ]`. Default: `[]`.
 
 */
 

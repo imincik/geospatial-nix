@@ -8,7 +8,7 @@ Parameters:
                   be in format as returned by getPackages function.
 
 * port:           pgAdmin port.
-                  Default: `15050`
+                  Default: `15050`.
 
 */
 
