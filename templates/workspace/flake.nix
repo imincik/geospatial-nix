@@ -106,7 +106,7 @@
             inherit pkgs;
             version = postgresqlVersion;
             initdbArgs = postgresqlInitdbArgs;
-            extraPackages = extraPostgresqlPackages;
+            extraPostgresqlPackages = extraPostgresqlPackages;
           };
 
           # PSQL shell

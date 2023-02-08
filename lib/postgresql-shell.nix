@@ -16,7 +16,8 @@ Parameters:
 * initdbArgs:     PostgreSQL initdb arguments.
                   Default: `[ "--locale=C" "--encoding=UTF8" ]`.
 
-* extraPackages:  extra PostgreSQL extensions.
+* extraPostgresqlPackages:
+                  extra PostgreSQL extensions to add.
                   Example: `[ pkgs.nixpkgs.postgresql_12.pkgs.pgrouting ]`. Default: `[]`.
 
 */
@@ -25,7 +26,7 @@ Parameters:
 , version ? "postgresql"
 , port ? 15432
 , initdbArgs ? [ "--locale=C" "--encoding=UTF8" ]
-, extraPackages ? []
+, extraPostgresqlPackages ? []
 }:
 
 let
@@ -33,7 +34,7 @@ let
 
   postgresPackage = pkgs.nixpkgs.${version}.withPackages (p: [
     pkgs.geonix."${version}-postgis"
-  ] ++ extraPackages);
+  ] ++ extraPostgresqlPackages);
 
   postgresInitdbArgs = initdbArgs;
 
