@@ -18,6 +18,7 @@ jobs:
         shell:
           - postgresql
           - pgadmin
+          - python
         os:
           - ubuntu-22.04
           - macos-11
@@ -83,4 +84,11 @@ jobs:
         curl --retry 10 --retry-all-errors --head localhost:15050/browser/
         | grep "HTTP/1.1 200 OK"
       if: ${{ matrix.shell == 'pgadmin' }}
+      working-directory: tests/shells
+
+    - name: Test shell environment (if python shell)
+      run: >
+        nix develop --accept-flake-config .#python
+        --command python -c "import fiona; print(fiona.supported_drivers)"
+      if: ${{ matrix.shell == 'python' }}
       working-directory: tests/shells

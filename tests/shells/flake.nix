@@ -26,6 +26,8 @@
         };
 
         pythonVersion = "python3";
+        extraPythonPackages = [ pkgs.geonix."${pythonVersion}-fiona" ];
+        extraDevPackages = [ pkgs.nixpkgs.tig ];
 
         postgresqlVersion = "postgresql";
         postgresqlInitdbArgs = [ "--locale=C" "--encoding=UTF8" ];
@@ -54,6 +56,18 @@
           # pgAdmin shell
           pgadmin = geonix.lib.mkPgAdminShell {
             inherit pkgs;
+          };
+
+          # Python shell
+          python = geonix.lib.mkPythonDevShell {
+            inherit pkgs;
+            version = pythonVersion;
+            extraPythonPackages = extraPythonPackages;
+            extraDevPackages = extraDevPackages;
+            envVariables = { MESSAGE = "OK"; };
+            shellHook = ''
+              echo $MESSAGE
+            '';
           };
 
           ci = pkgs.nixpkgs.mkShellNoCC {
