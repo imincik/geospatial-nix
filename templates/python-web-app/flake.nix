@@ -60,14 +60,10 @@
           # Geonix CLI
           pkgs.geonix.geonixcli
 
-          # Poetry CLI
-          poetry
-
           # Non-Python packages from Nixpkgs.
           # pkgs.nixpkgs.<PACKAGE>
           pkgs.nixpkgs.docker-compose
           pkgs.nixpkgs.postgresql # to get psql client
-          pkgs.nixpkgs.zlib
         ];
 
       in
@@ -95,27 +91,18 @@
         devShells = rec {
 
           # Development shell
-          dev = pkgs.nixpkgs.mkShellNoCC {
+          dev = geonix.lib.mkPythonDevShell {
+            inherit pkgs;
+            version = pythonVersion;
+            extraPythonPackages = pythonPackages;
+            extraDevPackages = extraDevPackages;
+            envVariables = {
+              PGHOST = "localhost";
+              PGPORT = "15432";
+              PGUSER = "postgres";
 
-            # List of packages to be present in shell environment
-            packages = [
-              # Geonix CLI
-              pkgs.geonix.geonixcli
-
-              pkgs.nixpkgs.${pythonVersion}
-
-              pythonPackages
-              extraDevPackages
-            ];
-
-            # Environment variable passed to shell
-            PGHOST = "localhost";
-            PGPORT = "15432";
-            PGUSER = "postgres";
-
-            WELCOME_MESSAGE = "Welcome Pythonista !";
-
-            # Shell commands to execute after shell environment is started
+              WELCOME_MESSAGE = "Welcome Pythonista !";
+            };
             shellHook = ''
               export DOCKER_UID=$(id -u)
               export DOCKER_GID=$(id -g)
