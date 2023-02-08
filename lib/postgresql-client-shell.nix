@@ -8,10 +8,10 @@ Parameters:
                   be in format as returned by getPackages function.
 
 * version:        PostgreSQL version.
-                  Example: `postgresql_12`. Default: `postgresql`
+                  Example: `postgresql_12`. Default: `postgresql`.
 
 * port:           PostgreSQL port.
-                  Default: `15432`
+                  Default: `15432`.
 
 */
 
