@@ -12,13 +12,13 @@ WORKDIR /opt/deployment
 # all its dependencies as well.
 COPY flake.nix flake.lock deployment.nix ./
 RUN nix profile install --accept-flake-config .#deployment
-RUN nix develop --accept-flake-config .#deployment --command echo OK
+RUN nix develop --accept-flake-config --command echo OK
 
 # Install Poetry managed dependencies and the application
 COPY src ./src
 COPY pyproject.toml poetry.* README.md ./
 
-RUN nix develop --accept-flake-config .#deployment --command poetry install --without=dev
+RUN nix develop --accept-flake-config --command poetry install --without=dev
 
 # Cleanup
 RUN nix store gc

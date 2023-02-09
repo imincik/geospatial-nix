@@ -69,6 +69,7 @@ jobs:
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
 
 
+    # python-web-app
     - name: Test template (if macOS + python-web-app template - local backend)
       run: |
         nix develop --accept-flake-config --command poetry install
@@ -81,9 +82,7 @@ jobs:
 
     - name: Test template (if Linux + python-web-app template - DB backend)
       run: |
-        nix develop --accept-flake-config --command geonix build geonix-postgresql-image
-        docker load < ./result
-        nix develop --accept-flake-config --command docker-compose up -d
+        nix develop --accept-flake-config .#postgresql --command echo &
 
         nix develop --accept-flake-config --command poetry install
 
