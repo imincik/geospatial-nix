@@ -40,6 +40,16 @@
 
         devShells = rec {
 
+          # Dev shell
+          dev = geonix.lib.mkDevShell {
+            inherit pkgs;
+            packages = extraDevPackages;
+            envVariables = { MESSAGE = "OK"; };
+            shellHook = ''
+              echo $MESSAGE
+            '';
+          };
+
           # PostgreSQL shell
           postgresql = geonix.lib.mkPostgresqlShell {
             inherit pkgs;
