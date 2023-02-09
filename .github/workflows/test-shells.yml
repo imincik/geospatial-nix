@@ -16,6 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         shell:
+          - dev
           - postgresql
           - pgadmin
           - python
@@ -37,6 +38,16 @@ jobs:
     - name: Flake check
       run: >
         nix flake check --no-build --accept-flake-config
+      working-directory: tests/shells
+
+
+    # dev shell
+    - name: Test shell environment (if dev shell)
+      run: >
+        nix develop --accept-flake-config .#dev
+        --command tig --version
+        | grep "tig version"
+      if: ${{ matrix.shell == 'dev' }}
       working-directory: tests/shells
 
 
@@ -86,6 +97,8 @@ jobs:
       if: ${{ matrix.shell == 'pgadmin' }}
       working-directory: tests/shells
 
+
+    # python shell
     - name: Test shell environment (if python shell)
       run: >
         nix develop --accept-flake-config .#python

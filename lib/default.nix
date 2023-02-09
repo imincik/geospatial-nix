@@ -70,6 +70,7 @@
 
 
   # mkShell functions
+  mkDevShell = import ./dev-shell.nix;
   mkPgAdminShell = import ./pgadmin-shell.nix;
   mkPostgresqlClientShell = import ./postgresql-client-shell.nix;
   mkPostgresqlShell = import ./postgresql-shell.nix;
