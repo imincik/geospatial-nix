@@ -33,8 +33,10 @@
       {
 
         devShells = rec {
-          dev = pkgs.nixpkgs.mkShellNoCC {
-            packages = [
+
+          dev = pkgs.nixpkgs.mkShell {
+
+            buildInputs = [
               pkgs.geonix.geonixcli
               pythonEnv
               pkgs.geonix.gdal

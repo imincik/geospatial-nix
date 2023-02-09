@@ -79,8 +79,9 @@ let
       '';
 in
 
-pkgs.nixpkgs.mkShellNoCC {
-  packages = [ postgresPackage pkgs.nixpkgs.honcho ];
+pkgs.nixpkgs.mkShell {
+
+  buildInputs = [ postgresPackage pkgs.nixpkgs.honcho ];
 
   shellHook = ''
     mkdir -p ${postgresServiceDir}

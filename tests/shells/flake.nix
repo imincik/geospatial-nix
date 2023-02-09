@@ -70,8 +70,8 @@
             '';
           };
 
-          ci = pkgs.nixpkgs.mkShellNoCC {
-            packages = [
+          ci = pkgs.nixpkgs.mkShell {
+            buildInputs = [
               pkgs.nixpkgs.netcat-gnu
             ];
           };

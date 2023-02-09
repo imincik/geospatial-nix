@@ -357,8 +357,10 @@
                 ]);
 
               in
-              pkgs.mkShellNoCC {
-                packages = with self.packages.${system}; [
+              pkgs.mkShell {
+
+                nativeBuildInputs = [ pkgs.bashInteractive ];
+                buildInputs = with self.packages.${system}; [
                   gdal
                   geos
                   pdal
@@ -368,9 +370,9 @@
               };
 
             # CI shell
-            ci = pkgs.mkShellNoCC {
+            ci = pkgs.mkShell {
 
-              packages = with pkgs; [
+              buildInputs = with pkgs; [
                 jq
                 nix-prefetch-git
                 nix-prefetch-github

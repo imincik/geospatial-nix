@@ -63,8 +63,9 @@ let
       '';
 in
 
-pkgs.nixpkgs.mkShellNoCC {
-  packages = [ pkgs.nixpkgs.pgadmin4 pkgs.nixpkgs.honcho ];
+pkgs.nixpkgs.mkShell {
+
+  buildInputs = [ pkgs.nixpkgs.pgadmin4 pkgs.nixpkgs.honcho ];
 
   shellHook = ''
     mkdir -p ${pgadminServiceDir}

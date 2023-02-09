@@ -121,10 +121,12 @@
           };
 
           # Main workspace shell
-          cli = pkgs.nixpkgs.mkShellNoCC {
+          cli = pkgs.nixpkgs.mkShell {
+
+            nativeBuildInputs = [ pkgs.nixpkgs.bashInteractive ];
 
             # List of packages to be present in shell environment
-            packages = [
+            buildInputs = [
               # Geonix CLI
               pkgs.geonix.geonixcli
 
