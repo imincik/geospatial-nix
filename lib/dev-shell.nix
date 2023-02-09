@@ -1,10 +1,10 @@
 /*
 
 Function:         mkDevShell
-Description:      Create basic development shell.
+Description:      Create interactive development shell.
 
 Parameters:
-* pkgs:           packages attribute set used to build shell environment. Must
+* pkgs:           set of packages used to build shell environment. Must
                   be in format as returned by getPackages function.
 
 * packages:

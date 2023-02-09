@@ -1,10 +1,10 @@
 /*
 
 Function:         mkPythonDevShell
-Description:      Create Python development shell.
-
+Description:      Create interactive Python development shell containing
+                  Python interpreter and Poetry packages manager.
 Parameters:
-* pkgs:           packages attribute set used to build shell environment. Must
+* pkgs:           set of packages used to build shell environment. Must
                   be in format as returned by getPackages function.
 
 * version:        Python version.

@@ -1,10 +1,12 @@
 /*
 
 Function:         mkPostgresqlClientShell
-Description:      Create PostgreSQL CLI client shell.
+Description:      Create interactive PostgreSQL client shell containing
+                  pre-configured connection settings to database running
+                  in PostgreSQL shell.
 
 Parameters:
-* pkgs:           packages attribute set used to build shell environment. Must
+* pkgs:           set of packages used to build shell environment. Must
                   be in format as returned by getPackages function.
 
 * version:        PostgreSQL version.

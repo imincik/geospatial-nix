@@ -4,7 +4,7 @@ Function:         mkPostgresqlShell
 Description:      Create PostgreSQL/PostGIS database shell.
 
 Parameters:
-* pkgs:           packages attribute set used to build shell environment. Must
+* pkgs:           set of packages used to build shell environment. Must
                   be in format as returned by getPackages function.
 
 * version:        PostgreSQL version.
@@ -17,8 +17,10 @@ Parameters:
                   Default: `[ "--locale=C" "--encoding=UTF8" ]`.
 
 * extraPostgresqlPackages:
-                  extra PostgreSQL extensions to add.
-                  Example: `[ pkgs.nixpkgs.postgresql_12.pkgs.pgrouting ]`. Default: `[]`.
+                  extra PostgreSQL extensions to add. PostGIS extension is
+                  always included.
+                  Example: `[ pkgs.nixpkgs.postgresql_12.pkgs.pgrouting ]`.
+                  Default: `[]`.
 
 */
 
