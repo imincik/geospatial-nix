@@ -54,9 +54,10 @@ let
   '';
 in
 
-pkgs.nixpkgs.mkShellNoCC {
+pkgs.nixpkgs.mkShell {
 
-  packages = [
+  nativeBuildInputs = [ pkgs.nixpkgs.bashInteractive ];
+  buildInputs = [
     python
     poetry
     extraDevPackages

@@ -114,10 +114,10 @@
           };
 
           # Deployment shell
-          deployment = pkgs.nixpkgs.mkShellNoCC {
+          deployment = pkgs.nixpkgs.mkShell {
 
             # List of packages to be present in shell environment
-            packages = [
+            buildInputs = [
               poetry
             ];
           };

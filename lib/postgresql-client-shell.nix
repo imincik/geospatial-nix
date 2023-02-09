@@ -25,9 +25,10 @@ let
   postgresPort = port;
 in
 
-pkgs.nixpkgs.mkShellNoCC {
+pkgs.nixpkgs.mkShell {
 
-  packages = [ pkgs.nixpkgs.postgresql pkgs.nixpkgs.pgcli ];
+  nativeBuildInputs = [ pkgs.nixpkgs.bashInteractive ];
+  buildInputs = [ pkgs.nixpkgs.postgresql pkgs.nixpkgs.pgcli ];
 
   shellHook = ''
     export POSTGRES_SERVICE_DIR="$(pwd)/${postgresServiceDir}"
