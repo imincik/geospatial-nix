@@ -60,9 +60,8 @@ pkgs.nixpkgs.mkShell {
   buildInputs = [
     python
     poetry
-    extraDevPackages
     pkgs.nixpkgs.zlib
-  ];
+  ] ++ extraDevPackages;
 
   shellHook = ''
     if [ ! -f "poetry.toml" ]; then
