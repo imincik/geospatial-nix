@@ -120,13 +120,12 @@
             inherit pkgs;
           };
 
-          # Main workspace shell
-          cli = pkgs.nixpkgs.mkShell {
-
-            nativeBuildInputs = [ pkgs.nixpkgs.bashInteractive ];
+          # Workspace shell
+          cli = geonix.lib.mkDevShell {
+            inherit pkgs;
 
             # List of packages to be present in shell environment
-            buildInputs = [
+            packages = [
               # Geonix CLI
               pkgs.geonix.geonixcli
 
