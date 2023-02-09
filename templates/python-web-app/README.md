@@ -13,7 +13,6 @@ Final application is packaged in container image using traditional `Dockerfile`.
 ### Provided by Geonix
 
 * shapely
-* PostgreSQL/PostGIS DB container image
 
 ### Provided by Nixpkgs
 
@@ -44,7 +43,7 @@ git add *
 
 ## Usage
 
-### Development
+### Development (with local data backend)
 
 * Enter development shell
 
@@ -59,20 +58,10 @@ poetry env use $(which python)
 poetry install
 ```
 
-* Launch Python application development server (with local data backend)
+* Launch Python development server
 
 ```
 poetry run flask --app src/python_app run --reload
-```
-
-* Launch Python application development server (with database data backend)
-
-```
-geonix build geonix-postgresql-image
-docker load < ./result
-docker-compose up -d
-
-BACKEND=db poetry run flask --app src/python_app run --reload
 ```
 
 * Exit development shell
@@ -81,13 +70,38 @@ BACKEND=db poetry run flask --app src/python_app run --reload
 exit
 ```
 
-### PostgreSQL
+### Development (with database data backend)
 
-* Connect to PostgreSQL DB container (run in development shell)
+* Launch PostgreSQL database
+
+```
+nix develop .#postgresql
+```
+
+* Enter development shell (run in new terminal window)
+
+```
+nix develop
+```
+
+* Launch Python development server
+
+```
+BACKEND=db poetry run flask --app src/python_app run --reload
+```
+
+* Connect to PostgreSQL DB container (optional)
 
 ```
 psql
 ```
+
+* Exit development shell
+
+```
+exit
+```
+
 
 ### Geonix CLI
 

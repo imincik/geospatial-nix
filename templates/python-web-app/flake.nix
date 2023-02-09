@@ -52,17 +52,12 @@
           # See: pyproject.toml file.
         ];
 
-        poetry = pkgs.nixpkgs.poetry.override {
-          python = pkgs.nixpkgs.${pythonVersion};
-        };
-
         extraDevPackages = [
           # Geonix CLI
           pkgs.geonix.geonixcli
 
           # Non-Python packages from Nixpkgs.
           # pkgs.nixpkgs.<PACKAGE>
-          pkgs.nixpkgs.docker-compose
           pkgs.nixpkgs.postgresql # to get psql client
         ];
 
@@ -90,6 +85,11 @@
 
         devShells = rec {
 
+          # PostgreSQL shell
+          postgresql = geonix.lib.mkPostgresqlShell {
+            inherit pkgs;
+          };
+
           # Development shell
           dev = geonix.lib.mkPythonDevShell {
             inherit pkgs;
@@ -111,15 +111,6 @@
               echo -e "\nUsing $(python --version)."
               echo
             '';
-          };
-
-          # Deployment shell
-          deployment = pkgs.nixpkgs.mkShell {
-
-            # List of packages to be present in shell environment
-            buildInputs = [
-              poetry
-            ];
           };
 
           default = dev;

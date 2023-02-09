@@ -1,9 +1,0 @@
-version: "3.9"
-services:
-  postgres:
-    image: geonix-postgresql
-    ports:
-      - "15432:5432"
-    user: "${DOCKER_UID}:${DOCKER_GID}"
-    volumes:
-      - .:/data
