@@ -15,4 +15,13 @@
       See README.md file for instructions how to use this template.
     '';
   };
+
+
+  simple = {
+    description = "Simple configuration";
+    path = ./templates/simple;
+    welcomeText = ''
+      See README.md file for instructions how to use this template.
+    '';
+  };
 }
