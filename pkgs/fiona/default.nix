@@ -6,13 +6,13 @@
 
 buildPythonPackage rec {
   pname = "fiona";
-  version = "1.9.0";
+  version = "1.9.1";
 
   src = fetchFromGitHub {
     owner = "Toblerity";
     repo = "Fiona";
     rev = "${version}";
-    hash = "sha256-P4uL3R/PBymgKVKpJJhwVlhJ0ELSbf6yn+46UOC6Mhk=";
+    hash = "sha256-2CGLkgnpCAh9G+ILol5tmRj9S6/XeKk8eLzGEODiyP8=";
   };
 
   CXXFLAGS = lib.optionalString stdenv.cc.isClang "-std=c++11";
