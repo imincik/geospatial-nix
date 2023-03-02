@@ -16,6 +16,10 @@ Parameters:
 * initdbArgs:     PostgreSQL initdb arguments.
                   Default: `[ "--locale=C" "--encoding=UTF8" ]`.
 
+* initialDatabase:
+                  Name of user database created during first run.
+                  Default: `geonix`.
+
 * extraPostgresqlPackages:
                   extra PostgreSQL extensions to add. PostGIS extension is
                   always included.
@@ -28,6 +32,7 @@ Parameters:
 , version ? "postgresql"
 , port ? 15432
 , initdbArgs ? [ "--locale=C" "--encoding=UTF8" ]
+, initialDatabase ? "geonix"
 , extraPostgresqlPackages ? []
 }:
 
@@ -39,6 +44,8 @@ let
   ] ++ extraPostgresqlPackages);
 
   postgresInitdbArgs = initdbArgs;
+
+  postgresInitialDatabase = initialDatabase;
 
   postgresConf =
     pkgs.nixpkgs.writeText "postgresql.conf"
@@ -68,10 +75,13 @@ let
           pg_ctl initdb -o "${pkgs.nixpkgs.lib.concatStringsSep " " postgresInitdbArgs} -U $PGUSER"
           cat "${postgresConf}" >> $PGDATA/postgresql.conf
 
+          echo "CREATE DATABASE ${postgresInitialDatabase};" \
+          | ${postgresPackage}/bin/postgres --single postgres
+
           echo -e "\nPostgreSQL init process complete. Ready for start up.\n"
         fi
 
-        exec ${postgresPackage}/bin/postgres -p $PGPORT -k $PGDATA
+        ${postgresPackage}/bin/postgres -p $PGPORT -k $PGDATA
       '';
 
   postgresServiceProcfile =

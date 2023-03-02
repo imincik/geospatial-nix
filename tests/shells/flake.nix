@@ -55,6 +55,7 @@
             inherit pkgs;
             version = postgresqlVersion;
             extraPostgresqlPackages = extraPostgresqlPackages;
+            initialDatabase = "test";
           };
 
           # PSQL shell
