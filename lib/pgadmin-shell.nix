@@ -53,7 +53,7 @@ let
           > $PGADMIN_SERVICE_DIR/config/config_local.py
 
         PYTHONPATH=$PYTHONPATH:$PGADMIN_SERVICE_DIR/config
-        exec pgadmin4
+        pgadmin4
       '';
 
   pgadminServiceProcfile =
