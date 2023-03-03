@@ -9,28 +9,35 @@ Parameters:
 * pkgs:           set of packages used to build shell environment. Must
                   be in format as returned by getPackages function.
 
-* version:        PostgreSQL version.
+* postgresqlVersion:
+                  PostgreSQL version.
                   Example: `postgresql_12`. Default: `postgresql`.
 
-* port:           PostgreSQL port.
+* postresqlPort:  PostgreSQL port.
                   Default: `15432`.
 
 */
 
 { pkgs
-, version ? "postgresql"
-, port ? 15432
+, postgresqlVersion ? "postgresql"
+, postresqlPort ? 15432
+, extraPackages ? []
 }:
 
 let
-  postgresServiceDir = ".geonix/services/${version}";
-  postgresPort = port;
+  postgresServiceDir = ".geonix/services/${postgresqlVersion}";
+  postgresVersion = postgresqlVersion;
+  postgresPort = postresqlPort;
 in
 
 pkgs.nixpkgs.mkShell {
 
   nativeBuildInputs = [ pkgs.nixpkgs.bashInteractive ];
-  buildInputs = [ pkgs.nixpkgs.postgresql pkgs.nixpkgs.pgcli ];
+  buildInputs = [
+    pkgs.nixpkgs."${postgresVersion}"
+    pkgs.geonix."${postgresVersion}-postgis"
+    pkgs.nixpkgs.pgcli
+  ] ++ extraPackages;
 
   shellHook = ''
     export POSTGRES_SERVICE_DIR="$(pwd)/${postgresServiceDir}"
