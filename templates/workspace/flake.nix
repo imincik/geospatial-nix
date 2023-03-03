@@ -112,7 +112,7 @@
           # PSQL shell
           psql = geonix.lib.mkPostgresqlClientShell {
             inherit pkgs;
-            version = postgresqlVersion;
+            postgresqlVersion = postgresqlVersion;
           };
 
           # pgAdmin shell
