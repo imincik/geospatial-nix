@@ -14,7 +14,7 @@ Parameters:
                   extra Python packages to add to Python environment.
                   Example: `pkgs.geonix.python3-fiona`. Default: `[]`.
 
-* extraDevPackages:
+* extraPackages:
                   extra non-Python packages to install in shell environment.
                   Example: `pkgs.nixpkgs.tig`. Default: `[]`.
 
@@ -29,7 +29,7 @@ Parameters:
 { pkgs
 , version ? "python3"
 , extraPythonPackages ? []
-, extraDevPackages ? []
+, extraPackages ? []
 , envVariables ? {}
 , shellHook ? ""
 }:
@@ -61,7 +61,7 @@ pkgs.nixpkgs.mkShell {
     python
     poetry
     pkgs.nixpkgs.zlib
-  ] ++ extraDevPackages;
+  ] ++ extraPackages;
 
   shellHook = ''
     if [ ! -f "poetry.toml" ]; then

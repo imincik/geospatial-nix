@@ -52,7 +52,7 @@
           # See: pyproject.toml file.
         ];
 
-        extraDevPackages = [
+        extraPackages = [
           # Geonix CLI
           pkgs.geonix.geonixcli
 
@@ -95,7 +95,7 @@
             inherit pkgs;
             version = pythonVersion;
             extraPythonPackages = pythonPackages;
-            extraDevPackages = extraDevPackages;
+            extraPackages = extraPackages;
             envVariables = {
               PGHOST = "localhost";
               PGPORT = "15432";
