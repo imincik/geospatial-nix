@@ -16,6 +16,10 @@ Parameters:
 * postresqlPort:  PostgreSQL port.
                   Default: `15432`.
 
+* extraPackages:
+                  extra packages to install in shell environment.
+                  Example: `pkgs.nixpkgs.tig`. Default: `[]`.
+
 */
 
 { pkgs
