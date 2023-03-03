@@ -27,7 +27,7 @@
 
         pythonVersion = "python3";
         extraPythonPackages = [ pkgs.geonix."${pythonVersion}-fiona" ];
-        extraDevPackages = [ pkgs.nixpkgs.tig ];
+        extraPackages = [ pkgs.nixpkgs.tig ];
 
         postgresqlVersion = "postgresql";
         postgresqlInitdbArgs = [ "--locale=C" "--encoding=UTF8" ];
@@ -43,7 +43,7 @@
           # Dev shell
           dev = geonix.lib.mkDevShell {
             inherit pkgs;
-            packages = extraDevPackages;
+            packages = extraPackages;
             envVariables = { MESSAGE = "OK"; };
             shellHook = ''
               echo $MESSAGE
@@ -74,7 +74,7 @@
             inherit pkgs;
             version = pythonVersion;
             extraPythonPackages = extraPythonPackages;
-            extraDevPackages = extraDevPackages;
+            extraPackages = extraPackages;
             envVariables = { MESSAGE = "OK"; };
             shellHook = ''
               echo $MESSAGE
