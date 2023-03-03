@@ -78,6 +78,9 @@ let
           echo "CREATE DATABASE ${postgresInitialDatabase};" \
           | ${postgresPackage}/bin/postgres --single postgres
 
+          echo "CREATE EXTENSION postgis;" \
+          | ${postgresPackage}/bin/postgres --single ${postgresInitialDatabase}
+
           echo -e "\nPostgreSQL init process complete. Ready for start up.\n"
         fi
 
