@@ -43,7 +43,7 @@
           # Dev shell
           dev = geonix.lib.mkDevShell {
             inherit pkgs;
-            packages = extraPackages;
+            extraPackages = extraPackages;
             envVariables = { MESSAGE = "OK"; };
             shellHook = ''
               echo $MESSAGE

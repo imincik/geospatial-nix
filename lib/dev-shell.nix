@@ -7,7 +7,7 @@ Parameters:
 * pkgs:           set of packages used to build shell environment. Must
                   be in format as returned by getPackages function.
 
-* packages:
+* extraPackages:
                   extra packages to install in shell environment.
                   Example: `pkgs.nixpkgs.tig`. Default: `[]`.
 
@@ -20,7 +20,7 @@ Parameters:
 */
 
 { pkgs
-, packages ? []
+, extraPackages ? []
 , envVariables ? {}
 , shellHook ? ""
 }:
@@ -35,7 +35,7 @@ in
 pkgs.nixpkgs.mkShell {
 
   nativeBuildInputs = [ pkgs.nixpkgs.bashInteractive ];
-  buildInputs = packages;
+  buildInputs = extraPackages;
 
   shellHook = ''
     ${startupEnv}

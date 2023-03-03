@@ -125,7 +125,7 @@
             inherit pkgs;
 
             # List of packages to be present in shell environment
-            packages = [
+            extraPackages = [
               # Geonix CLI
               pkgs.geonix.geonixcli
 

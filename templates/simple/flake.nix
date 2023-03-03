@@ -30,7 +30,7 @@
           // {
           default = geonix.lib.mkDevShell {
             inherit pkgs;
-            packages = [ simpleConfig.packages ];
+            extraPackages = [ simpleConfig.packages ];
           };
         };
       }
