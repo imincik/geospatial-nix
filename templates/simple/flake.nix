@@ -26,13 +26,10 @@
 
       in
       {
-        devShells = simpleConfig.shells
-          // {
-          default = geonix.lib.mkDevShell {
-            inherit pkgs;
-            extraPackages = [ simpleConfig.packages ];
-          };
-        };
+        devShells =
+          if builtins.hasAttr "shells" simpleConfig
+            then simpleConfig.shells
+            else {};
       }
     );
 }
