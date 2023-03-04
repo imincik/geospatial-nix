@@ -4,37 +4,39 @@
 
 {
 
-  # List of packages for default interactive shell.
-  # Enter shell: nix develop
-  packages = [
-    pkgs.geonix.geonixcli
-    pkgs.geonix.gdal
-    pkgs.geonix.pdal
-    # pkgs.geonix.qgis
-  ];
-
-
   # List of service shells.
   shells = {
 
-    # Postgresql shell
+    # Default interactive shell.
+    # Launch shell: nix develop
+    default = geonix.lib.mkDevShell {
+      inherit pkgs;
+      extraPackages = [
+        pkgs.geonix.geonixcli
+        pkgs.geonix.gdal
+        pkgs.geonix.pdal
+        # pkgs.geonix.qgis
+      ];
+    };
+
+    # Postgresql shell.
     # Launch shell: nix develop .#postgresql
     postgresql = geonix.lib.mkPostgresqlShell {
       inherit pkgs;
       version = "postgresql_12";
     };
 
-    # PostgreSQL client shell
-    # Launch shell: nix develop .#psql
-    psql = geonix.lib.mkPostgresqlClientShell {
-      inherit pkgs;
-      postgresqlVersion = "postgresql_12";
-    };
-
-    # pgAdmin shell
+    # pgAdmin shell.
     # Launch shell: nix develop .#pgadmin
     pgadmin = geonix.lib.mkPgAdminShell {
       inherit pkgs;
+    };
+
+    # PostgreSQL client shell.
+    # Launch shell: nix develop .#pgclient
+    pgclient = geonix.lib.mkPostgresqlClientShell {
+      inherit pkgs;
+      postgresqlVersion = "postgresql_12";
     };
 
   };

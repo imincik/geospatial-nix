@@ -12,6 +12,8 @@ Configuration defines following shell environments:
 
 * **pgadmin**: pgAdmin service shell
 
+* **pgclient**: interactive PostgreSQL client shell
+
 
 ## Template initialization
 
@@ -39,14 +41,6 @@ git add *
 
 {
 
-  packages = [
-
-    <PACKAGE>
-    <PACKAGE>
-
-  ];
-
-
   shells = {
 
     <SHELL-NAME> = geonix.lib.<SHELL-FUNCTION> {
@@ -61,48 +55,6 @@ git add *
 
 }
 ```
-
-#### packages
-
-List of packages for default interactive shell.
-
-* Example packages configuration
-```
-packages = [
-  pkgs.geonix.gdal
-];
-```
-
-* Enter default shell
-```
-nix develop
-```
-
-#### shells
-
-List of services shells to create.
-
-* Example shells configuration
-```
-shells = {
-
-  postgresql = geonix.lib.mkPostgresqlShell {
-    inherit pkgs;
-    version = "postgresql_12";
-  };
-
-  pgadmin = geonix.lib.mkPgAdminShell {
-    inherit pkgs;
-  };
-
-};
-```
-
-* Launch postgresql service shell
-```
-nix develop .#postgresql
-```
-
 
 ### Default shell
 
