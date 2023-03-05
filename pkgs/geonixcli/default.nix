@@ -25,7 +25,7 @@ stdenv.mkDerivation rec {
   installPhase = ''
     mkdir -p $out/bin $out/nix
 
-    cp $src/nix/overrides.nix $out/nix
+    cp $src/nix/*.nix $out/nix
 
     cp $src/geonix.bash $out/bin/geonix
     chmod +x $out/bin/geonix

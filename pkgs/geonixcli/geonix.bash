@@ -7,7 +7,7 @@ function usage {
   cat <<EOF
 Usage: geonix [-h] [-v] command arg1 [arg2...]
 
-Geonix convenience tools.
+Geonix environment management script.
 
 Available options:
 
@@ -15,6 +15,9 @@ Available options:
 -v, --verbose       Print script debug info
 
 Available commands:
+
+init                Initialize current directory with flake.nix and geonix.nix
+                    files.
 
 search PACKAGE/     Search for packages or container images available in Geonix
        IMAGE        or Nixpkgs repository. Search is perfomed for revisions
@@ -30,7 +33,7 @@ build PACKAGE/      Build Geonix package of container image in revision
                     Note: this command can't be used to get container
                     images on macOS.
 
-override            Create override template file (overrides.nix) in current
+override            Create override template file overrides.nix in current
                     directory to build customized Geonix packages.
 
                     To build customized packages:
@@ -100,90 +103,114 @@ setup_colors
 
 NIX_FLAGS=( --no-warn-dirty --extra-experimental-features nix-command --extra-experimental-features flakes )
 
-# get nixpkgs metadata
-nixpkgs_exists=$( \
-    nix "${NIX_FLAGS[@]}" flake metadata  --json \
-    | jq --raw-output '.locks.nodes.nixpkgs' \
-)
-
-if [ "$nixpkgs_exists" != "null" ]; then
-
-    nixpkgs_url=$( \
+function get_nixpkgs_metadata {
+    nixpkgs_exists=$( \
         nix "${NIX_FLAGS[@]}" flake metadata  --json \
-        | jq --raw-output '
-            (.locks.nodes.nixpkgs.original.type)
-            + ":"
-            + (.locks.nodes.nixpkgs.original.owner)
-            + "/"
-            + (.locks.nodes.nixpkgs.original.repo)
-        ' \
+        | jq --raw-output '.locks.nodes.nixpkgs' \
     )
 
-    nixpkgs_ref=$( \
-        nix "${NIX_FLAGS[@]}" flake metadata  --json \
-        | jq --raw-output '.locks.nodes.nixpkgs.original.ref' \
-        | sed 's|/$||'
-    )
+    if [ "$nixpkgs_exists" != "null" ]; then
 
-    nixpkgs_rev=$( \
-        nix "${NIX_FLAGS[@]}" flake metadata  --json \
-        | jq --raw-output '.locks.nodes.nixpkgs.locked.rev' \
-        | cut -c1-7 \
-    )
-fi
-
-# get geonix metadata
-geonix_exists=$( \
-    nix "${NIX_FLAGS[@]}" flake metadata  --json \
-    | jq --raw-output '.locks.nodes.geonix' \
-)
-
-if [ "$geonix_exists" != "null" ]; then
-
-    geonix_type=$( \
-        nix "${NIX_FLAGS[@]}" flake metadata  --json \
-        | jq --raw-output '.locks.nodes.geonix.original.type'
-    )
-
-    if [ "$geonix_type" == "github" ]; then
-
-        geonix_url=$( \
+        nixpkgs_url=$( \
             nix "${NIX_FLAGS[@]}" flake metadata  --json \
             | jq --raw-output '
-                (.locks.nodes.geonix.original.type)
-                + ":" + (.locks.nodes.geonix.original.owner)
+                (.locks.nodes.nixpkgs.original.type)
+                + ":"
+                + (.locks.nodes.nixpkgs.original.owner)
                 + "/"
-                + (.locks.nodes.geonix.original.repo)
+                + (.locks.nodes.nixpkgs.original.repo)
             ' \
         )
 
-    elif [ "$geonix_type" == "path" ]; then
-
-        geonix_url=$( \
+        nixpkgs_ref=$( \
             nix "${NIX_FLAGS[@]}" flake metadata  --json \
-            | jq --raw-output '.locks.nodes.geonix.original.path' \
+            | jq --raw-output '.locks.nodes.nixpkgs.original.ref' \
+            | sed 's|/$||'
+        )
+
+        nixpkgs_rev=$( \
+            nix "${NIX_FLAGS[@]}" flake metadata  --json \
+            | jq --raw-output '.locks.nodes.nixpkgs.locked.rev' \
+            | cut -c1-7 \
         )
     fi
+}
 
-    geonix_ref=$( \
+function get_geonix_metadata {
+    geonix_exists=$( \
         nix "${NIX_FLAGS[@]}" flake metadata  --json \
-        | jq --raw-output '.locks.nodes.geonix.original.ref' \
-        | sed 's|/$||'
+        | jq --raw-output '.locks.nodes.geonix' \
     )
 
-    geonix_rev=$( \
-        nix "${NIX_FLAGS[@]}" flake metadata  --json \
-        | jq --raw-output '.locks.nodes.geonix.locked.rev' \
-        | cut -c1-7 \
-    )
-fi
+    if [ "$geonix_exists" != "null" ]; then
+
+        geonix_type=$( \
+            nix "${NIX_FLAGS[@]}" flake metadata  --json \
+            | jq --raw-output '.locks.nodes.geonix.original.type'
+        )
+
+        if [ "$geonix_type" == "github" ]; then
+
+            geonix_url=$( \
+                nix "${NIX_FLAGS[@]}" flake metadata  --json \
+                | jq --raw-output '
+                    (.locks.nodes.geonix.original.type)
+                    + ":" + (.locks.nodes.geonix.original.owner)
+                    + "/"
+                    + (.locks.nodes.geonix.original.repo)
+                ' \
+            )
+
+        elif [ "$geonix_type" == "path" ]; then
+
+            geonix_url=$( \
+                nix "${NIX_FLAGS[@]}" flake metadata  --json \
+                | jq --raw-output '.locks.nodes.geonix.original.path' \
+            )
+        fi
+
+        geonix_ref=$( \
+            nix "${NIX_FLAGS[@]}" flake metadata  --json \
+            | jq --raw-output '.locks.nodes.geonix.original.ref' \
+            | sed 's|/$||'
+        )
+
+        geonix_rev=$( \
+            nix "${NIX_FLAGS[@]}" flake metadata  --json \
+            | jq --raw-output '.locks.nodes.geonix.locked.rev' \
+            | cut -c1-7 \
+        )
+    fi
+}
+
+
+# INIT
+if [ "${args[0]}" == "init" ]; then
+
+    for init_file in "flake.nix" "geonix.nix"; do
+        if [ -f "$(pwd)/$init_file" ]; then
+            die "$init_file file already exists in $(pwd) directory."
+        fi
+    done
+
+    for init_file in "flake.nix" "geonix.nix"; do
+        cp "$GEONIX_NIX_DIR"/$init_file "$(pwd)"/$init_file
+        chmod u+w "$(pwd)"/$init_file
+
+        echo "$init_file created in $(pwd)/$init_file."
+    done
+
+    echo "Add all files to git before use !"
 
 
 # SEARCH
-if [ "${args[0]}" == "search" ]; then
+elif [ "${args[0]}" == "search" ]; then
 
     [[ ${#args[@]} -lt 2 ]] \
         && die "Missing package search string. Use --help to get more information."
+
+    get_nixpkgs_metadata
+    get_geonix_metadata
 
     function nix_search {
         results=$(nix "${NIX_FLAGS[@]}" search --json "$1" "$2")
@@ -255,6 +282,9 @@ elif [ "${args[0]}" == "build" ]; then
 
     image="${args[1]}"
 
+    get_nixpkgs_metadata
+    get_geonix_metadata
+
     if [ "$geonix_exists" != "null" ] && [ "$geonix_rev" != "null" ]; then
         nix build --accept-flake-config "$geonix_url/$geonix_rev#$image"
     elif [ "$geonix_exists" != "null" ] && [ "$geonix_rev" == "null" ]; then
@@ -269,12 +299,13 @@ elif [ "${args[0]}" == "build" ]; then
 elif [ "${args[0]}" == "override" ]; then
 
     if [ -f "$(pwd)/overrides.nix" ]; then
-        die "Override template file already exists in $(pwd)/overrides.nix ."
+        die "Override template file already exists in $(pwd) directory."
     else
         cp "$GEONIX_NIX_DIR"/overrides.nix "$(pwd)"/overrides.nix
         chmod u+w "$(pwd)"/overrides.nix
-        echo -e "\nOverride template file created in $(pwd)/overrides.nix ."
-        echo "This file must be added to git before use."
+
+        echo "Override template file created in $(pwd)/overrides.nix ."
+        echo "Add all files to git before use !"
     fi
 
 
