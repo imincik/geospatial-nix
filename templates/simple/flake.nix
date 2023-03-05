@@ -28,7 +28,7 @@
       {
         packages =
           if builtins.hasAttr "packages" geonixConfig
-          then geonixConfig.packages
+          then utils.lib.filterPackages system geonixConfig.packages
           else { };
 
         devShells =

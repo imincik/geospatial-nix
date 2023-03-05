@@ -1,17 +1,15 @@
 {
-  description = "Example Python web application";
+  description = "Simple Geonix configuration";
 
   nixConfig = {
     extra-substituters = [ "https://geonix.cachix.org" ];
     extra-trusted-public-keys = [ "geonix.cachix.org-1:iyhIXkDLYLXbMhL3X3qOLBtRF8HEyAbhPXjjPeYsCl0=" ];
-
     bash-prompt = "\\[\\033[1m\\][geonix]\\[\\033\[m\\]\\040\\w >\\040";
   };
 
   inputs = {
     geonix.url = "github:imincik/geonix";
     nixpkgs.follows = "geonix/nixpkgs";
-
     utils.url = "github:numtide/flake-utils";
   };
 
@@ -22,98 +20,21 @@
 
         pkgs = geonix.lib.getPackages {
           inherit system nixpkgs geonix;
-
-          pythonVersion = pythonVersion;
-
-          # Run 'geonix override' command to get overrides.nix template file and
-          # enable following line to start customizing Geonix packages.
-
-          # overridesFile = ./overrides.nix;
         };
 
-        # Choose Python version here.
-        # Supported versions:
-        # * python3   - default Python version (3.10)
-        # * python39  - Python 3.9
-        # * python310 - Python 3.10
-        # * python311 - Python 3.11
-        pythonVersion = "python3";
-
-        pythonPackages = [
-          # Geonix Python packages
-          pkgs.geonix."${pythonVersion}-psycopg"
-          pkgs.geonix."${pythonVersion}-shapely"
-
-          # Other Python packages from Nixpkgs
-          # pkgs.nixpkgs.<PYTHON-VERSION>.pkgs.<PACKAGE>
-          pkgs.nixpkgs.${pythonVersion}.pkgs.matplotlib
-
-          # The rest of the Python dependencies are managed by Poetry.
-          # See: pyproject.toml file.
-        ];
-
-        extraPackages = [
-          # Geonix CLI
-          pkgs.geonix.geonixcli
-
-          # Non-Python packages from Nixpkgs.
-          # pkgs.nixpkgs.<PACKAGE>
-          pkgs.nixpkgs.postgresql # to get psql client
-        ];
+        geonixConfig = import ./geonix.nix { inherit pkgs geonix; };
 
       in
       {
+        packages =
+          if builtins.hasAttr "packages" geonixConfig
+          then utils.lib.filterPackages system geonixConfig.packages
+          else { };
 
-
-        #
-        ### PACKAGES ###
-        #
-
-        packages = utils.lib.filterPackages system rec {
-
-          # container deployment
-          deployment = pkgs.nixpkgs.callPackage ./deployment.nix {
-            pythonVersion = pythonVersion;
-            pythonPackages = pythonPackages;
-          };
-        };
-
-
-        #
-        ### SHELLS ###
-        #
-
-        devShells = rec {
-
-          # PostgreSQL shell
-          postgresql = geonix.lib.mkPostgresqlShell {
-            inherit pkgs;
-          };
-
-          # Development shell
-          dev = geonix.lib.mkPythonDevShell {
-            inherit pkgs;
-            version = pythonVersion;
-            extraPythonPackages = pythonPackages;
-            extraPackages = extraPackages;
-            envVariables = {
-              PGHOST = "localhost";
-              PGPORT = "15432";
-              PGUSER = "postgres";
-
-              WELCOME_MESSAGE = "Welcome Pythonista !";
-            };
-            shellHook = ''
-              export DOCKER_UID=$(id -u)
-              export DOCKER_GID=$(id -g)
-
-              echo "$WELCOME_MESSAGE"
-              echo -e "\nUsing $(python --version)."
-              echo
-            '';
-          };
-
-          default = dev;
-        };
-      });
+        devShells =
+          if builtins.hasAttr "shells" geonixConfig
+          then geonixConfig.shells
+          else { };
+      }
+    );
 }
