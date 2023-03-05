@@ -1,0 +1,45 @@
+name: Test geonix init
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+env:
+  NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}"
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Install nix
+      uses: cachix/install-nix-action@v20
+
+    - name: Set new project directory
+      run: |
+        echo "TEMPLATE_PROJECT_DIR=$(dirname $GITHUB_WORKSPACE)/template-project" >> $GITHUB_ENV
+
+    - name: Prepare new project directory
+      run: |
+        mkdir $TEMPLATE_PROJECT_DIR
+
+    - name: Create new project
+      run: |
+        git init
+
+        nix run ${GITHUB_WORKSPACE}#geonixcli -- init
+
+        git add *
+      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
+
+    - name: Test default shell
+      run: >
+        nix develop --accept-flake-config --command gdalinfo --version
+      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
