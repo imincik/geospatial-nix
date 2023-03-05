@@ -10,7 +10,7 @@ WORKDIR /opt/deployment
 # Install all Nix dependencies upfront.
 # Install Nix deployment package and run deployment shell to trigger download of
 # all its dependencies as well.
-COPY flake.nix flake.lock deployment.nix ./
+COPY flake.nix flake.lock geonix.nix deployment.nix ./
 RUN nix profile install --accept-flake-config .#deployment
 RUN nix develop --accept-flake-config --command echo OK
 
