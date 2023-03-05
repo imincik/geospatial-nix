@@ -22,14 +22,19 @@
           inherit system nixpkgs geonix;
         };
 
-        simpleConfig = import ./shells.nix { inherit pkgs geonix; };
+        geonixConfig = import ./geonix.nix { inherit pkgs geonix; };
 
       in
       {
+        packages =
+          if builtins.hasAttr "packages" geonixConfig
+          then geonixConfig.packages
+          else { };
+
         devShells =
-          if builtins.hasAttr "shells" simpleConfig
-            then simpleConfig.shells
-            else {};
+          if builtins.hasAttr "shells" geonixConfig
+          then geonixConfig.shells
+          else { };
       }
     );
 }
