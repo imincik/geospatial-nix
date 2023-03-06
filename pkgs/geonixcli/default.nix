@@ -25,13 +25,13 @@ stdenv.mkDerivation rec {
   installPhase = ''
     mkdir -p $out/bin $out/nix
 
-    cp $src/nix/*.nix $out/nix
+    cp -a $src/templates $out/
 
     cp $src/geonix.bash $out/bin/geonix
     chmod +x $out/bin/geonix
 
     wrapProgram $out/bin/geonix \
-      --set GEONIX_NIX_DIR $out/nix \
+      --set GEONIX_TEMPLATES_DIR $out/templates \
       --prefix PATH : ${lib.makeBinPath [ bash jq ]}
   '';
 

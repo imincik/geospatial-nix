@@ -187,7 +187,7 @@ if [ "${args[0]}" == "init" ]; then
     done
 
     for init_file in "flake.nix" "geonix.nix"; do
-        cp "$GEONIX_NIX_DIR"/$init_file "$(pwd)"/$init_file
+        cp "$GEONIX_TEMPLATES_DIR"/init/$init_file "$(pwd)"/$init_file
         chmod u+w "$(pwd)"/$init_file
 
         echo "$init_file created in $(pwd)/$init_file."
@@ -273,7 +273,7 @@ elif [ "${args[0]}" == "override" ]; then
     if [ -f "$(pwd)/overrides.nix" ]; then
         die "Override template file already exists in $(pwd) directory."
     else
-        cp "$GEONIX_NIX_DIR"/overrides.nix "$(pwd)"/overrides.nix
+        cp "$GEONIX_TEMPLATES_DIR"/override/overrides.nix "$(pwd)"/overrides.nix
         chmod u+w "$(pwd)"/overrides.nix
 
         echo "Override template file created in $(pwd)/overrides.nix ."
