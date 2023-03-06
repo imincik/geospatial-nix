@@ -5,13 +5,12 @@ on:
   push:
     branches:
       - master
-  workflow_dispatch:
 
 env:
   NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}"
 
 jobs:
-  test-shell:
+  test-function:
     strategy:
       fail-fast: false
       matrix:

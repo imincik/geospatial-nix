@@ -18,7 +18,6 @@ jobs:
         image:
           - geonix-base-image
           - geonix-postgresql-image
-          - geonix-python-image
         os:
           - ubuntu-22.04
 
@@ -53,10 +52,3 @@ jobs:
         nix develop .#ci \
         --command psql -U postgres -h localhost -p 15432 -c 'CREATE EXTENSION postgis; SELECT postgis_full_version();'
       if: ${{ matrix.image == 'geonix-postgresql-image' }}
-
-    - name: Test image (if geonix-python-image)
-      run: |
-        docker load < result
-
-        docker run -u "$(id -u):$(id -g)" geonix-python -c "import fiona; print(fiona.supported_drivers)"
-      if: ${{ matrix.image == 'geonix-python-image' }}

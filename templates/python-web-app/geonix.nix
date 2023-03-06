@@ -82,11 +82,14 @@ in
   # Packages
   packages = {
 
-    # container deployment
-    deployment = pkgs.nixpkgs.callPackage ./deployment.nix {
-      pythonVersion = pythonVersion;
-      pythonPackages = pythonPackages;
-    };
+    container = geonix.lib.mkPythonContainer {
+      inherit pkgs;
 
+      name = "python-app-base";
+
+      pythonVersion = pythonVersion;
+      extraPythonPackages = pythonPackages;
+      extraPackages = extraPackages;
+    };
   };
 }
