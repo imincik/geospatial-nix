@@ -20,18 +20,11 @@ init                Initialize current directory with flake.nix and geonix.nix
                     files.
 
 search PACKAGE/     Search for packages or container images available in Geonix
-       IMAGE        or Nixpkgs repository. Search is perfomed for revisions
+       IMAGE        or Nixpkgs repository. Search is performed for revisions
                     according flake.lock file and latest revisions.
 
                     To search for multiple package names separate them with
                     pipe ("PACKAGE-X|PACKAGE-Y").
-
-build PACKAGE/      Build Geonix package of container image in revision
-      IMAGE         according flake.lock file. This command is mostly useful
-                    for building and retrieving container images.
-
-                    Note: this command can't be used to get container
-                    images on macOS.
 
 override            Create override template file overrides.nix in current
                     directory to build customized Geonix packages.
@@ -271,27 +264,6 @@ elif [ "${args[0]}" == "search" ]; then
                 | grep -v "\-unwrapped\|\-all-packages" \
                 | column -ts $'\t'
         fi
-    fi
-
-
-# BUILD
-elif [ "${args[0]}" == "build" ]; then
-
-    [[ ${#args[@]} -lt 2 ]] \
-        && die "Missing image name. Use --help to get more information."
-
-    image="${args[1]}"
-
-    get_nixpkgs_metadata
-    get_geonix_metadata
-
-    if [ "$geonix_exists" != "null" ] && [ "$geonix_rev" != "null" ]; then
-        nix build --accept-flake-config "$geonix_url/$geonix_rev#$image"
-    elif [ "$geonix_exists" != "null" ] && [ "$geonix_rev" == "null" ]; then
-        warn "Geonix revision not found in flake.lock file, building from the latest revision"
-        nix build --accept-flake-config "$geonix_url#$image"
-    else
-        die "Geonix input not found flake.lock file"
     fi
 
 
