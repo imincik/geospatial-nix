@@ -75,4 +75,6 @@
   mkPostgresqlClientShell = import ./postgresql-client-shell.nix;
   mkPostgresqlShell = import ./postgresql-shell.nix;
   mkPythonDevShell = import ./python-shell.nix;
+
+  mkPythonContainer = import ./python-container.nix;
 }

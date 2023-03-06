@@ -299,30 +299,6 @@ rec {
   qgis-ltr = pkgs.qgis-ltr.override { qgis-ltr-unwrapped = qgis-ltr-unwrapped; };
 
   #####################################################################
-  ### IMAGE: GEONIX-PYTHON-IMAGE
-  #####################################################################
-
-  geonix-python-image = pkgs.geonix-python-image.override {
-
-    python3-fiona = python-packages.fiona;
-    python3-gdal = python-packages.gdal;
-    python3-geopandas = python-packages.geopandas;
-    python3-owslib = python-packages.owslib;
-    python3-pyproj = python-packages.pyproj;
-    python3-rasterio = python-packages.rasterio;
-    python3-shapely = python-packages.shapely;
-
-    # Available parameters:
-    # extraPythonPackages = with nixpkgs.${pythonVersion}.pkgs; [
-    #   <PACKAGE>
-    #   ipython
-    # ];
-
-    # >>> CUSTOMIZE HERE
-
-  };
-
-  #####################################################################
   ### IMAGE: GEONIX-POSTGRESQL-IMAGE
   #####################################################################
 

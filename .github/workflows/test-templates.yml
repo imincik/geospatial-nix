@@ -96,10 +96,7 @@ jobs:
 
     - name: Test deployment (if Linux + python-web-app)
       run: |
-        git restore flake.nix
-        nix flake update
-
-        nix develop --accept-flake-config --command geonix build geonix-base-image
+        nix build --accept-flake-config .#container
         docker load < ./result
 
         docker build -t python-app:latest .

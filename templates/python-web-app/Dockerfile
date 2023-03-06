@@ -1,27 +1,25 @@
-# Get geonix-base-image by running using following commands in development
-# shell:
-# geonix build geonix-base-image
-# docker load < ./result
-FROM geonix-base
+# Get python-app-base image:
+#   nix build .#container
+#   docker load < ./result
 
-RUN mkdir -p /opt/deployment
-WORKDIR /opt/deployment
+# Build image:
+#   docker build -t python-app:latest 
 
-# Install all Nix dependencies upfront.
-# Install Nix deployment package and run deployment shell to trigger download of
-# all its dependencies as well.
-COPY flake.nix flake.lock geonix.nix deployment.nix ./
-RUN nix profile install --accept-flake-config .#deployment
-RUN nix develop --accept-flake-config --command echo OK
+FROM python-app-base
 
-# Install Poetry managed dependencies and the application
+RUN mkdir -p /opt/python-app
+WORKDIR /opt/python-app
+
 COPY src ./src
 COPY pyproject.toml poetry.* README.md ./
 
-RUN nix develop --accept-flake-config --command poetry install --without=dev
+RUN poetry install --without=dev
 
-# Cleanup
-RUN nix store gc
+RUN printf '#!/usr/bin/env bash \n\
+set -euo pipefail \n\
+source .venv/bin/activate \n\
+flask --app src/python_app run --host 0.0.0.0 --port 8000 \n\
+' > entrypoint.bash
 
-ENTRYPOINT [ "entrypoint" ]
+ENTRYPOINT [ "bash", "/opt/python-app/entrypoint.bash" ]
 EXPOSE 8000

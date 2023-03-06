@@ -1,5 +1,5 @@
 {
-  description = "Custom images tests";
+  description = "Container tests";
 
   nixConfig.extra-substituters = [ "https://geonix.cachix.org" ];
   nixConfig.extra-trusted-public-keys = [ "geonix.cachix.org-1:iyhIXkDLYLXbMhL3X3qOLBtRF8HEyAbhPXjjPeYsCl0=" ];
@@ -13,39 +13,31 @@
 
   outputs = { self, nixpkgs, geonix, utils }:
 
-    utils.lib.eachSystem [ "x86_64-linux" ] (system:
+    utils.lib.eachSystem [ "x86_64-linux" "x86_64-darwin" ] (system:
       let
 
         pkgs = geonix.lib.getPackages {
           inherit system nixpkgs geonix;
-
-          pythonVersion = pythonVersion;
-          postgresqlVersion = postgresqlVersion;
-
-          # overridesFile = ./overrides.nix;
         };
 
         pythonVersion = "python3";
-        postgresqlVersion = "postgresql";
+        extraPythonPackages = [ pkgs.geonix."${pythonVersion}-fiona" ];
+        extraPackages = [ pkgs.nixpkgs.tig ];
 
       in
       {
 
         packages = {
-          postgresqlImage = pkgs.geonix.geonix-postgresql-image;
-        };
 
-
-        devShells = rec {
-
-          ci = pkgs.nixpkgs.mkShell {
-
-            buildInputs = [
-              pkgs.geonix.geonixcli
-            ];
+          # Python container
+          python = geonix.lib.mkPythonContainer {
+            inherit pkgs;
+            name = "test-python";
+            pythonVersion = pythonVersion;
+            extraPythonPackages = extraPythonPackages;
+            extraPackages = extraPackages;
           };
 
-          default = ci;
         };
       });
 }

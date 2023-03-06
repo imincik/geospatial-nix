@@ -260,16 +260,6 @@
                 postgis = postgresql-packages.postgresql.postgis;
               };
 
-              geonix-python-image = pkgs.callPackage ./imgs/python {
-                python3-fiona = python-packages.python3.fiona;
-                python3-gdal = python-packages.python3.gdal;
-                python3-geopandas = python-packages.python3.geopandas;
-                python3-owslib = python-packages.python3.owslib;
-                python3-pyproj = python-packages.python3.pyproj;
-                python3-rasterio = python-packages.python3.rasterio;
-                python3-shapely = python-packages.python3.shapely;
-              };
-
             in
             flake-utils.lib.filterPackages system
               {
@@ -293,7 +283,6 @@
                   # Container images
                   geonix-base-image
                   geonix-postgresql-image
-                  geonix-python-image
 
                   # Meta packages
                   all-packages;
