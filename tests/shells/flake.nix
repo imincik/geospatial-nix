@@ -53,9 +53,9 @@
           # PostgreSQL shell
           postgresql = geonix.lib.mkPostgresqlShell {
             inherit pkgs;
-            version = postgresqlVersion;
+            postgresqlVersion = postgresqlVersion;
             extraPostgresqlPackages = extraPostgresqlPackages;
-            initialDatabase = "test";
+            initDatabase = "test";
           };
 
           # PostgreSQL client shell
@@ -72,7 +72,7 @@
           # Python shell
           python = geonix.lib.mkPythonDevShell {
             inherit pkgs;
-            version = pythonVersion;
+            pythonVersion = pythonVersion;
             extraPythonPackages = extraPythonPackages;
             extraPackages = extraPackages;
             envVariables = { MESSAGE = "OK"; };

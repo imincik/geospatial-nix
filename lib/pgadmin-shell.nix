@@ -7,19 +7,17 @@ Parameters:
 * pkgs:           set of packages used to build shell environment. Must
                   be in format as returned by getPackages function.
 
-* port:           pgAdmin port.
+* pgadminPort:    pgAdmin port.
                   Default: `15050`.
 
 */
 
 { pkgs
-, port ? 15050
+, pgadminPort ? 15050
 }:
 
 let
   pgadminServiceDir = ".geonix/services/pgadmin";
-
-  pgadminPort = port;
 
   pgadminConf =
     pkgs.nixpkgs.writeText "config_local.py"
@@ -65,7 +63,10 @@ in
 
 pkgs.nixpkgs.mkShell {
 
-  buildInputs = [ pkgs.nixpkgs.pgadmin4 pkgs.nixpkgs.honcho ];
+  buildInputs = [
+    pkgs.nixpkgs.pgadmin4
+    pkgs.nixpkgs.honcho
+  ];
 
   shellHook = ''
     mkdir -p ${pgadminServiceDir}

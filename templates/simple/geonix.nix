@@ -23,7 +23,7 @@
     # Launch shell: nix develop .#postgresql
     postgresql = geonix.lib.mkPostgresqlShell {
       inherit pkgs;
-      version = "postgresql_12";
+      postgresqlVersion = "postgresql_12";
     };
 
     # pgAdmin shell.

@@ -1,7 +1,7 @@
 /*
 
 Function:         mkDevShell
-Description:      Create interactive general purpose development shell.
+Description:      Create interactive, general purpose development shell.
 
 Parameters:
 * pkgs:           set of packages used to build shell environment. Must

@@ -1,24 +1,18 @@
 /*
 
 Function:         mkPostgresqlShell
-Description:      Create PostgreSQL/PostGIS database shell.
+Description:      Create PostgreSQL/PostGIS database service shell.
 
 Parameters:
 * pkgs:           set of packages used to build shell environment. Must
                   be in format as returned by getPackages function.
 
-* version:        PostgreSQL version.
+* postgresqlVersion:
+                  PostgreSQL version.
                   Example: `postgresql_12`. Default: `postgresql`.
 
-* port:           PostgreSQL port.
+* postgresqlPort: PostgreSQL port.
                   Default: `15432`.
-
-* initdbArgs:     PostgreSQL initdb arguments.
-                  Default: `[ "--locale=C" "--encoding=UTF8" ]`.
-
-* initialDatabase:
-                  Name of user database created during first run.
-                  Default: `geonix`.
 
 * extraPostgresqlPackages:
                   extra PostgreSQL extensions to add. PostGIS extension is
@@ -26,28 +20,31 @@ Parameters:
                   Example: `[ pkgs.nixpkgs.postgresql_12.pkgs.pgrouting ]`.
                   Default: `[]`.
 
+* initdbArgs:     PostgreSQL initdb arguments.
+                  Default: `[ "--locale=C" "--encoding=UTF8" ]`.
+
+* initDatabase:
+                  Name of user database created during first run.
+                  Default: `geonix`.
+
 */
 
 { pkgs
-, version ? "postgresql"
-, port ? 15432
-, initdbArgs ? [ "--locale=C" "--encoding=UTF8" ]
-, initialDatabase ? "geonix"
+, postgresqlVersion ? "postgresql"
+, postgresqlPort ? 15432
 , extraPostgresqlPackages ? []
+, initdbArgs ? [ "--locale=C" "--encoding=UTF8" ]
+, initDatabase ? "geonix"
 }:
 
 let
-  postgresServiceDir = ".geonix/services/${version}";
+  postgresqlServiceDir = ".geonix/services/${postgresqlVersion}";
 
-  postgresPackage = pkgs.nixpkgs.${version}.withPackages (p: [
-    pkgs.geonix."${version}-postgis"
+  postgresql = pkgs.nixpkgs.${postgresqlVersion}.withPackages (p: [
+    pkgs.geonix."${postgresqlVersion}-postgis"
   ] ++ extraPostgresqlPackages);
 
-  postgresInitdbArgs = initdbArgs;
-
-  postgresInitialDatabase = initialDatabase;
-
-  postgresConf =
+  postgresqlConf =
     pkgs.nixpkgs.writeText "postgresql.conf"
       ''
         log_connections = on
@@ -57,9 +54,7 @@ let
         log_destination = 'stderr'
       '';
 
-  postgresPort = port;
-
-  postgresServiceStart =
+  postgresqlServiceStart =
     pkgs.nixpkgs.writeShellScriptBin "service-start"
       ''
         set -euo pipefail
@@ -69,39 +64,42 @@ let
         export PGDATA=$POSTGRES_SERVICE_DIR/data
         export PGUSER="postgres"
         export PGHOST="$PGDATA"
-        export PGPORT="${toString postgresPort}"
+        export PGPORT="${toString postgresqlPort}"
 
         if [ ! -d $PGDATA ]; then
-          pg_ctl initdb -o "${pkgs.nixpkgs.lib.concatStringsSep " " postgresInitdbArgs} -U $PGUSER"
-          cat "${postgresConf}" >> $PGDATA/postgresql.conf
+          pg_ctl initdb -o "${pkgs.nixpkgs.lib.concatStringsSep " " initdbArgs} -U $PGUSER"
+          cat "${postgresqlConf}" >> $PGDATA/postgresql.conf
 
-          echo "CREATE DATABASE ${postgresInitialDatabase};" \
-          | ${postgresPackage}/bin/postgres --single postgres
+          echo "CREATE DATABASE ${initDatabase};" \
+          | ${postgresql}/bin/postgres --single postgres
 
           echo "CREATE EXTENSION postgis;" \
-          | ${postgresPackage}/bin/postgres --single ${postgresInitialDatabase}
+          | ${postgresql}/bin/postgres --single ${initDatabase}
 
           echo -e "\nPostgreSQL init process complete. Ready for start up.\n"
         fi
 
-        ${postgresPackage}/bin/postgres -p $PGPORT -k $PGDATA
+        ${postgresql}/bin/postgres -p $PGPORT -k $PGDATA
       '';
 
-  postgresServiceProcfile =
+  postgresqlServiceProcfile =
     pkgs.nixpkgs.writeText "service-procfile"
       ''
-        postgres: ${postgresServiceStart}/bin/service-start
+        postgres: ${postgresqlServiceStart}/bin/service-start
       '';
 in
 
 pkgs.nixpkgs.mkShell {
 
-  buildInputs = [ postgresPackage pkgs.nixpkgs.honcho ];
+  buildInputs = [
+    postgresql
+    pkgs.nixpkgs.honcho
+  ];
 
   shellHook = ''
-    mkdir -p ${postgresServiceDir}
-    export POSTGRES_SERVICE_DIR="$(pwd)/${postgresServiceDir}"
+    mkdir -p ${postgresqlServiceDir}
+    export POSTGRES_SERVICE_DIR="$(pwd)/${postgresqlServiceDir}"
 
-    honcho -f ${postgresServiceProcfile} start postgres
+    honcho -f ${postgresqlServiceProcfile} start postgres
   '';
 }

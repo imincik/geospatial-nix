@@ -104,7 +104,7 @@
           # PostgreSQL shell
           postgresql = geonix.lib.mkPostgresqlShell {
             inherit pkgs;
-            version = postgresqlVersion;
+            postgresqlVersion = postgresqlVersion;
             initdbArgs = postgresqlInitdbArgs;
             extraPostgresqlPackages = extraPostgresqlPackages;
           };
