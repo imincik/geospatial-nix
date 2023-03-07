@@ -13,7 +13,7 @@
 
   outputs = { self, nixpkgs, geonix, utils }:
 
-    utils.lib.eachSystem [ "x86_64-linux" "x86_64-darwin" ] (system:
+    utils.lib.eachSystem [ "x86_64-linux" ] (system:
       let
 
         pkgs = geonix.lib.getPackages {
@@ -24,6 +24,11 @@
         extraPythonPackages = [ pkgs.geonix."${pythonVersion}-fiona" ];
         extraPackages = [ pkgs.nixpkgs.tig ];
 
+        postgresqlVersion = "postgresql";
+        postgresqlInitdbArgs = [ "--locale=C" "--encoding=UTF8" ];
+        extraPostgresqlPackages = [
+          pkgs.nixpkgs.${postgresqlVersion}.pkgs.pgrouting
+        ];
       in
       {
 
@@ -38,6 +43,27 @@
             extraPackages = extraPackages;
           };
 
+          # PostgreSQL container
+          postgresql = geonix.lib.mkPostgresqlContainer {
+            inherit pkgs;
+            name = "test-postgresql";
+            postgresqlVersion = postgresqlVersion;
+            extraPostgresqlPackages = extraPostgresqlPackages;
+            initDatabase = "test";
+          };
+
         };
+
+        devShells = {
+
+          # CI shell
+          ci = pkgs.nixpkgs.mkShell {
+
+            buildInputs = [
+              pkgs.nixpkgs.postgresql
+            ];
+          };
+        };
+
       });
 }

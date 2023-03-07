@@ -298,21 +298,4 @@ rec {
 
   qgis-ltr = pkgs.qgis-ltr.override { qgis-ltr-unwrapped = qgis-ltr-unwrapped; };
 
-  #####################################################################
-  ### IMAGE: GEONIX-POSTGRESQL-IMAGE
-  #####################################################################
-
-  geonix-postgresql-image = pkgs.geonix-postgresql-image.override {
-
-    postgis = postgresql-packages.postgis;
-
-    # Available parameters:
-    # extraPostgresqlPackages = with nixpkgs.${postgresqlVersion}.pkgs; [
-    #   <PACKAGE>
-    #   pgrouting
-    # ];
-
-    # >>> CUSTOMIZE HERE
-
-  };
 }

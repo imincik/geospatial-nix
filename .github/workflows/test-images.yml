@@ -1,10 +1,8 @@
 name: Test container images
 
 on:
-  pull_request:
-  push:
-    branches:
-      - master
+  schedule:
+    - cron:  '0 1 * * *'
   workflow_dispatch:
 
 env:
@@ -17,7 +15,6 @@ jobs:
       matrix:
         image:
           - geonix-base-image
-          - geonix-postgresql-image
         os:
           - ubuntu-22.04
 
@@ -42,13 +39,3 @@ jobs:
 
         docker run geonix-base nix-shell -p nix-info --run "nix-info -m"
       if: ${{ matrix.image == 'geonix-base-image' }}
-
-    - name: Test image (if geonix-postgresql-image)
-      run: |
-        docker load < result
-
-        docker run -d -u "$(id -u):$(id -g)" -v "$(pwd):/data" -p 15432:5432 geonix-postgresql
-
-        nix develop .#ci \
-        --command psql -U postgres -h localhost -p 15432 -c 'CREATE EXTENSION postgis; SELECT postgis_full_version();'
-      if: ${{ matrix.image == 'geonix-postgresql-image' }}
