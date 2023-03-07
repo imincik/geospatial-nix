@@ -256,10 +256,6 @@
                 nixConf = { experimental-features = "nix-command flakes"; };
               };
 
-              geonix-postgresql-image = pkgs.callPackage ./imgs/postgres {
-                postgis = postgresql-packages.postgresql.postgis;
-              };
-
             in
             flake-utils.lib.filterPackages system
               {
@@ -282,7 +278,6 @@
 
                   # Container images
                   geonix-base-image
-                  geonix-postgresql-image
 
                   # Meta packages
                   all-packages;

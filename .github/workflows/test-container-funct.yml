@@ -15,6 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         container:
+          - postgresql
           - python
         os:
           - ubuntu-22.04
@@ -41,6 +42,21 @@ jobs:
       run: |
         nix build --accept-flake-config .#python
         docker load < ./result
+
         docker run -u "$(id -u):$(id -g)" test-python -c "import fiona; print(fiona.supported_drivers)"
       if: ${{ matrix.container == 'python' }}
+      working-directory: tests/containers
+
+
+    # postgresql container
+    - name: Test container (if postgresql container)
+      run: |
+        nix build --accept-flake-config .#postgresql
+        docker load < ./result
+
+        docker run -d -u "$(id -u):$(id -g)" -v "$(pwd):/data" -p 15432:5432 test-postgresql
+
+        nix develop .#ci \
+        --command psql -U postgres -h localhost -p 15432 -d test -c 'SELECT postgis_full_version();'
+      if: ${{ matrix.container == 'postgresql' }}
       working-directory: tests/containers
