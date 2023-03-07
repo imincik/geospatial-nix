@@ -47,7 +47,7 @@ in
     default = geonix.lib.mkPythonDevShell {
       inherit pkgs;
 
-      version = pythonVersion;
+      pythonVersion = pythonVersion;
 
       extraPythonPackages = pythonPackages;
       extraPackages = extraPackages;

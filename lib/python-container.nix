@@ -7,10 +7,10 @@ Parameters:
 * pkgs:           set of packages used to build shell environment. Must
                   be in format as returned by getPackages function.
 
-* name:           Container name.
+* name:           container name.
                   Example: `my-container`. Default: `geonix-python`.
 
-* tag:            Container tag.
+* tag:            container tag.
                   Example: `test`. Default: `latest`.
 
 * pythonVersion:  Python version.

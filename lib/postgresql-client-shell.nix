@@ -13,7 +13,7 @@ Parameters:
                   PostgreSQL version.
                   Example: `postgresql_12`. Default: `postgresql`.
 
-* postresqlPort:  PostgreSQL port.
+* postgresqlPort: PostgreSQL port.
                   Default: `15432`.
 
 * extraPackages:
@@ -24,31 +24,29 @@ Parameters:
 
 { pkgs
 , postgresqlVersion ? "postgresql"
-, postresqlPort ? 15432
+, postgresqlPort ? 15432
 , extraPackages ? []
 }:
 
 let
-  postgresServiceDir = ".geonix/services/${postgresqlVersion}";
-  postgresVersion = postgresqlVersion;
-  postgresPort = postresqlPort;
-in
+  postgresqlServiceDir = ".geonix/services/${postgresqlVersion}";
 
+in
 pkgs.nixpkgs.mkShell {
 
   nativeBuildInputs = [ pkgs.nixpkgs.bashInteractive ];
   buildInputs = [
-    pkgs.nixpkgs."${postgresVersion}"
-    pkgs.geonix."${postgresVersion}-postgis"
+    pkgs.nixpkgs."${postgresqlVersion}"
+    pkgs.geonix."${postgresqlVersion}-postgis"
     pkgs.nixpkgs.pgcli
   ] ++ extraPackages;
 
   shellHook = ''
-    export POSTGRES_SERVICE_DIR="$(pwd)/${postgresServiceDir}"
+    export POSTGRES_SERVICE_DIR="$(pwd)/${postgresqlServiceDir}"
 
     export PGDATA=$POSTGRES_SERVICE_DIR/data
     export PGUSER="postgres"
     export PGHOST="$PGDATA"
-    export PGPORT="${toString postgresPort}"
+    export PGPORT="${toString postgresqlPort}"
   '';
 }

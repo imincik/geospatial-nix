@@ -1,13 +1,13 @@
 /*
 
 Function:         mkPythonDevShell
-Description:      Create interactive Python development shell containing
-                  Python interpreter and Poetry packages manager.
+Description:      Create interactive Python development shell.
+
 Parameters:
 * pkgs:           set of packages used to build shell environment. Must
                   be in format as returned by getPackages function.
 
-* version:        Python version.
+* pythonVersion:  Python version.
                   Example: `python310`. Default: `python3`.
 
 * extraPythonPackages:
@@ -27,7 +27,7 @@ Parameters:
 */
 
 { pkgs
-, version ? "python3"
+, pythonVersion ? "python3"
 , extraPythonPackages ? []
 , extraPackages ? []
 , envVariables ? {}
@@ -37,10 +37,10 @@ Parameters:
 let
   lib = pkgs.nixpkgs.lib;
 
-  python = pkgs.nixpkgs.${version}.withPackages (p: extraPythonPackages);
+  python = pkgs.nixpkgs.${pythonVersion}.withPackages (p: extraPythonPackages);
 
   poetry = pkgs.nixpkgs.poetry.override {
-    python = pkgs.nixpkgs.${version};
+    python = pkgs.nixpkgs.${pythonVersion};
   };
 
   envToBash = name: value: "export ${name}=${lib.escapeShellArg (toString value)}";
