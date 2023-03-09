@@ -1,6 +1,6 @@
 [![Build packages](https://github.com/imincik/geonix/actions/workflows/build-packages.yml/badge.svg)](https://github.com/imincik/geonix/actions/workflows/build-packages.yml)
 
-# A cross-platform geospatial packages distribution and working environment
+# A cross-platform geospatial packages distribution and development environment
 
 **WARNING: this project is safe to be used for testing, but things are in active
 development. Incompatible changes without any notice can occur at any time !**
