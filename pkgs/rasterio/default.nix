@@ -63,7 +63,7 @@ buildPythonPackage rec {
     rm -rf rasterio
   '';
 
-  checkInputs = [
+  nativeCheckInputs = [
     pytest-randomly
     pytestCheckHook
     packaging
