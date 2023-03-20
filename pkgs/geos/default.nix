@@ -1,8 +1,10 @@
 { lib
-, stdenv
 , callPackage
 , fetchFromGitHub
-, cmake }:
+, stdenv
+, testers
+, cmake
+}:
 
 stdenv.mkDerivation (finalAttrs: rec {
   pname = "geos";
@@ -21,12 +23,14 @@ stdenv.mkDerivation (finalAttrs: rec {
 
   passthru.tests = {
     geos = callPackage ./tests.nix { geos = finalAttrs.finalPackage; };
+    pkg-config = testers.testMetaPkgConfig finalAttrs.finalPackage;
   };
 
   meta = with lib; {
     description = "C++ port of the Java Topology Suite (JTS)";
     homepage = "https://trac.osgeo.org/geos";
     license = licenses.lgpl21Only;
+    pkgConfigModules = [ "geos" ];
     maintainers = with lib.maintainers; [
       willcohen
     ];
