@@ -1,11 +1,11 @@
 name: Test other Python versions
 
 on:
-  pull_request:
-  push:
-    branches:
-      - master
-  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - Build packages
+    types:
+      - completed
 
 env:
   NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}"

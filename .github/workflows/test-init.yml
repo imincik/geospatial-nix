@@ -1,10 +1,11 @@
 name: Test geonix init
 
 on:
-  pull_request:
-  push:
-    branches:
-      - master
+  workflow_run:
+    workflows:
+      - Build packages
+    types:
+      - completed
 
 env:
   NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}"
