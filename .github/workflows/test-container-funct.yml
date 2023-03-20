@@ -22,6 +22,7 @@ jobs:
           - ubuntu-22.04
 
     runs-on: ${{ matrix.os }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
     - name: Checkout repository
