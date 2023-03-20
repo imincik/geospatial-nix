@@ -1,11 +1,7 @@
 name: Test container functions
 
 on:
-  workflow_run:
-    workflows:
-      - Build packages
-    types:
-      - completed
+  workflow_call:
 
 env:
   NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}"
