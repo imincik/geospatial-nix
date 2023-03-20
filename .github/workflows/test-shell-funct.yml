@@ -61,7 +61,7 @@ jobs:
     - name: Wait until shell is ready (if postgresql shell)
       run: >
         nix develop --accept-flake-config .#ci
-        --command timeout 300 sh -c 'until nc -z localhost 15432; do sleep 1; done'
+        --command timeout 600 sh -c 'until nc -z localhost 15432; do sleep 1; done'
       if: ${{ matrix.shell == 'postgresql' }}
       working-directory: tests/shells
 
