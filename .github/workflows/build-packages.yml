@@ -11,7 +11,7 @@ env:
   NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}"
 
 jobs:
-  build-packages:
+  check-flake:
     strategy:
       fail-fast: false
       matrix:
@@ -40,6 +40,56 @@ jobs:
       run: >
         nix flake check --no-build --accept-flake-config
 
+
+  # build linux packages using nixbuild.net as remote builder
+  build-packages-linux:
+    needs: check-flake
+    strategy:
+      fail-fast: false
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Install nix
+      uses: cachix/install-nix-action@v20
+
+    - name: Setup cachix
+      uses: cachix/cachix-action@v12
+      with:
+        name: geonix
+        authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+
+    - name: Setup nixbuild.net
+      uses: nixbuild/nixbuild-action@v16
+      with:
+        nixbuild_ssh_key: ${{ secrets.NIXBUILD_SSH_KEY }}
+        generate_summary_for: 'job'
+
+    - name: Build all packages
+      run: >
+        nix
+        build --accept-flake-config .#all-packages
+
+  # build darwin packages using GH Actions runner
+  build-packages-darwin:
+    needs: check-flake
+    strategy:
+      fail-fast: false
+    runs-on: macos-11
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Install nix
+      uses: cachix/install-nix-action@v20
+
     - name: Setup cachix
       uses: cachix/cachix-action@v12
       with:
@@ -51,32 +101,57 @@ jobs:
         nix
         build --accept-flake-config .#all-packages
 
+
+  test-cli-shell:
+    needs: [build-packages-linux, build-packages-darwin]
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, macos-11]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Install nix
+      uses: cachix/install-nix-action@v20
+
+    - name: Setup cachix
+      uses: cachix/cachix-action@v12
+      with:
+        name: geonix
+        authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+
     - name: Test cli shell
       run: >
         nix develop --accept-flake-config .#cli
         --command python -c "import fiona; print(fiona.supported_drivers)"
 
-
   launch-test-container-funct:
-    needs: build-packages
+    needs: [build-packages-linux, build-packages-darwin]
     uses: ./.github/workflows/test-container-funct.yml
 
-  launch-call-test-custom-packages:
-    needs: build-packages
+  launch-test-custom-packages:
+    needs: [build-packages-linux, build-packages-darwin]
     uses: ./.github/workflows/test-custom-packages.yml
 
   launch-test-init:
-    needs: build-packages
+    needs: [build-packages-linux, build-packages-darwin]
     uses: ./.github/workflows/test-init.yml
 
   launch-test-python-versions:
-    needs: build-packages
+    needs: [build-packages-linux, build-packages-darwin]
     uses: ./.github/workflows/test-python-versions.yml
 
   launch-test-shell-funct:
-    needs: build-packages
+    needs: [build-packages-linux, build-packages-darwin]
     uses: ./.github/workflows/test-shell-funct.yml
 
   launch-test-templates:
-    needs: build-packages
+    needs: [build-packages-linux, build-packages-darwin]
     uses: ./.github/workflows/test-templates.yml
