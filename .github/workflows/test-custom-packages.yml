@@ -67,8 +67,8 @@ jobs:
       working-directory: tests/custom-packages
 
     - name: Build and test patched GDAL package
-      run: >
-        nix develop --command gdalinfo --help | grep "THIS IS MY PATCH"
+      run: |
+        nix develop --accept-flake-config --command gdalinfo --help | grep "THIS IS MY PATCH"
       working-directory: tests/custom-packages
 
     - name: Test if only single GDAL dependency exists in dev shell
