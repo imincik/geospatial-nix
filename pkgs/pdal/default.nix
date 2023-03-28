@@ -22,13 +22,13 @@
 
 stdenv.mkDerivation rec {
   pname = "pdal";
-  version = "2.5.0";
+  version = "2.5.2";
 
   src = fetchFromGitHub {
     owner = "PDAL";
     repo = "PDAL";
     rev = version;
-    hash = "sha256-wM9gV6VcTzWxQBb0+7mhGcKJ06xFu8dmBGptS0mSP9Y=";
+    hash = "sha256-PTvWOJY6DV53aFYQVw92aiu4z8wvQE4jfjG8zSk2Ew4=";
   };
 
   nativeBuildInputs = [
