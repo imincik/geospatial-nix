@@ -2,13 +2,13 @@
 
 buildPythonPackage rec {
   pname = "OWSLib";
-  version = "0.27.2";
+  version = "0.28.1";
 
   src = fetchFromGitHub {
     owner = "geopython";
     repo = "OWSLib";
     rev = "${version}";
-    hash = "sha256-H1CaDWQxGNi3CyfMFz+ofsMNVow1fTR0ymKbDq95jdQ=";
+    hash = "sha256-qiH6teCJ/4oftSRyBTtiJdlmJn02VwacU72dWi6OXdc=";
   };
 
   # as now upstream https://github.com/geopython/OWSLib/pull/824
