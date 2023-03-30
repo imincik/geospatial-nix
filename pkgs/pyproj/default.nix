@@ -85,6 +85,8 @@ buildPythonPackage rec {
     "test_transformer_group__download_grids"
   ];
 
+  pythonImportsCheck = [ "pyproj" ];
+
   meta = {
     description = "Python interface to PROJ library";
     homepage = "https://github.com/pyproj4/pyproj";
