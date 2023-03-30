@@ -67,8 +67,7 @@ jobs:
 
     - name: Build all packages
       run: >
-        nix
-        build --accept-flake-config .#all-packages
+        nix build -L --accept-flake-config .#all-packages
 
     - name: Test cli shell
       run: >
