@@ -24,6 +24,11 @@ nix build .#<PACKAGE>
 nix build .#all-packages
 ```
 
+* Build all packages and push them to Geonix Cachix binary cache
+```
+nix build --json .\#all-packages  | jq -r '.[].outputs | to_entries[].value' | cachix push geonix
+```
+
 * Run package passthru tests
 ```
 nix-build -A packages.x86_64-linux.<PACKAGE>.passthru.tests
