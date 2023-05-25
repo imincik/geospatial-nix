@@ -8,13 +8,13 @@
 , pyproj
 , pytestCheckHook
 , pythonOlder
-, Rtree
+, Rtree  # replace Rtree with rtree in NixOS 23.05
 , shapely
 }:
 
 buildPythonPackage rec {
   pname = "geopandas";
-  version = "0.12.2";
+  version = "0.13.0";
   format = "setuptools";
 
   disabled = pythonOlder "3.8";
@@ -23,7 +23,7 @@ buildPythonPackage rec {
     owner = "geopandas";
     repo = "geopandas";
     rev = "refs/tags/v${version}";
-    hash = "sha256-ntOZ2WCoMz5ZpqPeupqPC3cN8mbQmEAvJGaFblu0ibY=";
+    hash = "sha256-GYEd679EX+gyGb2fpfyrJlGYPduc+W7I2tjTHegyWi8=";
   };
 
   propagatedBuildInputs = [
@@ -34,6 +34,7 @@ buildPythonPackage rec {
     shapely
   ];
 
+  # replace checkInputs with nativeCheckInputs in NixOS 23.05
   checkInputs = [
     pytestCheckHook
     Rtree
