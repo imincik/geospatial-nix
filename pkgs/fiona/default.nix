@@ -21,10 +21,9 @@
 buildPythonPackage rec {
   pname = "fiona";
   version = "1.9.4";
+  format = "pyproject";
 
   disabled = pythonOlder "3.7";
-
-  format = "pyproject";
 
   src = fetchFromGitHub {
     owner = "Toblerity";
@@ -68,6 +67,12 @@ buildPythonPackage rec {
     rm -r fiona # prevent importing local fiona
   '';
 
+  pytestFlagsArray = [
+    # Tests with gdal marker do not test the functionality of Fiona,
+    # but they are used to check GDAL driver capabilities.
+    "-m 'not gdal'"
+  ];
+
   disabledTests = [
     # Some tests access network, others test packaging
     "http"
@@ -78,14 +83,11 @@ buildPythonPackage rec {
     "test_append_memoryfile_drivers"
   ];
 
-  pythonImportsCheck = [ "fiona" ];
+  pythonImportsCheck = [
+    "fiona"
+  ];
 
   doInstallCheck = true;
-
-  installCheckPhase = ''
-    $out/bin/fio --version | grep -E "fio,\sversion\s${version}" > /dev/null
-    $out/bin/fio --gdal-version | grep -E "GDAL,\sversion\s[0-9]+(\.[0-9]+)*" > /dev/null
-  '';
 
   meta = with lib; {
     changelog = "https://github.com/Toblerity/Fiona/blob/${src.rev}/CHANGES.txt";
