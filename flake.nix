@@ -32,7 +32,7 @@
           # * flake.nix: packages
           # * flake.nix: packages.all-packages or packages.python-packages.all-packages
           # * pkgs/geonixcli/nix/overrides.nix
-          # * .github/workflows/update-version.yml: matrix.package
+          # * .github/workflows/update-packages.yml: matrix.package
 
           #
           ### PACKAGES ###
@@ -169,6 +169,12 @@
               });
 
 
+              # GRASS
+              grass = pkgs.callPackage ./pkgs/grass {
+                inherit gdal geos pdal proj;
+              };
+
+
               # QGIS
               qgis-unwrapped =
                 let
@@ -242,7 +248,7 @@
                   postgresql-packages.postgresql_14.all-packages
                   postgresql-packages.postgresql_15.all-packages
 
-                ] ++ pkgs.lib.optionals pkgs.stdenv.isLinux [ qgis qgis-ltr ];
+                ] ++ pkgs.lib.optionals pkgs.stdenv.isLinux [ grass qgis qgis-ltr ];
               };
 
 
@@ -271,6 +277,9 @@
                   libspatialite
                   pdal
                   proj
+
+                  # Applications
+                  grass
                   qgis
                   qgis-unwrapped
                   qgis-ltr
@@ -303,6 +312,11 @@
           #
 
           apps = rec {
+
+            grass = {
+              type = "app";
+              program = "${self.packages.${system}.grass}/bin/grass";
+            };
 
             qgis = {
               type = "app";
