@@ -29,6 +29,7 @@ jobs:
           - python3-pyproj
           - python3-rasterio
           - python3-shapely
+          - grass
           - qgis
           - qgis-ltr
 
