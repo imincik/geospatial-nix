@@ -36,7 +36,7 @@ let
 in
 {
 
-  # Development shells.
+  # Shell environments.
   # For list of available shell functions see:
   # https://github.com/imincik/geonix/wiki/Packages-images-shell-environments#shell-environments
   shells = {
