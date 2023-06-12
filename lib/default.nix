@@ -25,7 +25,7 @@
                         Example: `python39`. Default: `python3`
 
   * postgresqlVersion:  PostgreSQL version.
-                        Example: `postgresql_12. `Default: `python3`
+                        Example: `postgresql_12. `Default: `postgresql`
 
   * overridesFile:      file containing packages overrides definitions.
                         Default: false
