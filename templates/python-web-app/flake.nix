@@ -20,6 +20,15 @@
 
         pkgs = geonix.lib.getPackages {
           inherit system nixpkgs geonix;
+
+          # Run 'geonix override' command to get overrides.nix template file and
+          # enable following line to start customizing Geonix packages.
+
+          # overridesFile = ./overrides.nix;
+
+          # Python and PostgreSQL versions to use for overrided packages.
+          # pythonVersion = "python3";
+          # postgresqlVersion = "postgresql";
         };
 
         geonixConfig = import ./geonix.nix { inherit pkgs geonix; };
