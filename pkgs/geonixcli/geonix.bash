@@ -193,7 +193,7 @@ if [ "${args[0]}" == "init" ]; then
         echo "$init_file created in $(pwd)/$init_file."
     done
 
-    echo "Add all files to git before use !"
+    echo "Don't forget to add all files to git before use !"
 
 
 # SEARCH
@@ -277,7 +277,7 @@ elif [ "${args[0]}" == "override" ]; then
         chmod u+w "$(pwd)"/overrides.nix
 
         echo "Override template file created in $(pwd)/overrides.nix ."
-        echo "Add all files to git before use !"
+        echo "Don't forget to add all files to git before use !"
     fi
 
 
