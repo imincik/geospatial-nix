@@ -115,6 +115,7 @@ function get_nixpkgs_metadata {
             ' \
         )
 
+        # shellcheck disable=SC2034
         nixpkgs_ref=$( \
             nix "${NIX_FLAGS[@]}" flake metadata  --json \
             | jq --raw-output '.locks.nodes.nixpkgs.original.ref' \
@@ -162,6 +163,7 @@ function get_geonix_metadata {
             )
         fi
 
+        # shellcheck disable=SC2034
         geonix_ref=$( \
             nix "${NIX_FLAGS[@]}" flake metadata  --json \
             | jq --raw-output '.locks.nodes.geonix.original.ref' \
@@ -235,13 +237,13 @@ elif [ "${args[0]}" == "search" ]; then
             nix_search "$nixpkgs_url/$nixpkgs_rev" "${args[@]:1}" | column -ts $'\t'
         fi
 
-        if [ "$nixpkgs_ref" != "null" ]; then
-            echo -e "\n${BOLD}$nixpkgs_url/$nixpkgs_ref ${NOFORMAT}"
-            nix_search "$nixpkgs_url/$nixpkgs_ref" "${args[@]:1}" | column -ts $'\t'
-        else
-            echo -e "\n${BOLD}$nixpkgs_url ${NOFORMAT}"
-            nix_search "$nixpkgs_url" "${args[@]:1}" | column -ts $'\t'
-        fi
+        # if [ "$nixpkgs_ref" != "null" ]; then
+        #     echo -e "\n${BOLD}$nixpkgs_url/$nixpkgs_ref ${NOFORMAT}"
+        #     nix_search "$nixpkgs_url/$nixpkgs_ref" "${args[@]:1}" | column -ts $'\t'
+        # else
+        #     echo -e "\n${BOLD}$nixpkgs_url ${NOFORMAT}"
+        #     nix_search "$nixpkgs_url" "${args[@]:1}" | column -ts $'\t'
+        # fi
     fi
 
     if [ "$geonix_exists" != "null" ]; then
@@ -253,17 +255,17 @@ elif [ "${args[0]}" == "search" ]; then
                 | column -ts $'\t'
         fi
 
-        if [ "$geonix_ref" != "null" ]; then
-            echo -e "\n${BOLD}$geonix_url/$geonix_ref ${NOFORMAT}"
-            geonix_search "$geonix_url/$geonix_ref" "${args[@]:1}" \
-                | grep -v "\-unwrapped\|\-all-packages" \
-                | column -ts $'\t'
-        else
-            echo -e "\n${BOLD}$geonix_url ${NOFORMAT}"
-            geonix_search "$geonix_url" "${args[@]:1}" \
-                | grep -v "\-unwrapped\|\-all-packages" \
-                | column -ts $'\t'
-        fi
+        # if [ "$geonix_ref" != "null" ]; then
+        #     echo -e "\n${BOLD}$geonix_url/$geonix_ref ${NOFORMAT}"
+        #     geonix_search "$geonix_url/$geonix_ref" "${args[@]:1}" \
+        #         | grep -v "\-unwrapped\|\-all-packages" \
+        #         | column -ts $'\t'
+        # else
+        #     echo -e "\n${BOLD}$geonix_url ${NOFORMAT}"
+        #     geonix_search "$geonix_url" "${args[@]:1}" \
+        #         | grep -v "\-unwrapped\|\-all-packages" \
+        #         | column -ts $'\t'
+        # fi
     fi
 
 
