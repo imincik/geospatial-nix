@@ -42,7 +42,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install Nix
-        uses: cachix/install-nix-action@v21
+        uses: cachix/install-nix-action@v22
 
       - name: Update package
         run: >
