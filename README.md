@@ -24,6 +24,11 @@ nix build .#<PACKAGE>
 nix build .#all-packages
 ```
 
+* Build single package and push it to Geonix Cachix binary cache
+```
+nix build --json .\#<PACKAGE>  | jq -r '.[].outputs | to_entries[].value' | cachix push geonix
+```
+
 * Build all packages and push them to Geonix Cachix binary cache
 ```
 nix build --json .\#all-packages  | jq -r '.[].outputs | to_entries[].value' | cachix push geonix
