@@ -37,8 +37,7 @@ stdenv.mkDerivation (finalAttrs: rec {
 
   buildInputs = [ sqlite libtiff curl nlohmann_json ];
 
-  # replace checkInputs with nativeCheckInputs for NixOS 23.05
-  checkInputs = [ cacert gtest ];
+  nativeCheckInputs = [ cacert gtest ];
 
   cmakeFlags = [
     "-DUSE_EXTERNAL_GTEST=ON"

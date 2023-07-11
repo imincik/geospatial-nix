@@ -41,8 +41,7 @@ buildPythonPackage rec {
     requests
   ];
 
-  # replace checkInputs with nativeCheckInputs for NixOS 23.05
-  checkInputs = [
+  nativeCheckInputs = [
     pytestCheckHook
   ];
 
@@ -76,6 +75,6 @@ buildPythonPackage rec {
     homepage = "https://www.osgeo.org/projects/owslib/";
     changelog = "https://github.com/geopython/OWSLib/blob/${version}/CHANGES.rst";
     license = licenses.bsd3;
-    # maintainers = teams.geospatial.members;  TODO: enable this for NixOS 23.05
+    maintainers = teams.geospatial.members;
   };
 }

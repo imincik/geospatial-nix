@@ -43,8 +43,7 @@ buildPythonPackage rec {
      certifi
   ];
 
-  # replace checkInputs with nativeCheckInputs for NixOS 23.05
-  checkInputs = [
+  nativeCheckInputs = [
     pytestCheckHook
     mock
     numpy

@@ -16,7 +16,7 @@ stdenv.mkDerivation rec {
   buildPhase = "true";
 
   buildInputs = [ bash jq ];
-  checkInputs = [ shellcheck ];
+  nativeCheckInputs = [ shellcheck ];
   nativeBuildInputs = [ makeWrapper ];
 
   doCheck = true;

@@ -99,6 +99,6 @@ buildPythonPackage rec {
     homepage = "https://rasterio.readthedocs.io/";
     changelog = "https://github.com/rasterio/rasterio/blob/${version}/CHANGES.txt";
     license = licenses.bsd3;
-    # maintainers = teams.geospatial.members;  TODO: enable this for NixOS 23.05
+    maintainers = teams.geospatial.members;
   };
 }
