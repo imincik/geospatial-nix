@@ -1,0 +1,12 @@
+inputs:
+  devenv:
+    url: github:cachix/devenv/python-rewrite 
+    inputs:
+      nixpkgs:
+        follows: geonix
+
+  nixpkgs-unstable:
+    url: github:NixOS/nixpkgs/nixpkgs-unstable
+
+  geonix:
+    url: github:imincik/geonix
