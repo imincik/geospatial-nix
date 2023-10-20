@@ -26,7 +26,7 @@
 
 buildPythonPackage rec {
   pname = "rasterio";
-  version = "1.3.8";
+  version = "1.3.9";
   format = "pyproject";
 
   disabled = pythonOlder "3.8";
@@ -35,7 +35,7 @@ buildPythonPackage rec {
     owner = "rasterio";
     repo = "rasterio";
     rev = "refs/tags/${version}";
-    hash = "sha256-8kPzUvTZ/jRDXlYMAZkG1xdLAQuzxnvHXBzwWizMOTo=";
+    hash = "sha256-Tp6BSU33FaszrIXQgU0Asb7IMue0C939o/atAKz+3Q4=";
   };
 
   nativeBuildInputs = [
