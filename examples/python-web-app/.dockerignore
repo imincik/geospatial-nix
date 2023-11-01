@@ -1,0 +1,4 @@
+.geonix/*
+.result
+.venv/*
+src/python_app/__pycache__/*
