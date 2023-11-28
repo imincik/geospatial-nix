@@ -9,7 +9,7 @@
   };
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
 
     flake-utils.url = "github:numtide/flake-utils";
 
@@ -258,7 +258,7 @@
                 tag = "latest";
                 bundleNixpkgs = true;
                 channelName = "nixpkgs";
-                channelURL = "https://nixos.org/channels/nixos-22.11";
+                channelURL = "https://nixos.org/channels/nixos-23.11";
                 nixConf = { experimental-features = "nix-command flakes"; };
               };
 
