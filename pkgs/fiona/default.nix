@@ -2,15 +2,16 @@
 , buildPythonPackage
 , pythonOlder
 , fetchFromGitHub
-, cython
+, cython_3
 , gdal
+, oldest-supported-numpy
 , setuptools
+, wheel
 , attrs
 , certifi
 , click
 , click-plugins
 , cligj
-, importlib-metadata
 , munch
 , shapely
 , boto3
@@ -20,8 +21,8 @@
 
 buildPythonPackage rec {
   pname = "fiona";
-  version = "1.9.4";
-  format = "pyproject";
+  version = "1.9.5";
+  pyproject = true;
 
   disabled = pythonOlder "3.7";
 
@@ -29,13 +30,15 @@ buildPythonPackage rec {
     owner = "Toblerity";
     repo = "Fiona";
     rev = "refs/tags/${version}";
-    hash = "sha256-v4kTjoGu4AiEepBrGyY1e1OFC1eCk/U6f8XA/vtfY0E=";
+    hash = "sha256-fq/BuyzuK4iOxdpE4h+KRH0CxOEk/wdmbb9KgCfJ1cw=";
   };
 
   nativeBuildInputs = [
-    cython
+    cython_3
     gdal # for gdal-config
+    oldest-supported-numpy
     setuptools
+    wheel
   ];
 
   buildInputs = [
@@ -49,8 +52,6 @@ buildPythonPackage rec {
     cligj
     click-plugins
     munch
-  ] ++ lib.optionals (pythonOlder "3.10") [
-    importlib-metadata
   ];
 
   passthru.optional-dependencies = {
@@ -94,6 +95,6 @@ buildPythonPackage rec {
     description = "OGR's neat, nimble, no-nonsense API for Python";
     homepage = "https://fiona.readthedocs.io/";
     license = licenses.bsd3;
-    maintainers = with maintainers; [ knedlsepp ];
+    maintainers = teams.geospatial.members;
   };
 }

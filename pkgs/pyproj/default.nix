@@ -17,14 +17,14 @@
 
 buildPythonPackage rec {
   pname = "pyproj";
-  version = "3.5.0";
-  disabled = pythonOlder "3.7";
+  version = "3.6.1";
+  disabled = pythonOlder "3.9";
 
   src = fetchFromGitHub {
     owner = "pyproj4";
     repo = "pyproj";
     rev = "refs/tags/${version}";
-    hash = "sha256-Vsje8gEJWNt2P1WOFm/IZSpJo04N0CXWxcmfADmP/M4=";
+    hash = "sha256-ynAhu89VpvtQJRkIeVyffQHhd+OvWSiZzaI/7nd6fXA=";
   };
 
   # force pyproj to use ${proj}
@@ -43,8 +43,7 @@ buildPythonPackage rec {
      certifi
   ];
 
-  # replace checkInputs with nativeCheckInputs for NixOS 23.05
-  checkInputs = [
+  nativeCheckInputs = [
     pytestCheckHook
     mock
     numpy
@@ -85,13 +84,27 @@ buildPythonPackage rec {
     "test_transformer_group__download_grids"
   ];
 
-  pythonImportsCheck = [ "pyproj" ];
+  pythonImportsCheck = [
+    "pyproj"
+    "pyproj.crs"
+    "pyproj.transformer"
+    "pyproj.geod"
+    "pyproj.proj"
+    "pyproj.database"
+    "pyproj.list"
+    "pyproj.datadir"
+    "pyproj.network"
+    "pyproj.sync"
+    "pyproj.enums"
+    "pyproj.aoi"
+    "pyproj.exceptions"
+  ];
 
-  meta = {
+  meta = with lib; {
     description = "Python interface to PROJ library";
     homepage = "https://github.com/pyproj4/pyproj";
     changelog = "https://github.com/pyproj4/pyproj/blob/${src.rev}/docs/history.rst";
-    license = lib.licenses.mit;
-    maintainers = with lib.maintainers; [ lsix dotlambda ];
+    license = licenses.mit;
+    maintainers = with maintainers; teams.geospatial.members ++ [ lsix dotlambda ];
   };
 }

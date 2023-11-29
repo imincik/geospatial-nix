@@ -1,33 +1,35 @@
 { lib
 , stdenv
 , buildPythonPackage
-, fetchFromGitHub
 , pythonOlder
+, fetchPypi
 , cython
 , geos
+, oldest-supported-numpy
 , setuptools
+, wheel
 , numpy
 , pytestCheckHook
 }:
 
 buildPythonPackage rec {
   pname = "shapely";
-  version = "2.0.1";
+  version = "2.0.2";
   format = "pyproject";
 
   disabled = pythonOlder "3.7";
 
-  src = fetchFromGitHub {
-    owner = "shapely";
-    repo = "shapely";
-    rev = "${version}";
-    hash = "sha256-SY6/myRpf0Ho8aYnaQYzu9YwvQLS+FS3WZX6QlRvqtk=";
+  src = fetchPypi {
+    inherit pname version;
+    hash = "sha256-FxPMBMFxuv/Fslm6hTHFiswqMBcHt/Ah2IoV7QkGSec=";
   };
 
   nativeBuildInputs = [
     cython
     geos # for geos-config
+    oldest-supported-numpy
     setuptools
+    wheel
   ];
 
   buildInputs = [
@@ -42,8 +44,10 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
+  # Fix a ModuleNotFoundError. Investigated at:
+  # https://github.com/NixOS/nixpkgs/issues/255262
   preCheck = ''
-    rm -r shapely # prevent import of local shapely
+    cd $out
   '';
 
   disabledTests = lib.optionals (stdenv.isDarwin && stdenv.isAarch64) [
@@ -64,6 +68,6 @@ buildPythonPackage rec {
     description = "Manipulation and analysis of geometric objects";
     homepage = "https://github.com/shapely/shapely";
     license = licenses.bsd3;
-    maintainers = with maintainers; [ knedlsepp ];
+    maintainers = teams.geospatial.members;
   };
 }
