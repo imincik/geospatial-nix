@@ -15,7 +15,7 @@
 
   outputs = { self, nixpkgs, geonix, utils }:
 
-    utils.lib.eachSystem [ "x86_64-linux" "x86_64-darwin" ] (system:
+    utils.lib.eachSystem [ "x86_64-linux" ] (system:
       let
 
         pkgs = geonix.lib.getPackages {

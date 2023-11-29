@@ -15,7 +15,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, macos-11]
+        os: 
+          - ubuntu-22.04
+          # - macos-11
 
     runs-on: ${{ matrix.os }}
 
@@ -46,7 +48,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, macos-11]
+        os: 
+          - ubuntu-22.04
+          # - macos-11
 
     runs-on: ${{ matrix.os }}
 
