@@ -45,7 +45,6 @@
 
               pythonVersions = [
                 "python3" # default
-                "python39"
                 "python310"
                 "python311"
               ];
@@ -234,7 +233,6 @@
                   proj
 
                   python-packages.python3.all-packages
-                  python-packages.python39.all-packages
                   python-packages.python310.all-packages
 
                   # TODO: build 3.11 packages as well
@@ -292,7 +290,6 @@
 
             # Add Python packages in all versions
             // mapAttrs' (name: value: { name = "python3-" + name; value = value; }) python-packages.python3
-            // mapAttrs' (name: value: { name = "python39-" + name; value = value; }) python-packages.python39
             // mapAttrs' (name: value: { name = "python310-" + name; value = value; }) python-packages.python310
             // mapAttrs' (name: value: { name = "python311-" + name; value = value; }) python-packages.python311
 
