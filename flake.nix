@@ -54,7 +54,6 @@
 
               postgresqlVersions = [
                 "postgresql"
-                "postgresql_11"
                 "postgresql_12"
                 "postgresql_13"
                 "postgresql_14"
@@ -242,7 +241,6 @@
                   # python-packages.python311.all-packages
 
                   postgresql-packages.postgresql.all-packages
-                  postgresql-packages.postgresql_11.all-packages
                   postgresql-packages.postgresql_12.all-packages
                   postgresql-packages.postgresql_13.all-packages
                   postgresql-packages.postgresql_14.all-packages
@@ -300,7 +298,6 @@
 
             # Add Postgresql packages in all versions
             // mapAttrs' (name: value: { name = "postgresql-" + name; value = value; }) postgresql-packages.postgresql
-            // mapAttrs' (name: value: { name = "postgresql_11-" + name; value = value; }) postgresql-packages.postgresql_11
             // mapAttrs' (name: value: { name = "postgresql_12-" + name; value = value; }) postgresql-packages.postgresql_12
             // mapAttrs' (name: value: { name = "postgresql_13-" + name; value = value; }) postgresql-packages.postgresql_13
             // mapAttrs' (name: value: { name = "postgresql_14-" + name; value = value; }) postgresql-packages.postgresql_14
