@@ -15,7 +15,7 @@ jobs:
           - ubuntu-22.04
           # - macos-11
         python:
-          - "3.9"
+          - "3.10"
 
     runs-on: ${{ matrix.os }}
 
