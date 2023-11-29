@@ -234,9 +234,7 @@
 
                   python-packages.python3.all-packages
                   python-packages.python310.all-packages
-
-                  # TODO: build 3.11 packages as well
-                  # python-packages.python311.all-packages
+                  python-packages.python311.all-packages
 
                   postgresql-packages.postgresql.all-packages
                   postgresql-packages.postgresql_12.all-packages
