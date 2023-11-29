@@ -40,7 +40,7 @@ let
   python = pkgs.nixpkgs.${pythonVersion}.withPackages (p: extraPythonPackages);
 
   poetry = pkgs.nixpkgs.poetry.override {
-    python = pkgs.nixpkgs.${pythonVersion};
+    python3 = pkgs.nixpkgs.${pythonVersion};
   };
 
   envToBash = name: value: "export ${name}=${lib.escapeShellArg (toString value)}";
