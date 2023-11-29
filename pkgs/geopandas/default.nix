@@ -8,22 +8,22 @@
 , pyproj
 , pytestCheckHook
 , pythonOlder
-, Rtree  # replace Rtree with rtree in NixOS 23.05
+, rtree
 , shapely
 }:
 
 buildPythonPackage rec {
   pname = "geopandas";
-  version = "0.13.2";
+  version = "0.14.1";
   format = "setuptools";
 
-  disabled = pythonOlder "3.8";
+  disabled = pythonOlder "3.9";
 
   src = fetchFromGitHub {
     owner = "geopandas";
     repo = "geopandas";
     rev = "refs/tags/v${version}";
-    hash = "sha256-8H0IO+Oabl1ZOHHvMFHnPEyW0xH/G4wuUtkZrsP6K3k=";
+    hash = "sha256-mQ13fjhtFXvUnBok5bDz+zkbgfXEUmwiv77rBpYS5oo=";
   };
 
   propagatedBuildInputs = [
@@ -34,10 +34,9 @@ buildPythonPackage rec {
     shapely
   ];
 
-  # replace checkInputs with nativeCheckInputs in NixOS 23.05
-  checkInputs = [
+  nativeCheckInputs = [
     pytestCheckHook
-    Rtree
+    rtree
   ];
 
   doCheck = !stdenv.isDarwin;
@@ -64,6 +63,6 @@ buildPythonPackage rec {
     homepage = "https://geopandas.org";
     changelog = "https://github.com/geopandas/geopandas/blob/v${version}/CHANGELOG.md";
     license = licenses.bsd3;
-    # maintainers = teams.geospatial.members;  TODO: enable this for NixOS 23.05
+    maintainers = teams.geospatial.members;
   };
 }
