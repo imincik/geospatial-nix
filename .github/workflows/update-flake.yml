@@ -1,8 +1,8 @@
 name: Update flake inputs
 
 on:
-  # schedule:
-  #   - cron:  '0 1 * * 0'
+  schedule:
+    - cron:  '0 1 * * 0'
   workflow_dispatch:
 
 env:
@@ -39,7 +39,7 @@ jobs:
             [1]: https://github.com/peter-evans/create-pull-request
           branch: flake-update-action-pr
           delete-branch: true
-          commit-message: "flake: update nix flake inputs to the latest revision"
+          commit-message: "flake: update nix flake inputs"
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           assignees: imincik
