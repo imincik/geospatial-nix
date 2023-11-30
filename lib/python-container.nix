@@ -75,6 +75,7 @@ pkgs.nixpkgs.dockerTools.buildLayeredImage
     config = {
       Env = [
         "PYTHONPATH=${python}/${python.sitePackages}"
+        "NIX_PYTHON_SITEPACKAGES=${python}/${python.sitePackages}"
       ];
       Entrypoint = [ "${python}/bin/python" ];
     };
