@@ -60,7 +60,6 @@ pkgs.nixpkgs.mkShell {
   buildInputs = [
     python
     poetry
-    pkgs.nixpkgs.zlib
   ] ++ extraPackages;
 
   shellHook = ''
@@ -72,6 +71,7 @@ pkgs.nixpkgs.mkShell {
       echo "No pyproject.toml file found. Run 'poetry init' to create Poetry project."
     fi
 
+    export LD_LIBRARY_PATH=${lib.makeLibraryPath (with pkgs.nixpkgs; [ stdenv.cc.cc.lib zlib ])};
     export PYTHONPATH=${python}/${python.sitePackages}
     export NIX_PYTHON_SITEPACKAGES=${python}/${python.sitePackages}
 
