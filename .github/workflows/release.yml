@@ -1,0 +1,27 @@
+name: Release new version
+
+on:
+  schedule:
+    - cron:  '0 1 * * 0'
+  workflow_dispatch:
+
+jobs:
+  release:
+    if: github.ref == 'refs/heads/master'
+    name: "Release"
+    runs-on: "ubuntu-22.04"
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "Generate tag"
+        id: tag
+        run: echo "nixos-23.11-$(date "+%Y%m%d.%H%M%S")" >> "$GITHUB_OUTPUT"
+
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "${{ steps.tag.outputs.tag }}"
+          prerelease: false
