@@ -14,7 +14,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Terminate if no changes since last tag
+        run: |
+          if [ "$(git rev-list $(git describe --abbrev=0 --tags)..HEAD --count -- imgs/ lib/ modules/ pkgs/ templates/)" -eq "0" ]; then exit 1; fi
 
       - name: "Generate tag"
         id: tag
