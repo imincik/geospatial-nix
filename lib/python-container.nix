@@ -57,8 +57,6 @@ pkgs.nixpkgs.dockerTools.buildLayeredImage
       pkgs.nixpkgs.coreutils
       pkgs.nixpkgs.fakeNss
 
-      pkgs.nixpkgs.zlib
-
       poetry
       python
 
@@ -74,6 +72,7 @@ pkgs.nixpkgs.dockerTools.buildLayeredImage
 
     config = {
       Env = [
+        "LD_LIBRARY_PATH=${lib.makeLibraryPath (with pkgs.nixpkgs; [ stdenv.cc.cc.lib zlib ])}"
         "PYTHONPATH=${python}/${python.sitePackages}"
         "NIX_PYTHON_SITEPACKAGES=${python}/${python.sitePackages}"
       ];
