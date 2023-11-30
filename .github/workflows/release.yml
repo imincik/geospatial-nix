@@ -18,7 +18,7 @@ jobs:
 
       - name: "Generate tag"
         id: tag
-        run: echo "nixos-23.11-$(date "+%Y%m%d.%H%M%S")" >> "$GITHUB_OUTPUT"
+        run: echo tag=$(echo "nixos-23.11-$(date "+%Y%m%d.%H%M%S")") >> "$GITHUB_OUTPUT"
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
