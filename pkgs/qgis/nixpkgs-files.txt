@@ -1,0 +1,1 @@
+pkgs/applications/gis/qgis/* pkgs/qgis/
