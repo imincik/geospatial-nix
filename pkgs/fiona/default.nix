@@ -21,7 +21,7 @@
 
 buildPythonPackage rec {
   pname = "fiona";
-  version = "1.9.5";
+  version = "1.9.5-doc1";
   pyproject = true;
 
   disabled = pythonOlder "3.7";
@@ -30,7 +30,7 @@ buildPythonPackage rec {
     owner = "Toblerity";
     repo = "Fiona";
     rev = "refs/tags/${version}";
-    hash = "sha256-fq/BuyzuK4iOxdpE4h+KRH0CxOEk/wdmbb9KgCfJ1cw=";
+    hash = "sha256-Np+1RgA7B53pChXg+ws1bJsrVaBAQsgwqSipYP7uVoU=";
   };
 
   nativeBuildInputs = [
