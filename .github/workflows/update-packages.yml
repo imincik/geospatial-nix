@@ -1,8 +1,8 @@
 name: Update packages
 
 on:
-  # schedule:
-  #   - cron:  '0 1 * * *'
+  schedule:
+    - cron:  '0 1 * * *'
   workflow_dispatch:
 
 env:
@@ -15,13 +15,13 @@ jobs:
       matrix:
         package:
           - gdal
-          - geos
+          # - geos             # unsupported repo
           - libgeotiff
-          # - librttopo      # not on GitHub (https://git.osgeo.org/gitea/rttopo/librttopo)
+          # - librttopo        # unsupported repo
           - libspatialindex
-          # - libspatialite  # not on GitHub (gaia-gis.it)
+          # - libspatialite    # not on GitHub (gaia-gis.it)
           - pdal
-          # - postgis        # not on GitHub (git.osgeo.org/gitea/postgis/postgis)
+          # - postgis          # failing
           - proj
           - python3-fiona
           - python3-geopandas
@@ -30,8 +30,8 @@ jobs:
           - python3-rasterio
           - python3-shapely
           - grass
-          - qgis
-          - qgis-ltr
+          # - qgis            # problem with version tags
+          # - qgis-ltr        # problem with version tags
 
     runs-on: ubuntu-22.04
 
@@ -46,11 +46,7 @@ jobs:
 
       - name: Update package
         run: >
-          nix develop .#ci
-          --accept-flake-config
-          --command utils/update-version.sh ${{ matrix.package }}
-        env:
-          GITHUB_API_TOKEN: ${{ secrets.AGITHUB_API_TOKEN}}
+          nix run github:Mic92/nix-update -- ${{ matrix.package }} --flake
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
@@ -67,5 +63,5 @@ jobs:
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           assignees: imincik
-          reviewers: imincik
+          # reviewers: imincik
           token: ${{ secrets.FLAKE_AUTOUPDATE_TOKEN }}
