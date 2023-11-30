@@ -73,6 +73,7 @@ pkgs.nixpkgs.mkShell {
     fi
 
     export PYTHONPATH=${python}/${python.sitePackages}
+    export NIX_PYTHON_SITEPACKAGES=${python}/${python.sitePackages}
 
     ${startupEnv}
     ${shellHook}
