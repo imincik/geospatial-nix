@@ -67,7 +67,7 @@
 
               # Core libs
               gdal = pkgs.callPackage ./pkgs/gdal {
-                inherit geos libgeotiff libspatialite proj;
+                inherit geos libgeotiff libspatialite proj tiledb;
               };
               _gdal = gdal;
 
@@ -167,6 +167,10 @@
               });
 
 
+              # TileDB
+              tiledb = pkgs.callPackage ./pkgs/tiledb { };
+
+
               # GRASS
               grass = pkgs.callPackage ./pkgs/grass {
                 inherit gdal geos pdal proj;
@@ -242,6 +246,8 @@
                   postgresql-packages.postgresql_14.all-packages
                   postgresql-packages.postgresql_15.all-packages
 
+                  tiledb
+
                 ] ++ pkgs.lib.optionals pkgs.stdenv.isLinux [ grass qgis qgis-ltr ];
               };
 
@@ -272,6 +278,8 @@
                   pdal
                   proj
 
+                  tiledb
+  
                   # Applications
                   grass
                   qgis

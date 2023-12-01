@@ -61,11 +61,13 @@ rec {
   ### GDAL
   #####################################################################
 
+  tiledb = pkgs.tiledb;
+
   gdal = (pkgs.gdal.overrideAttrs (old: {
 
     # >>> CUSTOMIZE HERE
 
-  })).override { inherit geos libgeotiff libspatialite proj; };
+  })).override { inherit geos libgeotiff libspatialite proj tiledb; };
   _gdal = gdal;
 
   #####################################################################
