@@ -2,7 +2,7 @@ name: Release new version
 
 on:
   schedule:
-    - cron:  '0 1 * * 0'
+    - cron:  '0 1 * * 1'
   workflow_dispatch:
 
 jobs:
@@ -19,7 +19,7 @@ jobs:
 
       - name: Terminate if no changes since last tag
         run: |
-          if [ "$(git rev-list $(git describe --abbrev=0 --tags)..HEAD --count -- imgs/ lib/ modules/ pkgs/ templates/)" -eq "0" ]; then exit 1; fi
+          if [ "$(git rev-list $(git describe --abbrev=0 --tags)..HEAD --count -- flake.nix imgs/ lib/ modules/ pkgs/ templates/)" -eq "0" ]; then exit 1; fi
 
       - name: "Generate tag"
         id: tag
