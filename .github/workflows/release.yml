@@ -23,7 +23,7 @@ jobs:
 
       - name: "Generate tag"
         id: tag
-        run: echo tag=$(echo "v23.11-$(date "+%Y%m%d.%H%M%S")") >> "$GITHUB_OUTPUT"
+        run: echo tag=$(echo "v23.11-$(date "+%Y%m%d")") >> "$GITHUB_OUTPUT"
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
