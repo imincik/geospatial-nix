@@ -35,7 +35,7 @@ jobs:
         mkdir -p $GITHUB_WORKSPACE
 
     - name: Install nix
-      uses: cachix/install-nix-action@v23
+      uses: cachix/install-nix-action@v24
 
     - name: Flake check
       run: >
