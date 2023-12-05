@@ -3,7 +3,7 @@ name: Publish a flake to flakestry.dev
 on:
   push:
     tags:
-      - "^nixos-[0-9]+.[0-9]+-[0-9]+.[0-9]+"
+      - "^v[0-9]+.[0-9]+-[0-9]+.[0-9]+"
   workflow_dispatch:
     inputs:
       tag:
