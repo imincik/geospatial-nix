@@ -1,18 +1,21 @@
-[![Build packages](https://github.com/imincik/geonix/actions/workflows/build-packages.yml/badge.svg)](https://github.com/imincik/geonix/actions/workflows/build-packages.yml)
+[![Build packages](https://github.com/imincik/geospatial-nix/actions/workflows/build-packages.yml/badge.svg)](https://github.com/imincik/geospatial-nix/actions/workflows/build-packages.yml)
 
-# A cross-platform geospatial packages repository and environment
+# A geospatial packages repository and environment
 
-**WARNING: this project is safe to be used for testing, but things are in active
+**WARNING: this project is safe to be used, but things are in active
 development. Incompatible changes without any notice can occur at any time !**
 
+**GeospatialNIX** provides weekly updated geospatial packages and tools for
+creating isolated and reproducible geospatial environments.
 
-## Documentation
+
+## User documentation
 
 User documentation is available via
-[Geonix Wiki pages](https://github.com/imincik/geonix/wiki).
+[Wiki pages](https://github.com/imincik/geospatial-nix/wiki).
 
 
-## Development
+## Developer documentation
 
 * Build single package
 ```
@@ -24,14 +27,14 @@ nix build .#<PACKAGE>
 nix build .#all-packages
 ```
 
-* Build single package and push it to Geonix Cachix binary cache
+* Build single package and push it to Geonix binary cache
 ```
-nix build --json .\#<PACKAGE>  | jq -r '.[].outputs | to_entries[].value' | cachix push geonix
+nix build --json .#<PACKAGE>  | jq -r '.[].outputs | to_entries[].value' | cachix push geonix
 ```
 
-* Build all packages and push them to Geonix Cachix binary cache
+* Build all packages and push them to Geonix binary cache
 ```
-nix build --json .\#all-packages  | jq -r '.[].outputs | to_entries[].value' | cachix push geonix
+nix build --json .#all-packages  | jq -r '.[].outputs | to_entries[].value' | cachix push geonix
 ```
 
 * Run package passthru tests
