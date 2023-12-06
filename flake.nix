@@ -41,25 +41,23 @@
           packages =
 
             let
-              inherit (nixpkgs.lib) mapAttrs';
+              inherit (nixpkgs.lib) genAttrs mapAttrs';
 
               pythonVersions = [
-                "python3" # default
+                "python3" # default Python version
                 "python310"
                 "python311"
               ];
-
-              forAllPythonVersions = f: nixpkgs.lib.genAttrs pythonVersions (python: f python);
+              forAllPythonVersions = f: genAttrs pythonVersions (python: f python);
 
               postgresqlVersions = [
-                "postgresql"
+                "postgresql" # default PostgreSQL version
                 "postgresql_12"
                 "postgresql_13"
                 "postgresql_14"
                 "postgresql_15"
               ];
-
-              forAllPostgresqlVersions = f: nixpkgs.lib.genAttrs postgresqlVersions (postgresql: f postgresql);
+              forAllPostgresqlVersions = f: genAttrs postgresqlVersions (postgresql: f postgresql);
 
 
               geonixcli = pkgs.callPackage ./pkgs/geonixcli { };
@@ -225,7 +223,7 @@
               # all-packages
               all-packages = pkgs.symlinkJoin {
                 name = "all-packages";
-                paths = with self.packages; [
+                paths = [
                   gdal
                   geonixcli
                   geos
