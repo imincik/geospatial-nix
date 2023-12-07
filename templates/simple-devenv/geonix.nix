@@ -1,0 +1,19 @@
+{ inputs, pkgs, ... }:
+
+let
+  # Get Geospatial NIX packages
+  geopkgs = inputs.geonix.packages.${pkgs.system};
+
+in {
+  # https://devenv.sh/reference/options/
+
+  packages = [
+    # packages from Nixpkgs
+    pkgs.hello
+
+    # packages from Geospatial NIX
+    geopkgs.geonixcli  # FIXME: doesn't work
+    geopkgs.gdal
+    # geopkgs.qgis
+  ];
+}
