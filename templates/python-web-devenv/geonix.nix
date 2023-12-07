@@ -17,7 +17,7 @@ in
 {
   # https://devenv.sh/packages/
   packages = [
-    geopkgs.geonixcli  # FIXME: doesn't work
+    geopkgs.geonixcli
   ];
 
   # https://devenv.sh/languages/

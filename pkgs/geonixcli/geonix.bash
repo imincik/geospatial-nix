@@ -19,9 +19,9 @@ init                Initialize current directory with initial files.
 up                  Start processes configured in geonix.nix.
                     See: http://devenv.sh/processes
 
-search PACKAGE/     Search for packages or container images available in Geonix
-       IMAGE        or Nixpkgs repository. Search is performed for revisions
-                    according flake.lock file and latest revisions.
+search PACKAGE/     Search for packages or container images available in
+       IMAGE        Geospatial NIX or Nixpkgs repository. Search is performed for
+                    revisions according flake.lock file.
 
                     To search for multiple package names separate them with
                     pipe ("PACKAGE-X|PACKAGE-Y").
@@ -125,7 +125,6 @@ function get_nixpkgs_metadata {
         nixpkgs_rev=$( \
             nix "${NIX_FLAGS[@]}" flake metadata  --json \
             | jq --raw-output '.locks.nodes.nixpkgs.locked.rev' \
-            | cut -c1-7 \
         )
     fi
 }
@@ -173,7 +172,6 @@ function get_geonix_metadata {
         geonix_rev=$( \
             nix "${NIX_FLAGS[@]}" flake metadata  --json \
             | jq --raw-output '.locks.nodes.geonix.locked.rev' \
-            | cut -c1-7 \
         )
     fi
 }
@@ -228,7 +226,7 @@ elif [ "${args[0]}" == "search" ]; then
             jq --raw-output '
                 [
                     to_entries[]
-                    | { name: ("pkgs.nixpkgs." + (.key | split(".") | del(.[0, 1]) | join("."))) }
+                    | { name: ("pkgs." + (.key | split(".") | del(.[0, 1]) | join("."))) }
                     * (.value | { version, description})
                 ]
                 | (.[0] |keys_unsorted | @tsv)
@@ -240,23 +238,16 @@ elif [ "${args[0]}" == "search" ]; then
     }
 
     function geonix_search {
-        nix_search "$1" "$2" | sed "s/^pkgs.nixpkgs./pkgs.geonix./"
+        nix_search "$1" "$2" | sed "s/^pkgs./geopkgs./"
     }
 
     if [ "$nixpkgs_exists" != "null" ]; then
 
         if [ "$nixpkgs_rev" != "null" ]; then
             echo -e "\n${BOLD}$nixpkgs_url/$nixpkgs_rev ${NOFORMAT}"
-            nix_search "$nixpkgs_url/$nixpkgs_rev" "${args[@]:1}" | column -ts $'\t'
+            nix_search "$nixpkgs_url/$nixpkgs_rev" "${args[@]:1}" \
+                | column -ts $'\t'
         fi
-
-        # if [ "$nixpkgs_ref" != "null" ]; then
-        #     echo -e "\n${BOLD}$nixpkgs_url/$nixpkgs_ref ${NOFORMAT}"
-        #     nix_search "$nixpkgs_url/$nixpkgs_ref" "${args[@]:1}" | column -ts $'\t'
-        # else
-        #     echo -e "\n${BOLD}$nixpkgs_url ${NOFORMAT}"
-        #     nix_search "$nixpkgs_url" "${args[@]:1}" | column -ts $'\t'
-        # fi
     fi
 
     if [ "$geonix_exists" != "null" ]; then
@@ -264,21 +255,9 @@ elif [ "${args[0]}" == "search" ]; then
         if [ "$geonix_rev" != "null" ]; then
             echo -e "\n${BOLD}$geonix_url/$geonix_rev ${NOFORMAT}"
             geonix_search "$geonix_url/$geonix_rev" "${args[@]:1}" \
-                | grep -v "\-unwrapped\|\-all-packages" \
+                | grep -v "unwrapped\|all-packages" \
                 | column -ts $'\t'
         fi
-
-        # if [ "$geonix_ref" != "null" ]; then
-        #     echo -e "\n${BOLD}$geonix_url/$geonix_ref ${NOFORMAT}"
-        #     geonix_search "$geonix_url/$geonix_ref" "${args[@]:1}" \
-        #         | grep -v "\-unwrapped\|\-all-packages" \
-        #         | column -ts $'\t'
-        # else
-        #     echo -e "\n${BOLD}$geonix_url ${NOFORMAT}"
-        #     geonix_search "$geonix_url" "${args[@]:1}" \
-        #         | grep -v "\-unwrapped\|\-all-packages" \
-        #         | column -ts $'\t'
-        # fi
     fi
 
 
