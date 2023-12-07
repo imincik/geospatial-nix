@@ -16,6 +16,8 @@ Available commands:
 
 init                Initialize current directory with initial files.
 
+shell               Launch shell environment.
+
 up                  Start processes configured in geonix.nix.
                     See: http://devenv.sh/processes
 
@@ -194,6 +196,12 @@ if [ "${args[0]}" == "init" ]; then
     done
 
     echo "Don't forget to add all files to git before use !"
+
+
+# SHELL
+elif [ "${args[0]}" == "shell" ]; then
+
+    nix "${NIX_FLAGS[@]}" develop --impure
 
 
 # UP
