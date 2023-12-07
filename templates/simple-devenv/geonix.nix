@@ -12,7 +12,7 @@ in {
     pkgs.hello
 
     # packages from Geospatial NIX
-    geopkgs.geonixcli  # FIXME: doesn't work
+    geopkgs.geonixcli
     geopkgs.gdal
     # geopkgs.qgis
   ];
