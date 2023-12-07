@@ -38,5 +38,5 @@ jobs:
 
     - name: Test default shell
       run: >
-        nix develop --accept-flake-config --command gdalinfo --version
+        nix develop --impure --accept-flake-config --command gdalinfo --version
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}

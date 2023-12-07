@@ -1,32 +1,18 @@
-# Simple Geonix configuration.
+{ inputs, pkgs, ... }:
 
-{ pkgs, geonix, ... }:
+let
+  # Get Geospatial NIX packages
+  geopkgs = inputs.geonix.packages.${pkgs.system};
 
-{
+in {
+  # https://devenv.sh/reference/options/
 
-  # Shell environments.
-  # For list of available shell functions see:
-  # https://github.com/imincik/geonix/wiki/Packages-images-shell-environments#shell-environments
-  shells = {
+  packages = [
+    # packages from Nixpkgs
+    pkgs.hello
 
-    # Default interactive shell.
-    # Launch shell: nix develop
-    default = geonix.lib.mkDevShell {
-      inherit pkgs;
-
-      extraPackages = [
-        pkgs.geonix.geonixcli
-        pkgs.geonix.gdal
-        # ...
-      ];
-    };
-
-    # Postgresql shell.
-    # Launch shell: nix develop .#postgresql
-    postgresql = geonix.lib.mkPostgresqlShell {
-      inherit pkgs;
-    };
-
-  };
-
+    # packages from Geospatial NIX
+    geopkgs.geonixcli
+    geopkgs.gdal
+  ];
 }

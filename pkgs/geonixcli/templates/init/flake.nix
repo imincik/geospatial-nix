@@ -1,49 +1,47 @@
 {
-  description = "Simple Geonix configuration";
+  description = "Geospatial NIX";
 
   nixConfig = {
-    extra-substituters = [ "https://geonix.cachix.org" ];
-    extra-trusted-public-keys = [ "geonix.cachix.org-1:iyhIXkDLYLXbMhL3X3qOLBtRF8HEyAbhPXjjPeYsCl0=" ];
+    extra-substituters = [
+      "https://geonix.cachix.org"
+      "https://devenv.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "geonix.cachix.org-1:iyhIXkDLYLXbMhL3X3qOLBtRF8HEyAbhPXjjPeYsCl0="
+      "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
+    ];
     bash-prompt = "\\[\\033[1m\\][geonix]\\[\\033\[m\\]\\040\\w >\\040";
   };
 
   inputs = {
     geonix.url = "github:imincik/geonix";
     nixpkgs.follows = "geonix/nixpkgs";
+    devenv = {
+      url = "github:cachix/devenv";
+      inputs.nixpkgs.follows = "geonix/nixpkgs";
+    };
     utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, geonix, utils }:
+  outputs = { self, nixpkgs, geonix, devenv, utils, ... } @ inputs:
 
     utils.lib.eachSystem [ "x86_64-linux" ] (system:
       let
-
-        pkgs = geonix.lib.getPackages {
-          inherit system nixpkgs geonix;
-
-          # Run 'geonix override' command to get overrides.nix template file and
-          # enable following line to start customizing Geonix packages.
-
-          # overridesFile = ./overrides.nix;
-
-          # Python and PostgreSQL versions to use for overrided packages.
-          # pythonVersion = "python3";
-          # postgresqlVersion = "postgresql";
-        };
-
-        geonixConfig = import ./geonix.nix { inherit pkgs geonix; };
-
+        pkgs = nixpkgs.legacyPackages.${system};
       in
       {
-        packages =
-          if builtins.hasAttr "packages" geonixConfig
-          then utils.lib.filterPackages system geonixConfig.packages
-          else { };
+        packages = {
+          devenv-up = self.devShells.${system}.default.config.procfileScript;
+        };
 
-        devShells =
-          if builtins.hasAttr "shells" geonixConfig
-          then geonixConfig.shells
-          else { };
+        devShells = {
+          default = devenv.lib.mkShell {
+            inherit inputs pkgs;
+            modules = [
+              ./geonix.nix
+            ];
+          };
+        };
       }
     );
 }
