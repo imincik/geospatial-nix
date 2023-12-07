@@ -1,0 +1,102 @@
+diff --git b/pkgs/qgis/default.nix a/pkgs/qgis/default.nix
+index 8b19c70..93d7b6f 100644
+--- b/pkgs/qgis/default.nix
++++ a/pkgs/qgis/default.nix
+@@ -4,14 +4,14 @@
+ , symlinkJoin
+ 
+ , extraPythonPackages ? (ps: [ ])
++, qgis-unwrapped
+ 
+ , libsForQt5
+ }:
+-let
+-  qgis-unwrapped = libsForQt5.callPackage ./unwrapped.nix {  };
+-in symlinkJoin rec {
+ 
+-  inherit (qgis-unwrapped) version;
++symlinkJoin rec {
++
++  inherit (qgis-unwrapped) version src;
+   name = "qgis-${version}";
+ 
+   paths = [ qgis-unwrapped ];
+diff --git b/pkgs/qgis/ltr.nix a/pkgs/qgis/ltr.nix
+index b551fe0..f4ce94a 100644
+--- b/pkgs/qgis/ltr.nix
++++ a/pkgs/qgis/ltr.nix
+@@ -4,14 +4,14 @@
+ , symlinkJoin
+ 
+ , extraPythonPackages ? (ps: [ ])
++, qgis-ltr-unwrapped
+ 
+ , libsForQt5
+ }:
+-let
+-  qgis-ltr-unwrapped = libsForQt5.callPackage ./unwrapped-ltr.nix {  };
+-in symlinkJoin rec {
+ 
+-  inherit (qgis-ltr-unwrapped) version;
++symlinkJoin rec {
++
++  inherit (qgis-ltr-unwrapped) version src;
+   name = "qgis-${version}";
+ 
+   paths = [ qgis-ltr-unwrapped ];
+diff --git b/pkgs/qgis/unwrapped-ltr.nix a/pkgs/qgis/unwrapped-ltr.nix
+index ba587bb..1c9fcb3 100644
+--- b/pkgs/qgis/unwrapped-ltr.nix
++++ a/pkgs/qgis/unwrapped-ltr.nix
+@@ -14,6 +14,7 @@
+ , exiv2
+ , fcgi
+ , flex
++, gdal
+ , geos
+ , grass
+ , gsl
+@@ -47,13 +48,8 @@
+ 
+ let
+ 
+-  py = python3.override {
+-    packageOverrides = self: super: {
+-      pyqt5 = super.pyqt5.override {
+-        withLocation = true;
+-      };
+-    };
+-  };
++  # pyqt5 override was moved to flake.nix
++  py = python3;
+ 
+   pythonBuildInputs = with py.pkgs; [
+     chardet
+diff --git b/pkgs/qgis/unwrapped.nix a/pkgs/qgis/unwrapped.nix
+index 8bc888b..02baebf 100644
+--- b/pkgs/qgis/unwrapped.nix
++++ a/pkgs/qgis/unwrapped.nix
+@@ -15,6 +15,7 @@
+ , exiv2
+ , fcgi
+ , flex
++, gdal
+ , geos
+ , grass
+ , gsl
+@@ -48,13 +49,8 @@
+ }:
+ 
+ let
+-  py = python3.override {
+-    packageOverrides = self: super: {
+-      pyqt5 = super.pyqt5.override {
+-        withLocation = true;
+-      };
+-    };
+-  };
++  # pyqt5 override was moved to flake.nix
++  py = python3;
+ 
+   pythonBuildInputs = with py.pkgs; [
+     chardet
