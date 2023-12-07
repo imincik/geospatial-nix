@@ -18,8 +18,16 @@
 
 
   simple = {
-    description = "Simple configuration";
+    description = "Simple environment";
     path = ./templates/simple;
+    welcomeText = ''
+      See README.md file for instructions how to use this template.
+    '';
+  };
+
+  simple-devenv = {
+    description = "Simple environment based on Devenv";
+    path = ./templates/simple-devenv;
     welcomeText = ''
       See README.md file for instructions how to use this template.
     '';
