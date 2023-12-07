@@ -5,7 +5,7 @@
 **WARNING: this project is safe to be used, but things are in active
 development. Incompatible changes without any notice can occur at any time !**
 
-**GeospatialNIX** provides weekly updated geospatial packages and tools for
+**Geospatial NIX** provides weekly updated geospatial packages and tools for
 creating isolated and reproducible geospatial environments.
 
 
