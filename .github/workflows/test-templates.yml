@@ -12,9 +12,10 @@ jobs:
       fail-fast: false
       matrix:
         template:
-          - python-web-app
           - simple
           - simple-devenv
+          - python-web
+          - python-web-devenv
         os:
           - ubuntu-22.04
           # - macos-11
@@ -67,18 +68,18 @@ jobs:
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
 
 
-    # python-web-app
-    - name: Test template (if macOS + python-web-app template - local backend)
+    # python-web
+    - name: Test template (if macOS + python-web template - local backend)
       run: |
         nix develop --accept-flake-config --command poetry install
 
         nix develop --accept-flake-config --command poetry run flask --app src/python_app run &
 
         curl --retry 10 --retry-all-errors localhost:5000 | grep POLYGON
-      if: ${{ runner.os == 'macOS' && matrix.template == 'python-web-app' }}
+      if: ${{ runner.os == 'macOS' && matrix.template == 'python-web' }}
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
 
-    - name: Test template (if Linux + python-web-app template - DB backend)
+    - name: Test template (if Linux + python-web template - DB backend)
       run: |
         nix develop --accept-flake-config .#postgresql --command echo &
 
@@ -88,10 +89,10 @@ jobs:
         nix develop --accept-flake-config --command poetry run flask --app src/python_app run &
 
         curl --retry 10 --retry-all-errors localhost:5000 | grep POLYGON
-      if: ${{ runner.os == 'Linux' && matrix.template == 'python-web-app' }}
+      if: ${{ runner.os == 'Linux' && matrix.template == 'python-web' }}
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
 
-    - name: Test deployment (if Linux + python-web-app)
+    - name: Test deployment (if Linux + python-web)
       run: |
         nix build --accept-flake-config .#container
         docker load < ./result
@@ -100,7 +101,26 @@ jobs:
         docker run -d -p 8000:8000 python-app:latest
 
         curl --retry 10 --retry-all-errors localhost:8000 | grep POLYGON
-      if: ${{ runner.os == 'Linux' && matrix.template == 'python-web-app' }}
+      if: ${{ runner.os == 'Linux' && matrix.template == 'python-web' }}
+      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
+
+
+    # python-web-devenv
+    - name: Test template (if Linux + python-web-devenv template - local backend)
+      run: |
+        nix develop --impure --accept-flake-config --command poetry run flask --app src/python_app run &
+
+        curl --retry 10 --retry-all-errors localhost:5000 | grep POLYGON
+      if: ${{ runner.os == 'Linux' && matrix.template == 'python-web-devenv' }}
+      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
+
+    - name: Test template (if Linux + python-web-devenv template - DB backend)
+      run: |
+        export BACKEND=db
+        nix develop --impure --accept-flake-config --command poetry run flask --app src/python_app run &
+
+        curl --retry 10 --retry-all-errors localhost:5000 | grep POLYGON
+      if: ${{ runner.os == 'Linux' && matrix.template == 'python-web-devenv' }}
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
 
 
