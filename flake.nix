@@ -1,5 +1,5 @@
 {
-  description = "Geonix - geospatial environment for Nix";
+  description = "Geospatial NIX";
 
   nixConfig = {
     extra-substituters = [ "https://geonix.cachix.org" ];
@@ -41,7 +41,8 @@
           packages =
 
             let
-              inherit (nixpkgs.lib) genAttrs mapAttrs';
+              inherit (nixpkgs.lib) forEach genAttrs mapAttrs';
+              inherit (nixpkgs.lib.attrsets) mergeAttrsList;
 
               pythonVersions = [
                 "python3" # default Python version
@@ -58,6 +59,17 @@
                 "postgresql_15"
               ];
               forAllPostgresqlVersions = f: genAttrs postgresqlVersions (postgresql: f postgresql);
+
+              # Function: prefix packages and remove `__toString` attribute
+              prefixPackages = packages: prefix:
+                builtins.removeAttrs
+                  (mapAttrs'
+                    (
+                      name: value: { name = "${prefix}-" + name; value = value; }
+                    )
+                    packages
+                  )
+                  [ "${prefix}-__toString" ];
 
 
               geonixcli = pkgs.callPackage ./pkgs/geonixcli { };
@@ -143,6 +155,8 @@
                     shapely
                   ];
                 };
+
+                __toString = self: python;
               });
 
 
@@ -162,6 +176,8 @@
                     postgis
                   ];
                 };
+
+                __toString = self: postgresql;
               });
 
 
@@ -220,7 +236,7 @@
               qgis-ltr = pkgs.callPackage ./pkgs/qgis/ltr.nix { qgis-ltr-unwrapped = qgis-ltr-unwrapped; };
 
 
-              # all-packages
+              # all-packages (meta package containing all packages)
               all-packages = pkgs.symlinkJoin {
                 name = "all-packages";
                 paths = [
@@ -234,19 +250,17 @@
                   pdal
                   proj
 
-                  python-packages.python3.all-packages
-                  python-packages.python310.all-packages
-                  python-packages.python311.all-packages
-
-                  postgresql-packages.postgresql.all-packages
-                  postgresql-packages.postgresql_12.all-packages
-                  postgresql-packages.postgresql_13.all-packages
-                  postgresql-packages.postgresql_14.all-packages
-                  postgresql-packages.postgresql_15.all-packages
-
                   tiledb
+                ]
 
-                ] ++ pkgs.lib.optionals pkgs.stdenv.isLinux [ grass qgis qgis-ltr ];
+                # Add Python packages in all versions
+                ++ forEach (builtins.attrNames python-packages) (v: python-packages.${v}.all-packages)
+
+                # Add Postgresql packages in all versions
+                ++ forEach (builtins.attrNames postgresql-packages) (v: postgresql-packages.${v}.all-packages)
+
+                # Add Linux only packages
+                ++ pkgs.lib.optionals pkgs.stdenv.isLinux [ grass qgis qgis-ltr ];
               };
 
 
@@ -277,7 +291,7 @@
                   proj
 
                   tiledb
-  
+
                   # Applications
                   grass
                   qgis
@@ -293,16 +307,10 @@
               }
 
             # Add Python packages in all versions
-            // mapAttrs' (name: value: { name = "python3-" + name; value = value; }) python-packages.python3
-            // mapAttrs' (name: value: { name = "python310-" + name; value = value; }) python-packages.python310
-            // mapAttrs' (name: value: { name = "python311-" + name; value = value; }) python-packages.python311
+            // mergeAttrsList (forEach (builtins.attrValues python-packages) (p: prefixPackages p "${p}"))
 
             # Add Postgresql packages in all versions
-            // mapAttrs' (name: value: { name = "postgresql-" + name; value = value; }) postgresql-packages.postgresql
-            // mapAttrs' (name: value: { name = "postgresql_12-" + name; value = value; }) postgresql-packages.postgresql_12
-            // mapAttrs' (name: value: { name = "postgresql_13-" + name; value = value; }) postgresql-packages.postgresql_13
-            // mapAttrs' (name: value: { name = "postgresql_14-" + name; value = value; }) postgresql-packages.postgresql_14
-            // mapAttrs' (name: value: { name = "postgresql_15-" + name; value = value; }) postgresql-packages.postgresql_15;
+            // mergeAttrsList (forEach (builtins.attrValues postgresql-packages) (p: prefixPackages p "${p}"));
 
 
           #
