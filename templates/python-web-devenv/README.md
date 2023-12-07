@@ -83,7 +83,7 @@ nix develop --impure
 * Launch PostgreSQL database
 
 ```
-devenv up
+geonix up
 ```
 
 * Enter another development shell (run in new terminal window)

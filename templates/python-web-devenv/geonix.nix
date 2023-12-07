@@ -6,7 +6,6 @@ let
 
   python = pkgs.python3.withPackages (p: [
     # packages from Geospatial NIX
-    geopkgs.geonixcli  # FIXME: doesn't work
     geopkgs.python3-psycopg
     geopkgs.python3-shapely
 
@@ -17,7 +16,9 @@ let
 in
 {
   # https://devenv.sh/packages/
-  packages = [ ];
+  packages = [
+    geopkgs.geonixcli  # FIXME: doesn't work
+  ];
 
   # https://devenv.sh/languages/
   languages.python = {

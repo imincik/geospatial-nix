@@ -4,10 +4,8 @@ set -Eeuo pipefail
 trap cleanup SIGINT SIGTERM ERR EXIT
 
 function usage {
-  cat <<EOF
+cat <<EOF
 Usage: geonix [-h] [-v] command arg1 [arg2...]
-
-Geonix environment management script.
 
 Available options:
 
@@ -16,8 +14,10 @@ Available options:
 
 Available commands:
 
-init                Initialize current directory with flake.nix and geonix.nix
-                    files.
+init                Initialize current directory with initial files.
+
+up                  Start processes configured in geonix.nix.
+                    See: http://devenv.sh/processes
 
 search PACKAGE/     Search for packages or container images available in Geonix
        IMAGE        or Nixpkgs repository. Search is performed for revisions
@@ -196,6 +196,19 @@ if [ "${args[0]}" == "init" ]; then
     done
 
     echo "Don't forget to add all files to git before use !"
+
+
+# UP
+elif [ "${args[0]}" == "up" ]; then
+
+    procfilescript=$(nix build '.#devenv-up' --no-link --print-out-paths --impure)
+
+    # shellcheck disable=SC2086
+    if [ "$(cat $procfilescript|tail -n +2)" = "" ]; then
+        die "No processes option defined in geonix.nix. See: https://devenv.sh/processes/."
+    else
+        exec $procfilescript
+    fi
 
 
 # SEARCH

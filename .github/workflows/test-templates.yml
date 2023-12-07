@@ -98,7 +98,7 @@ jobs:
     # python-web-devenv
     - name: Test template (if Linux + python-web-devenv template - DB backend)
       run: |
-        nix develop --impure --accept-flake-config --command devenv up &
+        nix develop --impure --accept-flake-config --command geonix up &
 
         export BACKEND=db
         nix develop --impure --accept-flake-config --command poetry run flask --app src/python_app run &
