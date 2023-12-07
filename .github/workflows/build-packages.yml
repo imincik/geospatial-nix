@@ -94,11 +94,6 @@ jobs:
     uses: ./.github/workflows/test-init.yml
     secrets: inherit
 
-  launch-test-python-versions:
-    needs: build-packages
-    uses: ./.github/workflows/test-python-versions.yml
-    secrets: inherit
-
   launch-test-shell-funct:
     needs: build-packages
     uses: ./.github/workflows/test-shell-funct.yml
