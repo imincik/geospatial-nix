@@ -1,18 +1,28 @@
 { inputs, pkgs, ... }:
 
 let
-  # Get Geospatial NIX packages
   geopkgs = inputs.geonix.packages.${pkgs.system};
 
 in {
-  # https://devenv.sh/reference/options/
+  # See https://devenv.sh/reference/options/ for complete list of configuration
+  # options.
 
+  # Use `geonix search` to search for packages.
   packages = [
-    # packages from Nixpkgs
     pkgs.hello
 
-    # packages from Geospatial NIX
     geopkgs.geonixcli
     geopkgs.gdal
   ];
+
+  # Enable this block to get PostgreSQL/PostGIS service.
+  # Run `geonix up` in shell environment to launch all services.
+  # services.postgres = {
+  #   enable = true;
+  #   extensions = e: [ geopkgs.postgresql-postgis ];
+  # };
+
+  enterShell = ''
+    gdalinfo --version
+  '';
 }
