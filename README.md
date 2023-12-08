@@ -9,13 +9,77 @@ development. Incompatible changes without any notice can occur at any time !**
 creating isolated and reproducible geospatial environments.
 
 
-## User documentation
+## Quick start
 
-User documentation is available via
-[Wiki pages](https://github.com/imincik/geospatial-nix/wiki).
+### Install and configure Nix
+
+* Install Nix
+```bash
+sh <(curl -L https://nixos.org/nix/install) --daemon
+```
+
+* Enable new Nix command interface and Nix Flakes
+```bash
+echo "experimental-features = nix-command flakes" | sudo tee -a /etc/nix/nix.conf
+```
+
+* Add current user to Nix trusted users group
+```bash
+echo "trusted-users = $USER" | sudo tee -a /etc/nix/nix.conf
+```
+
+* Restart Nix daemon
+```bash
+sudo systemctl restart nix-daemon.service
+```
+
+### Show content
+
+* Show Geospatial NIX content
+```bash
+nix flake show github:imincik/geospatial-nix
+```
+
+### Run applications without installation
+
+* Launch latest stable QGIS version
+```bash
+nix run github:imincik/geospatial-nix#qgis
+```
+
+* Launch QGIS LTR version
+```bash
+nix run github:imincik/geospatial-nix#qgis-ltr
+```
+
+### Create new environment
+
+* Initialize new environment
+```bash
+mkdir my-project
+cd my-project
+
+git init
+
+nix run github:imincik/geospatial-nix#geonixcli init
+
+git add *
+```
+
+* Launch shell environment
+```bash
+nix run github:imincik/geospatial-nix#geonixcli shell
+```
+
+### More information about used technologies
+
+* [Nix documentation](https://nix.dev/)
+* [Devenv](https://devenv.sh/reference/options/)
 
 
 ## Developer documentation
+
+### Building packages
 
 * Build single package
 ```
@@ -44,6 +108,8 @@ nix-build -A packages.x86_64-linux.<PACKAGE>.passthru.tests
 
 _To re-build already built package or to re-run already succeeded tests use
 `--check` switch._
+
+### Debugging packages
 
 * Explore derivation
 ```
