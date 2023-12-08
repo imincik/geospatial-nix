@@ -125,3 +125,22 @@ nix path-info -rsSh .#<PACKAGE> | sort -nk3
 ```
 nix why-depends .#<PACKAGE> .#<DEPENDENCY>
 ```
+
+### Weekly Nixpkgs pull
+
+* Create nixpkgs-pull branch
+```bash
+git checkout -b nixpkgs-pull-$(date "+%Y%m%d")
+```
+
+* Pull from latest Nixpkgs master
+```bash
+utils/pull-nixpkgs.sh <NIXPKGS-DIR>
+```
+
+* Review changes, identify related PRs in Nixpkgs, split changes to separate
+  commits (link to Nixpks PR in commit message)
+
+* Rebuild all packages
+
+* Submit PR "pkgs: nixpkgs weekly pull <TIMESTAMP>"
