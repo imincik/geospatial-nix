@@ -96,7 +96,7 @@ parse_params "$@"
 setup_colors
 
 
-NIX_FLAGS=( --no-warn-dirty --extra-experimental-features nix-command --extra-experimental-features flakes )
+NIX_FLAGS=( --accept-flake-config --no-warn-dirty --extra-experimental-features nix-command --extra-experimental-features flakes )
 
 function get_nixpkgs_metadata {
     nixpkgs_exists=$( \
