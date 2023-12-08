@@ -62,13 +62,13 @@ function msg {
 
 function warn {
   local msg=$1
-  msg "warning: $msg"
+  msg "WARNING: $msg"
 }
 
 function die {
   local msg=$1
   local code=${2-1} # default exit status 1
-  msg "error: $msg"
+  msg "ERROR: $msg"
   exit "$code"
 }
 
@@ -188,6 +188,7 @@ if [ "${args[0]}" == "init" ]; then
         fi
     done
 
+    echo
     for init_file in "flake.nix" "geonix.nix"; do
         cp "$GEONIX_TEMPLATES_DIR"/init/$init_file "$(pwd)"/$init_file
         chmod u+w "$(pwd)"/$init_file
@@ -195,7 +196,8 @@ if [ "${args[0]}" == "init" ]; then
         echo "$init_file created in $(pwd)/$init_file."
     done
 
-    echo "Don't forget to add all files to git before use !"
+    echo -e "\nStart by configuring the environment in geonix.nix file."
+    echo "Don't forget to add all files to git !"
 
 
 # SHELL
@@ -211,7 +213,7 @@ elif [ "${args[0]}" == "up" ]; then
 
     # shellcheck disable=SC2086
     if [ "$(cat $procfilescript|tail -n +2)" = "" ]; then
-        die "No processes option defined in geonix.nix. See: https://devenv.sh/processes/."
+        die "No services defined in geonix.nix file."
     else
         exec $procfilescript
     fi
