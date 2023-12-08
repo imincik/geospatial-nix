@@ -94,9 +94,9 @@ jobs:
     uses: ./.github/workflows/test-init.yml
     secrets: inherit
 
-  launch-test-shell-funct:
+  launch-test-shell-environments:
     needs: build-packages
-    uses: ./.github/workflows/test-shell-funct.yml
+    uses: ./.github/workflows/test-shell-environments.yml
     secrets: inherit
 
   launch-test-templates:

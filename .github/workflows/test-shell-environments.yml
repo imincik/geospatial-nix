@@ -1,0 +1,81 @@
+name: Test shell environments
+
+on:
+  workflow_call:
+
+env:
+  NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}"
+
+jobs:
+  test-function:
+    strategy:
+      fail-fast: false
+      matrix:
+        shell:
+          - cli
+          - python
+          - postgresql
+        os:
+          - ubuntu-22.04
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    # Low limit on unix socket path length is causing the problems with PostgreSQL shell.
+    - name: Move source code on shorter path
+      run: |
+        mv $GITHUB_WORKSPACE /home/runner/work/geonix
+        mkdir -p $GITHUB_WORKSPACE
+
+    - name: Install nix
+      uses: cachix/install-nix-action@v24
+
+
+    # cli shell
+    - name: Test shell environment (if cli shell)
+      run: >
+        nix develop --impure --accept-flake-config
+        --command gdalinfo --version
+      if: ${{ matrix.shell == 'cli' }}
+      working-directory: /home/runner/work/geonix/tests/shells
+
+
+    # python shell
+    - name: Test shell environment (if python shell)
+      run: >
+        nix develop --impure --accept-flake-config
+        --command python -c "import fiona; print(fiona.supported_drivers)"
+
+        nix develop --impure --accept-flake-config
+        --command python -c "import flask; print(flask)"
+      if: ${{ matrix.shell == 'python' }}
+      working-directory: /home/runner/work/geonix/tests/shells
+
+
+    # postgresql shell
+    - name: Launch shell environment (if postgresql shell)
+      run: >
+        nix develop --impure --accept-flake-config
+        --command geonix up &
+      if: ${{ matrix.shell == 'postgresql' }}
+      working-directory: /home/runner/work/geonix/tests/shells
+
+    - name: Wait until shell is ready (if postgresql shell)
+      run: >
+        nix develop --impure --accept-flake-config
+        --command timeout 300 sh -c 'until nc -z localhost 5432; do sleep 1; done'
+      if: ${{ matrix.shell == 'postgresql' }}
+      working-directory: /home/runner/work/geonix/tests/shells
+
+    - name: Test shell environment (if postgresql shell)
+      run: >
+        nix develop --impure --accept-flake-config
+        --command psql -c 'CREATE EXTENSION postgis; SELECT postgis_full_version();'
+        | grep "POSTGIS="
+      if: ${{ matrix.shell == 'postgresql' }}
+      working-directory: /home/runner/work/geonix/tests/shells
