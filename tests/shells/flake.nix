@@ -1,92 +1,47 @@
 {
-  description = "Shell tests";
+  description = "Geospatial NIX";
 
-  nixConfig.extra-substituters = [ "https://geonix.cachix.org" ];
-  nixConfig.extra-trusted-public-keys = [ "geonix.cachix.org-1:iyhIXkDLYLXbMhL3X3qOLBtRF8HEyAbhPXjjPeYsCl0=" ];
+  nixConfig = {
+    extra-substituters = [
+      "https://geonix.cachix.org"
+      "https://devenv.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "geonix.cachix.org-1:iyhIXkDLYLXbMhL3X3qOLBtRF8HEyAbhPXjjPeYsCl0="
+      "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
+    ];
+    bash-prompt = "\\[\\033[1m\\][geonix]\\[\\033\[m\\]\\040\\w >\\040";
+  };
 
-  nixConfig.bash-prompt = "\\[\\033[1m\\][geonix]\\[\\033\[m\\]\\040\\w >\\040";
+  inputs = {
+    geonix.url = "github:imincik/geonix";
+    nixpkgs.follows = "geonix/nixpkgs";
+    devenv = {
+      url = "github:cachix/devenv";
+      inputs.nixpkgs.follows = "geonix/nixpkgs";
+    };
+    utils.url = "github:numtide/flake-utils";
+  };
 
-  inputs.geonix.url = "path:../../";
-  inputs.nixpkgs.follows = "geonix/nixpkgs";
-
-  inputs.utils.url = "github:numtide/flake-utils";
-
-  outputs = { self, nixpkgs, geonix, utils }:
+  outputs = { self, nixpkgs, geonix, devenv, utils, ... } @ inputs:
 
     utils.lib.eachSystem [ "x86_64-linux" ] (system:
       let
-
-        pkgs = geonix.lib.getPackages {
-          inherit system nixpkgs geonix;
-
-          pythonVersion = pythonVersion;
-          postgresqlVersion = postgresqlVersion;
-
-         # overridesFile = ./overrides.nix;
-        };
-
-        pythonVersion = "python3";
-        extraPythonPackages = [ pkgs.geonix."${pythonVersion}-fiona" ];
-        extraPackages = [ pkgs.nixpkgs.tig ];
-
-        postgresqlVersion = "postgresql";
-        postgresqlInitdbArgs = [ "--locale=C" "--encoding=UTF8" ];
-        extraPostgresqlPackages = [
-          pkgs.nixpkgs.${postgresqlVersion}.pkgs.pgrouting
-        ];
-
+        pkgs = nixpkgs.legacyPackages.${system};
       in
       {
+        packages = {
+          devenv-up = self.devShells.${system}.default.config.procfileScript;
+        };
 
-        devShells = rec {
-
-          # Dev shell
-          dev = geonix.lib.mkDevShell {
-            inherit pkgs;
-            extraPackages = extraPackages;
-            envVariables = { MESSAGE = "OK"; };
-            shellHook = ''
-              echo $MESSAGE
-            '';
-          };
-
-          # PostgreSQL shell
-          postgresql = geonix.lib.mkPostgresqlShell {
-            inherit pkgs;
-            postgresqlVersion = postgresqlVersion;
-            extraPostgresqlPackages = extraPostgresqlPackages;
-            initDatabase = "test";
-          };
-
-          # PostgreSQL client shell
-          psql = geonix.lib.mkPostgresqlClientShell {
-            inherit pkgs;
-            postgresqlVersion = postgresqlVersion;
-          };
-
-          # pgAdmin shell
-          pgadmin = geonix.lib.mkPgAdminShell {
-            inherit pkgs;
-          };
-
-          # Python shell
-          python = geonix.lib.mkPythonDevShell {
-            inherit pkgs;
-            pythonVersion = pythonVersion;
-            extraPythonPackages = extraPythonPackages;
-            extraPackages = extraPackages;
-            envVariables = { MESSAGE = "OK"; };
-            shellHook = ''
-              echo $MESSAGE
-            '';
-          };
-
-          ci = pkgs.nixpkgs.mkShell {
-            buildInputs = [
-              pkgs.nixpkgs.netcat-gnu
+        devShells = {
+          default = devenv.lib.mkShell {
+            inherit inputs pkgs;
+            modules = [
+              ./geonix.nix
             ];
           };
-
         };
-      });
+      }
+    );
 }
