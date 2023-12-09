@@ -293,6 +293,11 @@ elif [ "${args[0]}" == "search" ]; then
 #     fi
 
 
+# HELP
+elif [ "${args[0]}" == "help" ]; then
+    usage
+
+
 # UNKNOWN
 else
     die "Unknown command '${args[0]}'. Use --help to get more information."
