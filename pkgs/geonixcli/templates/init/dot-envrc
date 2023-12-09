@@ -1,0 +1,2 @@
+watch_file geonix.nix
+use flake . --impure
