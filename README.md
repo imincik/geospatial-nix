@@ -66,6 +66,8 @@ nix run github:imincik/geospatial-nix#geonixcli init
 git add *
 ```
 
+* Edit `geonix.nix` file according your project requirements
+
 * Launch shell environment
 ```bash
 nix run github:imincik/geospatial-nix#geonixcli shell
