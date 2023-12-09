@@ -1,4 +1,4 @@
-name: Test geonix init
+name: Test geonix CLI
 
 on:
   workflow_call:
@@ -27,7 +27,7 @@ jobs:
       run: |
         mkdir $TEMPLATE_PROJECT_DIR
 
-    - name: Create new project
+    - name: Test geonix init
       run: |
         git init
 
@@ -36,7 +36,14 @@ jobs:
         git add *
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
 
-    - name: Test default shell
-      run: >
-        nix develop --impure --accept-flake-config --command gdalinfo --version
+    - name: Test geonix shell
+      run: |
+        nix run ${GITHUB_WORKSPACE}#geonixcli -- shell --command echo | grep GDAL
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
+
+    - name: Test geonix search
+      run: |
+        nix run ${GITHUB_WORKSPACE}#geonixcli -- search gdal | grep 'geopkgs.gdal'
+      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
+
+      # TODO: test `geonix up`
