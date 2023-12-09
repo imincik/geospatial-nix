@@ -188,16 +188,19 @@ if [ "${args[0]}" == "init" ]; then
         fi
     done
 
-    echo
-    for init_file in "flake.nix" "geonix.nix"; do
+    echo -e "\nWelcome to Geospatial NIX environment !\n"
+    for init_file in "flake.nix" "geonix.nix" "dot-envrc"; do
         cp "$GEONIX_TEMPLATES_DIR"/init/$init_file "$(pwd)"/$init_file
         chmod u+w "$(pwd)"/$init_file
 
-        echo "$init_file created in $(pwd)/$init_file."
+        echo "$init_file file created in $(pwd)/$init_file."
     done
 
     echo -e "\nStart by configuring the environment in geonix.nix file."
-    echo "Don't forget to add all files to git !"
+    echo
+    echo "Rename dot-envrc file to .envrc to enable environment auto-loading using nix-direnv."
+    echo
+    echo "And don't forget to add all files to git."
 
 
 # SHELL
