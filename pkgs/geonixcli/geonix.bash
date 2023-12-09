@@ -3,6 +3,21 @@
 set -Eeuo pipefail
 trap cleanup SIGINT SIGTERM ERR EXIT
 
+
+# FIXME: enable override command help once it works again
+
+# override            Create override template file overrides.nix in current
+#                     directory to build customized Geonix packages.
+
+#                     To build customized packages:
+
+#                     * add overrides.nix file to git
+
+#                     * use it as overridesFile parameter in geonix.lib.getPackages
+#                       function in flake.nix
+
+#                     * edit overrides.nix file
+
 function usage {
 cat <<EOF
 Usage: geonix [-h] [-v] command arg1 [arg2...]
@@ -27,18 +42,6 @@ search PACKAGE/     Search for packages or container images available in
 
                     To search for multiple package names separate them with
                     pipe ("PACKAGE-X|PACKAGE-Y").
-
-override            Create override template file overrides.nix in current
-                    directory to build customized Geonix packages.
-
-                    To build customized packages:
-
-                    * add overrides.nix file to git
-
-                    * use it as overridesFile parameter in geonix.lib.getPackages
-                      function in flake.nix
-
-                    * edit overrides.nix file
 EOF
   exit
 }
@@ -275,17 +278,19 @@ elif [ "${args[0]}" == "search" ]; then
 
 
 # OVERRIDE
-elif [ "${args[0]}" == "override" ]; then
+# FIXME: enable override command once it works again
 
-    if [ -f "$(pwd)/overrides.nix" ]; then
-        die "Override template file already exists in $(pwd) directory."
-    else
-        cp "$GEONIX_TEMPLATES_DIR"/override/overrides.nix "$(pwd)"/overrides.nix
-        chmod u+w "$(pwd)"/overrides.nix
+# elif [ "${args[0]}" == "override" ]; then
 
-        echo "Override template file created in $(pwd)/overrides.nix ."
-        echo "Don't forget to add all files to git before use !"
-    fi
+#     if [ -f "$(pwd)/overrides.nix" ]; then
+#         die "Override template file already exists in $(pwd) directory."
+#     else
+#         cp "$GEONIX_TEMPLATES_DIR"/override/overrides.nix "$(pwd)"/overrides.nix
+#         chmod u+w "$(pwd)"/overrides.nix
+
+#         echo "Override template file created in $(pwd)/overrides.nix ."
+#         echo "Don't forget to add all files to git before use !"
+#     fi
 
 
 # UNKNOWN
