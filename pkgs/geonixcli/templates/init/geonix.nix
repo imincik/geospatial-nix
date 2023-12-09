@@ -1,9 +1,13 @@
+# See https://devenv.sh/reference/options/ for complete list of configuration
+# options.
+
 { inputs, pkgs, ... }:
 
 let
   geopkgs = inputs.geonix.packages.${pkgs.system};
 
   # Enable this block to get Python environment.
+
   # python = pkgs.python3.withPackages (p: [
   #   # packages from Geospatial NIX
   #   geopkgs.python3-fiona
@@ -13,9 +17,7 @@ let
   # ]);
 
 in {
-  # See https://devenv.sh/reference/options/ for complete list of configuration
-  # options.
-
+  # Run `TODO` to enter shell environment.
   # Use `geonix search` to search for packages.
   packages = [
     pkgs.hello
@@ -25,6 +27,7 @@ in {
   ];
 
   # Enable this block to get Python environment.
+
   # languages.python = {
   #   enable = true;
   #   package = python;
@@ -35,6 +38,7 @@ in {
 
   # Enable this block to get PostgreSQL/PostGIS service.
   # Run `geonix up` in shell environment to launch all services.
+
   # services.postgres = {
   #   enable = true;
   #   extensions = e: [ geopkgs.postgresql-postgis ];
