@@ -209,7 +209,7 @@ if [ "${args[0]}" == "init" ]; then
 # SHELL
 elif [ "${args[0]}" == "shell" ]; then
 
-    nix "${NIX_FLAGS[@]}" develop --impure
+    nix "${NIX_FLAGS[@]}" develop --impure "${args[@]:1}"
 
 
 # UP
