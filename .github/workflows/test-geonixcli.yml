@@ -7,7 +7,7 @@ env:
   NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}"
 
 jobs:
-  test:
+  test-cli:
     runs-on: ubuntu-22.04
 
     steps:
@@ -45,5 +45,7 @@ jobs:
       run: |
         nix run ${GITHUB_WORKSPACE}#geonixcli -- search gdal | grep 'geopkgs.gdal'
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
+
+      # NOTE: `geonix override` is tested in test-custom-packages workflow
 
       # TODO: test `geonix up`

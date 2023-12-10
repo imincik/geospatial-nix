@@ -1,11 +1,11 @@
-{ nixpkgs, pkgs, pythonVersion, postgresqlVersion }:
+{ nixpkgs, geopkgs, pythonVersion, postgresqlVersion }:
 
 rec {
 
   # Place overrides under '>>> CUSTOMIZE HERE' line of desired package.
 
   # Run 'nix flake check' to check your code.
-  # Run 'nix develop' to enter development shell to test packages.
+  # Run 'nix develop --impure' to enter shell environment.
 
   # Generic example
 
@@ -55,15 +55,15 @@ rec {
   ### GEONIXCLI
   #####################################################################
 
-  geonixcli = pkgs.geonixcli; # don't remove or override this package !
+  geonixcli = geopkgs.geonixcli; # don't remove or override this package !
 
   #####################################################################
   ### GDAL
   #####################################################################
 
-  tiledb = pkgs.tiledb;
+  tiledb = geopkgs.tiledb;
 
-  gdal = (pkgs.gdal.overrideAttrs (old: {
+  gdal = (geopkgs.gdal.overrideAttrs (old: {
 
     # >>> CUSTOMIZE HERE
 
@@ -74,7 +74,7 @@ rec {
   ### GEOS
   #####################################################################
 
-  geos = (pkgs.geos.overrideAttrs (old: {
+  geos = (geopkgs.geos.overrideAttrs (old: {
 
     # >>> CUSTOMIZE HERE
 
@@ -84,7 +84,7 @@ rec {
   ### LIBGEOTIFF
   #####################################################################
 
-  libgeotiff = (pkgs.libgeotiff.overrideAttrs (old: {
+  libgeotiff = (geopkgs.libgeotiff.overrideAttrs (old: {
 
     # >>> CUSTOMIZE HERE
 
@@ -95,7 +95,7 @@ rec {
   ### LIBRTTOPO
   #####################################################################
 
-  librttopo = (pkgs.librttopo.overrideAttrs (old: {
+  librttopo = (geopkgs.librttopo.overrideAttrs (old: {
 
     # >>> CUSTOMIZE HERE
 
@@ -106,7 +106,7 @@ rec {
   ### LIBSPATIALINDEX
   #####################################################################
 
-  libspatialindex = (pkgs.libspatialindex.overrideAttrs (old: {
+  libspatialindex = (geopkgs.libspatialindex.overrideAttrs (old: {
 
     # >>> CUSTOMIZE HERE
 
@@ -117,7 +117,7 @@ rec {
   ### LIBSPATIALITE
   #####################################################################
 
-  libspatialite = (pkgs.libspatialite.overrideAttrs (old: {
+  libspatialite = (geopkgs.libspatialite.overrideAttrs (old: {
 
     # >>> CUSTOMIZE HERE
 
@@ -128,7 +128,7 @@ rec {
   ### PDAL
   #####################################################################
 
-  pdal = (pkgs.pdal.overrideAttrs (old: {
+  pdal = (geopkgs.pdal.overrideAttrs (old: {
 
     # >>> CUSTOMIZE HERE
 
@@ -139,7 +139,7 @@ rec {
   ### PROJ
   #####################################################################
 
-  proj = (pkgs.proj.overrideAttrs (old: {
+  proj = (geopkgs.proj.overrideAttrs (old: {
 
     # >>> CUSTOMIZE HERE
 
@@ -152,7 +152,7 @@ rec {
   ### PYTHON3-FIONA
   #####################################################################
 
-  fiona = (pkgs."${pythonVersion}-fiona".overrideAttrs (old: {
+  fiona = (geopkgs."${pythonVersion}-fiona".overrideAttrs (old: {
 
     # >>> CUSTOMIZE HERE
 
@@ -168,7 +168,7 @@ rec {
   ### PYTHON3-GEOPANDAS
   #####################################################################
 
-  geopandas = (pkgs."${pythonVersion}-geopandas".overrideAttrs (old: {
+  geopandas = (geopkgs."${pythonVersion}-geopandas".overrideAttrs (old: {
 
     # >>> CUSTOMIZE HERE
 
@@ -178,7 +178,7 @@ rec {
   ### PYTHON3-OWSLIB
   #####################################################################
 
-  owslib = (pkgs."${pythonVersion}-owslib".overrideAttrs (old: {
+  owslib = (geopkgs."${pythonVersion}-owslib".overrideAttrs (old: {
 
     # >>> CUSTOMIZE HERE
 
@@ -188,7 +188,7 @@ rec {
   ### PYTHON3-PSYCOPG
   #####################################################################
 
-  psycopg = (pkgs."${pythonVersion}-psycopg".overrideAttrs (old: {
+  psycopg = (geopkgs."${pythonVersion}-psycopg".overrideAttrs (old: {
 
     # >>> CUSTOMIZE HERE
 
@@ -198,7 +198,7 @@ rec {
   ### PYTHON3-PYPROJ
   #####################################################################
 
-  pyproj = (pkgs."${pythonVersion}-pyproj".overrideAttrs (old: {
+  pyproj = (geopkgs."${pythonVersion}-pyproj".overrideAttrs (old: {
 
     # >>> CUSTOMIZE HERE
 
@@ -208,13 +208,13 @@ rec {
   ### PYTHON3-PYQT5
   #####################################################################
 
-  pyqt5 = pkgs."${pythonVersion}-pyqt5";  # nothing to override here
+  pyqt5 = geopkgs."${pythonVersion}-pyqt5";  # nothing to override here
 
   #####################################################################
   ### PYTHON3-RASTERIO
   #####################################################################
 
-  rasterio = (pkgs."${pythonVersion}-rasterio".overrideAttrs (old: {
+  rasterio = (geopkgs."${pythonVersion}-rasterio".overrideAttrs (old: {
 
     # >>> CUSTOMIZE HERE
 
@@ -224,7 +224,7 @@ rec {
   ### PYTHON3-SHAPELY
   #####################################################################
 
-  shapely = (pkgs."${pythonVersion}-shapely".overrideAttrs (old: {
+  shapely = (geopkgs."${pythonVersion}-shapely".overrideAttrs (old: {
 
     # >>> CUSTOMIZE HERE
 
@@ -239,7 +239,7 @@ rec {
   ### POSTGIS
   #####################################################################
 
-  postgis = (pkgs."${postgresqlVersion}-postgis".overrideAttrs (old: {
+  postgis = (geopkgs."${postgresqlVersion}-postgis".overrideAttrs (old: {
 
     # >>> CUSTOMIZE HERE
 
@@ -252,7 +252,7 @@ rec {
   ### GRASS
   #####################################################################
 
-  grass = (pkgs.grass.overrideAttrs (old: {
+  grass = (geopkgs.grass.overrideAttrs (old: {
 
     # >>> CUSTOMIZE HERE
 
@@ -276,7 +276,7 @@ rec {
         in
         nixpkgs.${pythonVersion}.override { inherit packageOverrides; self = qgis-python; };
     in
-    (pkgs.qgis-unwrapped.overrideAttrs (old: {
+    (geopkgs.qgis-unwrapped.overrideAttrs (old: {
 
       # >>> CUSTOMIZE HERE
 
@@ -285,7 +285,7 @@ rec {
         python3 = qgis-python;
     };
 
-  qgis = pkgs.qgis.override { qgis-unwrapped = qgis-unwrapped; };
+  qgis = geopkgs.qgis.override { qgis-unwrapped = qgis-unwrapped; };
 
   # QGIS-LTR
   qgis-ltr-unwrapped =
@@ -300,7 +300,7 @@ rec {
         in
         nixpkgs.${pythonVersion}.override { inherit packageOverrides; self = qgis-python; };
     in
-    (pkgs.qgis-ltr-unwrapped.overrideAttrs (old: {
+    (geopkgs.qgis-ltr-unwrapped.overrideAttrs (old: {
 
       # >>> CUSTOMIZE HERE
 
@@ -309,6 +309,6 @@ rec {
         python3 = qgis-python;
     };
 
-  qgis-ltr = pkgs.qgis-ltr.override { qgis-ltr-unwrapped = qgis-ltr-unwrapped; };
+  qgis-ltr = geopkgs.qgis-ltr.override { qgis-ltr-unwrapped = qgis-ltr-unwrapped; };
 
 }
