@@ -1,4 +1,4 @@
-name: Publish a flake to flakestry.dev
+name: Publish flake
 
 on:
   push:
@@ -13,10 +13,12 @@ on:
 
 jobs:
   publish-flake:
+    name: "Publish to flakestry.dev"
     runs-on: ubuntu-22.04
     permissions:
       id-token: write
       contents: read
+
     steps:
       - uses: flakestry/flakestry-publish@main
         with:
