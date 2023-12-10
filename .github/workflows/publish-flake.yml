@@ -12,7 +12,7 @@ on:
         required: true
 
 jobs:
-  publish-flake:
+  publish-to-flakestry:
     name: "Publish to flakestry.dev"
     runs-on: ubuntu-22.04
     permissions:
