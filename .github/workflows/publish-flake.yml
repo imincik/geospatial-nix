@@ -25,7 +25,6 @@ jobs:
           version: "${{ inputs.tag || github.ref_name }}"
 
 
-jobs:
   publish-to-flakehub:
     name: "Publish to flakestry.dev"
     runs-on: "ubuntu-22.04"
