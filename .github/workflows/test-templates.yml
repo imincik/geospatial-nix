@@ -12,9 +12,7 @@ jobs:
       fail-fast: false
       matrix:
         template:
-          - simple
           - simple-devenv
-          - python-web
           - python-web-devenv
         os:
           - ubuntu-22.04
@@ -60,40 +58,6 @@ jobs:
         nix flake check --impure --no-build --accept-flake-config
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
 
-    - name: Flake lock
-      run: |
-        nix flake lock --impure --accept-flake-config
-
-        git add flake.lock
-      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
-
-
-    # python-web
-    - name: Test template (if Linux + python-web template - DB backend)
-      run: |
-        nix develop --accept-flake-config .#postgresql --command echo &
-
-        nix develop --accept-flake-config --command poetry install
-
-        export BACKEND=db
-        nix develop --accept-flake-config --command poetry run flask --app src/python_app run &
-
-        curl --retry 10 --retry-all-errors localhost:5000 | grep POLYGON
-      if: ${{ runner.os == 'Linux' && matrix.template == 'python-web' }}
-      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
-
-    - name: Test deployment (if Linux + python-web)
-      run: |
-        nix build --accept-flake-config .#container
-        docker load < ./result
-
-        docker build -t python-app:latest .
-        docker run -d -p 8000:8000 python-app:latest
-
-        curl --retry 10 --retry-all-errors localhost:8000 | grep POLYGON
-      if: ${{ runner.os == 'Linux' && matrix.template == 'python-web' }}
-      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
-
 
     # python-web-devenv
     - name: Test template (if Linux + python-web-devenv template - DB backend)
@@ -105,21 +69,6 @@ jobs:
 
         curl --retry 10 --retry-all-errors localhost:5000 | grep POLYGON
       if: ${{ runner.os == 'Linux' && matrix.template == 'python-web-devenv' }}
-      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
-
-
-    # simple
-    - name: Test template (if simple template - default shell)
-      run: |
-        nix develop --accept-flake-config --command gdalinfo --version
-      if: ${{ matrix.template == 'simple' }}
-      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
-
-    - name: Test template (if simple template - postgresql shell)
-      run: |
-        nix develop --accept-flake-config .#postgresql --command echo &
-        sleep 10
-      if: ${{ matrix.template == 'simple' }}
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
 
 

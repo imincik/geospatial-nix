@@ -28,9 +28,14 @@ jobs:
     - name: Install nix
       uses: cachix/install-nix-action@v24
 
+    - name: Point Geonix input to the local source code directory
+      run: |
+        sed -i.orig "s|geonix.url = \".*\";|geonix.url = \"path:${GITHUB_WORKSPACE}\";|" flake.nix
+      working-directory: tests/containers
+
     - name: Flake check
       run: >
-        nix flake check --no-build --accept-flake-config
+        nix flake check --impure --no-build --accept-flake-config
       working-directory: tests/containers
 
 

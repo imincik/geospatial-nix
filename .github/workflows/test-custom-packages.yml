@@ -32,58 +32,43 @@ jobs:
         name: geonix
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
 
+    - name: Point Geonix input to the local source code directory
+      run: |
+        sed -i.orig "s|geonix.url = \".*\";|geonix.url = \"path:${GITHUB_WORKSPACE}\";|" flake.nix
+      working-directory: tests/shells
+
     - name: Flake check
       run: >
-        nix flake check --no-build --accept-flake-config
-      working-directory: tests/custom-packages
-
-
-    - name: Prepare development shell environment
-      run: >
-        nix develop --accept-flake-config --command echo OK
-      working-directory: tests/custom-packages
+        nix flake check --impure --no-build --accept-flake-config
+      working-directory: tests/shells
 
     - name: Generate override template file
-      run: >
-        nix develop --command geonix override
-      working-directory: tests/custom-packages
-
-    - name: Enable overrides template file in getPackages function
       run: |
-        sed -i.orig "s|#.overridesFile.*=.*./overrides.nix;|overridesFile = ./overrides.nix;|" flake.nix
-        git add overrides.nix
-      working-directory: tests/custom-packages
+        nix run ${GITHUB_WORKSPACE}#geonixcli -- override
+
+        git add *
+      working-directory: tests/shells
+
+    - name: Enable customizePackages function
+      run: |
+        sed -i.orig "s|^  geopkgs = inputs.geonix|# geopkgs.inputs.geonix|" geonix.nix
+
+        sed -i.orig "/CUSTOMIZE-PACKAGES-START/,/CUSTOMIZE-PACKAGES-END/ s|#||" geonix.nix
+      working-directory: tests/shells
 
 
     # Custom GDAL
-    - name: Add custom GDAL patch to override template file
+    - name: Apply custom GDAL patch to override template file
       run: |
-        patch -u overrides.nix -i ${GITHUB_WORKSPACE}/tests/custom-packages/gdal.patch
-      working-directory: tests/custom-packages
+        patch -u overrides.nix -i gdal.patch
+      working-directory: tests/shells
 
     - name: Flake check
       run: >
-        nix flake check --no-build --accept-flake-config
-      working-directory: tests/custom-packages
+        nix flake check --impure --no-build --accept-flake-config
+      working-directory: tests/shells
 
     - name: Build and test patched GDAL package
       run: |
-        nix develop --accept-flake-config --command gdalinfo --help | grep "Usage: gdalinfo (patched)"
-      working-directory: tests/custom-packages
-
-    - name: Test if only single GDAL dependency exists in dev shell
-      run: |
-        system=$(nix eval --impure --raw --expr 'builtins.currentSystem')
-        nix path-info --derivation --recursive $(nix eval --raw .\#devShells."$system".dev) \
-        | grep gdal \
-        | wc -l \
-        | sed -e 's/^[[:space:]]*//' \
-        | grep -E "^1$"
-      working-directory: tests/custom-packages
-
-    - name: Test if dev shell depends on patched GDAL package
-      run: |
-        system=$(nix eval --impure --raw --expr 'builtins.currentSystem')
-        nix path-info --derivation --recursive $(nix eval --raw .\#devShells."$system".dev) \
-        | grep gdal-1000.0.0
-      working-directory: tests/custom-packages
+        nix develop --impure --accept-flake-config --command gdalinfo --help | grep "Usage: gdalinfo (patched)"
+      working-directory: tests/shells

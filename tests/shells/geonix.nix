@@ -3,6 +3,14 @@
 let
   geopkgs = inputs.geonix.packages.${pkgs.system};
 
+  ## CUSTOMIZE-PACKAGES-START
+  # geopkgs = inputs.geonix.lib.customizePackages {
+  #   nixpkgs = pkgs;
+  #   geopkgs = inputs.geonix.packages.${pkgs.system};
+  #   overridesFile = ./overrides.nix;
+  # };
+  ## CUSTOMIZE-PACKAGES-END
+
   python = pkgs.python3.withPackages (p: [
     geopkgs.python3-fiona
     pkgs.python3.pkgs.flask
