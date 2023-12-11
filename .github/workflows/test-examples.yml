@@ -1,0 +1,68 @@
+name: Test examples
+
+on:
+  workflow_call:
+
+env:
+  NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}"
+  NEW_GITHUB_WORKSPACE: "/home/runner/work/geonix"
+
+jobs:
+  test-example:
+    strategy:
+      fail-fast: false
+      matrix:
+        example:
+          - simple
+          - python-web
+        os:
+          - ubuntu-22.04
+          # - macos-11
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    # Low limit on unix socket path length is causing the problems with PostgreSQL shell.
+    - name: Move source code on shorter path
+      run: |
+        mv $GITHUB_WORKSPACE $NEW_GITHUB_WORKSPACE
+        mkdir -p $GITHUB_WORKSPACE
+
+    - name: Install nix
+      uses: cachix/install-nix-action@v24
+
+    - name: Point Geonix input to the local source code directory
+      run: |
+        sed -i.orig "s|geonix.url = \".*\";|geonix.url = \"path:${NEW_GITHUB_WORKSPACE}\";|" flake.nix
+      working-directory: ${{ env.NEW_GITHUB_WORKSPACE }}/examples/${{ matrix.example }}
+
+    - name: Flake check
+      run: >
+        nix flake check --impure --no-build --accept-flake-config
+      working-directory: ${{ env.NEW_GITHUB_WORKSPACE }}/examples/${{ matrix.example }}
+
+
+    # simple
+    - name: Test example (if simple example)
+      run: |
+        nix develop --impure --accept-flake-config --command gdalinfo --version
+      if: ${{ matrix.example == 'simple' }}
+      working-directory: ${{ env.NEW_GITHUB_WORKSPACE }}/examples/${{ matrix.example }}
+
+
+    # python-web
+    - name: Test example (if python-web example - DB backend)
+      run: |
+        nix develop --impure --accept-flake-config --command geonix up &
+
+        export BACKEND=db
+        nix develop --impure --accept-flake-config --command poetry run flask --app src/python_app run &
+
+        curl --retry 10 --retry-all-errors localhost:5000 | grep POLYGON
+      if: ${{ matrix.example == 'python-web' }}
+      working-directory: ${{ env.NEW_GITHUB_WORKSPACE }}/examples/${{ matrix.example }}

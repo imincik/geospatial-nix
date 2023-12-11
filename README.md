@@ -67,6 +67,7 @@ git add *
 ```
 
 * Edit `geonix.nix` file according your project requirements
+  (check out [examples](examples/) for example configurations)
 
 * Launch shell environment
 ```bash

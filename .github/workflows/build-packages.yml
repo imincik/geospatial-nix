@@ -94,9 +94,9 @@ jobs:
     uses: ./.github/workflows/test-custom-packages.yml
     secrets: inherit
 
-  launch-test-templates:
+  launch-test-examples:
     needs: build-packages
-    uses: ./.github/workflows/test-templates.yml
+    uses: ./.github/workflows/test-examples.yml
     secrets: inherit
 
   # launch-test-container-funct:

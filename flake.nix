@@ -404,13 +404,6 @@
 
 
       #
-      ### TEMPLATES ###
-      #
-
-      templates = import ./templates.nix;
-
-
-      #
       ### LIB ###
       #
 
