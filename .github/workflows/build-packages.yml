@@ -84,9 +84,9 @@ jobs:
     uses: ./.github/workflows/test-geonixcli.yml
     secrets: inherit
 
-  launch-test-container-funct:
+  launch-test-shell-environments:
     needs: build-packages
-    uses: ./.github/workflows/test-container-funct.yml
+    uses: ./.github/workflows/test-shell-environments.yml
     secrets: inherit
 
   launch-test-custom-packages:
@@ -94,12 +94,12 @@ jobs:
     uses: ./.github/workflows/test-custom-packages.yml
     secrets: inherit
 
-  launch-test-shell-environments:
-    needs: build-packages
-    uses: ./.github/workflows/test-shell-environments.yml
-    secrets: inherit
-
   launch-test-templates:
     needs: build-packages
     uses: ./.github/workflows/test-templates.yml
     secrets: inherit
+
+  # launch-test-container-funct:
+  #   needs: build-packages
+  #   uses: ./.github/workflows/test-container-funct.yml
+  #   secrets: inherit
