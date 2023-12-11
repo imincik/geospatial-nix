@@ -3,7 +3,7 @@ name: Publish flake
 on:
   push:
     tags:
-      - "^v[0-9]+.[0-9]+-[0-9]+"
+      - "v?[0-9]+.[0-9]+.[0-9]+"
   workflow_dispatch:
     inputs:
       tag:
@@ -26,7 +26,7 @@ jobs:
 
 
   publish-to-flakehub:
-    name: "Publish to flakestry.dev"
+    name: "Publish to flakehub.com"
     runs-on: "ubuntu-22.04"
     permissions:
       id-token: "write"
