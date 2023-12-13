@@ -1,6 +1,0 @@
-processes:
-  postgresql:
-    command: "nix develop .#postgresql --command echo"
-
-  pgadmin:
-    command: "nix develop .#pgadmin --command echo"

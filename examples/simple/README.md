@@ -1,24 +1,9 @@
 # Simple geospatial environment
 
-This template provides simple environment containing following packages:
+This example provides simple environment containing following packages:
 
 * gdal
 * qgis
-
-
-## Template initialization
-
-```
-mkdir my-project
-cd my-project
-
-git init
-
-nix flake init --accept-flake-config --template github:imincik/geospatial-nix#simple-devenv
-
-nix flake lock
-git add *
-```
 
 
 ## Configuration
@@ -49,7 +34,7 @@ exit
 
 ## Geonix CLI
 
-* Search for additional packages (run in development shell)
+* Search for additional packages (run in shell environment)
 
 ```
 geonix search <PACKAGE>
