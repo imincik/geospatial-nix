@@ -68,6 +68,13 @@ rec {
     # >>> CUSTOMIZE HERE
 
   })).override { inherit geos libgeotiff libspatialite proj tiledb; };
+
+  gdal-minimal = (geopkgs.gdal-minimal.overrideAttrs (old: {
+
+    # >>> CUSTOMIZE HERE
+
+  })).override { inherit geos libgeotiff libspatialite proj tiledb; useMinimalFeatures = true; };
+
   _gdal = gdal;
 
   #####################################################################
