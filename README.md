@@ -5,8 +5,9 @@
 **WARNING: this project is safe to be used, but things are in active
 development. Incompatible changes without any notice can occur at any time !**
 
-**Geospatial NIX** provides weekly updated geospatial packages and tools for
-creating isolated and reproducible geospatial environments.
+**Geospatial NIX** provides weekly updated geospatial packages and tools built
+on top of latest stable Nixpkgs branch for creating isolated and reproducible
+geospatial environments.
 
 
 ## Quick start
@@ -129,7 +130,20 @@ nix path-info -rsSh .#<PACKAGE> | sort -nk3
 nix why-depends .#<PACKAGE> .#<DEPENDENCY>
 ```
 
-### Weekly Nixpkgs pull
+### Weekly development cycle
+
+* Monday (1 AM): automatic update of base packages from latest stable Nixpkgs
+  branch (nix flake update)
+
+* Monday - Wednesday: development and updates of geospatial packages in Nixpkgs
+  master
+
+* Thursday - Friday: pull from Nixpkgs master to Geospatial NIX master,
+  integration, testing
+
+* Monday (1 AM): automatic release of new version
+
+#### Nixpkgs pull process
 
 * Create nixpkgs-pull branch
 ```bash
@@ -144,6 +158,6 @@ utils/pull-nixpkgs.sh <NIXPKGS-DIR>
 * Review changes, identify related PRs in Nixpkgs, split changes to separate
   commits (link to Nixpks PR in commit message)
 
-* Rebuild all packages
+* Build and test all packages
 
-* Submit PR "pkgs: nixpkgs weekly pull <TIMESTAMP>"
+* Submit PR `pkgs: nixpkgs weekly pull <TIMESTAMP>`
