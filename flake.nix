@@ -396,6 +396,37 @@
             default = cli;
           };
 
+
+        test-qgis = pkgs.nixosTest (import ./tests/nixos/qgis.nix {
+          inherit nixpkgs pkgs;
+          lib = nixpkgs.lib;
+          qgisPackage = self.packages.${system}.qgis;
+        });
+
+        test-qgis-ltr = pkgs.nixosTest (import ./tests/nixos/qgis.nix {
+          inherit nixpkgs pkgs;
+          lib = nixpkgs.lib;
+          qgisPackage = self.packages.${system}.qgis-ltr;
+        });
+
+        # TODO: add postgis test
+
+        checks = {
+
+          # package tests
+          test-gdal = self.packages.${system}.gdal.tests.gdal;
+          test-geos = self.packages.${system}.geos.tests.geos;
+          # test-pdal = self.packages.${system}.pdal.tests.pdal;  TODO: add test
+          test-proj = self.packages.${system}.proj.tests.proj;
+          test-grass = self.packages.${system}.grass.tests.grass;
+
+          # nixos tests
+          test-qgis = self.test-qgis.${system};
+          test-qgis-ltr = self.test-qgis-ltr.${system};
+
+        };
+
+
         }) // {
 
 

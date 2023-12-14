@@ -1,0 +1,37 @@
+name: Test packages integration
+
+on:
+  workflow_call:
+
+env:
+  NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}"
+
+jobs:
+  test-integration:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: 
+          - ubuntu-22.04
+          # - macos-11
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Install nix
+      uses: cachix/install-nix-action@v24
+
+    - name: Setup cachix
+      uses: cachix/cachix-action@v13
+      with:
+        name: geonix
+        authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+
+    - name: Flake check
+      run: |
+        nix flake check --accept-flake-config
