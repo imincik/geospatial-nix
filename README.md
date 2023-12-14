@@ -107,11 +107,11 @@ nix build --json .#all-packages  | jq -r '.[].outputs | to_entries[].value' | ca
 
 * Run package passthru tests
 ```
-nix-build -A packages.x86_64-linux.<PACKAGE>.passthru.tests
+nix build -L .#<PACKAGE>.tests.<TEST-NAME>
 ```
 
 _To re-build already built package or to re-run already succeeded tests use
-`--check` switch._
+`--rebuild` switch._
 
 ### Debugging packages
 
