@@ -30,7 +30,7 @@
 
           # Each new package must be added to:
           # * flake.nix: packages
-          # * flake.nix: packages.all-packages or packages.python-packages.all-packages
+          # * flake.nix: all-packages, python-packages.all-packages or postgresql-packages.all-packages
           # * pkgs/geonixcli/nix/overrides.nix
           # * .github/workflows/update-packages.yml: matrix.package
 
@@ -78,6 +78,10 @@
               # Core libs
               gdal = pkgs.callPackage ./pkgs/gdal {
                 inherit geos libgeotiff libspatialite proj tiledb;
+              };
+              gdal-minimal = pkgs.callPackage ./pkgs/gdal {
+                inherit geos libgeotiff libspatialite proj tiledb;
+                useMinimalFeatures = true;
               };
               _gdal = gdal;
 
@@ -241,6 +245,7 @@
                 name = "all-packages";
                 paths = [
                   gdal
+                  gdal-minimal
                   geonixcli
                   geos
                   libgeotiff
@@ -281,6 +286,7 @@
 
                   # Core libs
                   gdal
+                  gdal-minimal
                   geonixcli
                   geos
                   libgeotiff
