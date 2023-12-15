@@ -133,6 +133,9 @@
                 };
 
                 pyqt5 = pkgs.${python}.pkgs.pyqt5.override {
+                  # FIX sip and pyqt5_sip compatibility. See: https://github.com/NixOS/nixpkgs/issues/273561
+                  # Remove this fix in NixOS 24.05.
+                  pyqt5_sip = pkgs.${python}.pkgs.callPackage ./pkgs/qgis/pyqt5-sip.nix { };
                   withLocation = true;
                 };
 
