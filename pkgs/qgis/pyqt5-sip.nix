@@ -8,12 +8,12 @@
 
 buildPythonPackage rec {
   pname = "pyqt5-sip";
-  version = "12.13.0";
+  version = "12.12.1";
 
   src = fetchPypi {
     pname = "PyQt5_sip";
     inherit version;
-    hash = "sha256-fzIdr4S5ydvKYbgOHvN72v/A6TMS7a4s19oluVOXHZE=";
+    hash = "sha256-j9xuAUir0S2Xeh04KOe3mq6VjoPGy1ra5hSRbYiKaxA=";
   };
 
   # There is no test code and the check phase fails with:
