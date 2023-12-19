@@ -53,6 +53,11 @@ jobs:
         nix run ${GITHUB_WORKSPACE}#geonixcli -- search gdal | grep 'geopkgs.gdal'
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
 
+    - name: Test geonix update
+      run: |
+        nix run ${GITHUB_WORKSPACE}#geonixcli -- update
+      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
+
       # NOTE: `geonix override` is tested in test-custom-packages workflow
 
       # TODO: test `geonix up`

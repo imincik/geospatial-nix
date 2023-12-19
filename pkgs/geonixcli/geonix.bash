@@ -28,12 +28,16 @@ search PACKAGE      Search for packages available in Geospatial NIX or Nixpkgs
                     To search for multiple package names separate them with
                     pipe ("PACKAGE-X|PACKAGE-Y").
 
-override            Create overrides.nix template file in current
-                    directory for building customized Geospatial NIX packages.
+update              Update Geospatial NIX packages and environment
+                    (will update flake.lock file).
 
 container NAME      Build and import container image to Docker local registry.
 
                     See: https://devenv.sh/containers
+
+override            Create overrides.nix template file in current
+                    directory for building customized Geospatial NIX packages.
+
 EOF
   exit
 }
@@ -87,11 +91,15 @@ function parse_params {
   return 0
 }
 
-parse_params "$@"
-setup_colors
-
-
 NIX_FLAGS=( --accept-flake-config --no-warn-dirty --extra-experimental-features nix-command --extra-experimental-features flakes )
+
+function nix_version {
+    nix --version | grep --only-matching --extended-regexp '[0-9]+.[0-9]+.[0-9]+'
+}
+
+function versionge {
+    [ "$1" == "$(echo -e "$1\n$2" | sort --version-sort | tail -n1)" ]
+}
 
 function get_nixpkgs_metadata {
     nixpkgs_exists=$( \
@@ -173,6 +181,9 @@ function get_geonix_metadata {
     fi
 }
 
+
+parse_params "$@"
+setup_colors
 
 # INIT
 if [ "${args[0]}" == "init" ]; then
@@ -269,6 +280,39 @@ elif [ "${args[0]}" == "search" ]; then
     fi
 
 
+# UPDATE
+elif [ "${args[0]}" == "update" ]; then
+
+    # `nix flake lock --update-input` was removed in nix 2.19
+    if versionge "$(nix_version)" "2.19.0"; then
+        # new syntax
+        nix "${NIX_FLAGS[@]}" flake update geonix
+    else
+        # old syntax
+        nix "${NIX_FLAGS[@]}" flake lock --update-input geonix
+    fi
+
+
+# CONTAINER
+elif [ "${args[0]}" == "container" ]; then
+
+    [[ ${#args[@]} -lt 2 ]] && die "Missing container name. Use --help to get more information."
+
+    container_name="$2"
+    image_name=$(nix "${NIX_FLAGS[@]}" eval --raw ".#container-$container_name.imageName")
+
+    export DEVENV_CONTAINER=1
+    copy_script=$( \
+        nix build ".#container-$container_name.copyToDockerDaemon" --no-link --print-out-paths --impure \
+    )
+    "$copy_script/bin/copy-to-docker-daemon"
+
+    echo -e "\nRun docker container now:"
+    echo "  docker run --rm -it $image_name:latest"
+    echo "  docker run --rm -it $image_name:latest <COMMAND>"
+    echo "  docker run --rm -p <PORT>:<PORT> $image_name:latest"
+
+
 # OVERRIDE
 elif [ "${args[0]}" == "override" ]; then
 
@@ -291,26 +335,6 @@ elif [ "${args[0]}" == "override" ]; then
         echo
         echo "And don't forget to add all files to git."
     fi
-
-
-# CONTAINER
-elif [ "${args[0]}" == "container" ]; then
-
-    [[ ${#args[@]} -lt 2 ]] && die "Missing container name. Use --help to get more information."
-
-    container_name="$2"
-    image_name=$(nix "${NIX_FLAGS[@]}" eval --raw ".#container-$container_name.imageName")
-
-    export DEVENV_CONTAINER=1
-    copy_script=$( \
-        nix build ".#container-$container_name.copyToDockerDaemon" --no-link --print-out-paths --impure \
-    )
-    "$copy_script/bin/copy-to-docker-daemon"
-
-    echo -e "\nRun docker container now:"
-    echo "  docker run --rm -it $image_name:latest"
-    echo "  docker run --rm -it $image_name:latest <COMMAND>"
-    echo "  docker run --rm -p <PORT>:<PORT> $image_name:latest"
 
 
 # HELP
