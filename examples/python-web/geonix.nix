@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ inputs, config, lib, pkgs, ... }:
 
 let
   # Get Geospatial NIX packages

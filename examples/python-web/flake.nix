@@ -20,28 +20,31 @@
       url = "github:cachix/devenv";
       inputs.nixpkgs.follows = "geonix/nixpkgs";
     };
-    utils.url = "github:numtide/flake-utils";
+    nix2container = {
+      url = "github:nlewo/nix2container";
+      inputs.nixpkgs.follows = "geonix/nixpkgs";
+    };
+    mk-shell-bin.url = "github:rrbutani/nix-mk-shell-bin";
   };
 
-  outputs = { self, nixpkgs, geonix, devenv, utils, ... } @ inputs:
+  outputs = inputs@{ flake-parts, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
 
-    utils.lib.eachSystem [ "x86_64-linux" ] (system:
-      let
-        pkgs = nixpkgs.legacyPackages.${system};
-      in
-      {
-        packages = {
-          devenv-up = self.devShells.${system}.default.config.procfileScript;
-        };
+      imports = [
+        inputs.devenv.flakeModule
+      ];
 
-        devShells = {
-          default = devenv.lib.mkShell {
-            inherit inputs pkgs;
-            modules = [
-              ./geonix.nix
-            ];
-          };
+      systems = [ "x86_64-linux" ];
+
+      perSystem = { config, self', inputs', pkgs, system, ... }: {
+
+        devenv.shells.default = {
+          imports = [
+            ./geonix.nix
+          ];
         };
-      }
-    );
+      };
+
+      flake = { };
+    };
 }

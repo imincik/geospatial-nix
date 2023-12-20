@@ -1,7 +1,7 @@
 # See https://devenv.sh/reference/options/ for complete list of configuration
 # options.
 
-{ inputs, pkgs, ... }:
+{ inputs, config, pkgs, lib, ... }:
 
 let
   geopkgs = inputs.geonix.packages.${pkgs.system};
