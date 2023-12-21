@@ -21,15 +21,19 @@ shell               Launch shell environment.
 up                  Start processes configured in geonix.nix.
                     See: http://devenv.sh/processes
 
-search PACKAGE/     Search for packages or container images available in
-       IMAGE        Geospatial NIX or Nixpkgs repository. Search is performed for
-                    revisions according flake.lock file.
+search PACKAGE      Search for packages available in Geospatial NIX or Nixpkgs
+                    repository. Search is performed for revisions according
+                    flake.lock file.
 
                     To search for multiple package names separate them with
                     pipe ("PACKAGE-X|PACKAGE-Y").
 
 override            Create overrides.nix template file in current
                     directory for building customized Geospatial NIX packages.
+
+container NAME      Build and import container image to Docker local registry.
+
+                    See: https://devenv.sh/containers
 EOF
   exit
 }
@@ -203,7 +207,7 @@ elif [ "${args[0]}" == "shell" ]; then
 # UP
 elif [ "${args[0]}" == "up" ]; then
 
-    procfilescript=$(nix build '.#devenv-up' --no-link --print-out-paths --impure)
+    procfilescript=$(nix "${NIX_FLAGS[@]}" build '.#devenv-up' --no-link --print-out-paths --impure)
 
     # shellcheck disable=SC2086
     if [ "$(cat $procfilescript|tail -n +2)" = "" ]; then
@@ -287,6 +291,26 @@ elif [ "${args[0]}" == "override" ]; then
         echo
         echo "And don't forget to add all files to git."
     fi
+
+
+# CONTAINER
+elif [ "${args[0]}" == "container" ]; then
+
+    [[ ${#args[@]} -lt 2 ]] && die "Missing container name. Use --help to get more information."
+
+    container_name="$2"
+    image_name=$(nix "${NIX_FLAGS[@]}" eval --raw ".#container-$container_name.imageName")
+
+    export DEVENV_CONTAINER=1
+    copy_script=$( \
+        nix build ".#container-$container_name.copyToDockerDaemon" --no-link --print-out-paths --impure \
+    )
+    "$copy_script/bin/copy-to-docker-daemon"
+
+    echo -e "\nRun docker container now:"
+    echo "  docker run --rm -it $image_name:latest"
+    echo "  docker run --rm -it $image_name:latest <COMMAND>"
+    echo "  docker run --rm -p <PORT>:<PORT> $image_name:latest"
 
 
 # HELP

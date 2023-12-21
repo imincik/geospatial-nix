@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ inputs, config, lib, pkgs, ... }:
 
 let
   # Get Geospatial NIX packages
@@ -31,7 +31,7 @@ in
 
   # https://devenv.sh/services/
   services.postgres = {
-    enable = true;
+    enable = !config.container.isBuilding;  # don't include in container
     listen_addresses = "127.0.0.1";
     port = 15432;
 
@@ -54,4 +54,12 @@ in
 
   env.PYTHONPATH = "${python}/${python.sitePackages}";
   env.NIX_PYTHON_SITEPACKAGES = "${python}/${python.sitePackages}";
+
+  processes.flask-run.exec = "poetry run flask --app src/python_app run --host 0.0.0.0 ${lib.optionalString (!config.container.isBuilding) "--reload"}";
+
+  containers.python-app = {
+    name = "python-app";
+    copyToRoot = builtins.filterSource (path: type: baseNameOf path != ".venv") ./.;
+    startupCommand = config.procfileScript;
+  };
 }

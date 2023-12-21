@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ inputs, config, pkgs, lib, ... }:
 
 let
   geopkgs = inputs.geonix.packages.${pkgs.system};

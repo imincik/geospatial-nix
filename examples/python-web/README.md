@@ -33,66 +33,48 @@ on modules provided by [Devenv](https://devenv.sh/reference/options/).
 
 ## Usage
 
-### Development (with local data backend)
+### Services (with local data backend)
+
+* Launch services
+
+```
+nix run github:imincik/geospatial-nix#geonixcli -- shell --command geonix up
+```
+
+### Services (with database data backend)
+
+* Launch services
+
+```
+BACKEND=db nix run github:imincik/geospatial-nix#geonixcli -- shell --command geonix up
+```
+
+### Development environment
 
 * Enter development shell
 
 ```
-nix develop --impure
+nix run github:imincik/geospatial-nix#geonixcli -- shell
 ```
 
-* Poetry environment is installed and activated automatically
-
-* Launch Python development server
-
-```
-poetry run flask --app src/python_app run --reload
-```
-
-* Exit development shell
-
-```
-exit
-```
-
-### Development (with database data backend)
-
-* Enter development shell
-
-```
-nix develop --impure
-```
-
-* Poetry environment is installed and activated automatically
-
-* Launch PostgreSQL database
-
-```
-geonix up
-```
-
-* Enter another development shell (run in new terminal window)
-
-```
-nix develop --impure
-```
-
-* Launch Python development server
-
-```
-BACKEND=db poetry run flask --app src/python_app run --reload
-```
-
-* Connect to PostgreSQL DB container (optional)
+* Connect to PostgreSQL DB (optional)
 
 ```
 psql
 ```
 
-* Exit development shell
+### Run in container
+
+* Build container image and import it in Docker
 
 ```
-exit
+nix run github:imincik/geospatial-nix#geonixcli -- container python-app
+```
+
+* Run container
+
+```
+docker run --rm -p 5000:5000 python-app:latest
 ```
 
 

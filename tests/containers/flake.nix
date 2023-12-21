@@ -1,69 +1,50 @@
 {
-  description = "Container tests";
+  description = "Geospatial NIX";
 
-  nixConfig.extra-substituters = [ "https://geonix.cachix.org" ];
-  nixConfig.extra-trusted-public-keys = [ "geonix.cachix.org-1:iyhIXkDLYLXbMhL3X3qOLBtRF8HEyAbhPXjjPeYsCl0=" ];
+  nixConfig = {
+    extra-substituters = [
+      "https://geonix.cachix.org"
+      "https://devenv.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "geonix.cachix.org-1:iyhIXkDLYLXbMhL3X3qOLBtRF8HEyAbhPXjjPeYsCl0="
+      "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
+    ];
+    bash-prompt = "\\[\\033[1m\\][geonix]\\[\\033\[m\\]\\040\\w >\\040";
+  };
 
-  nixConfig.bash-prompt = "\\[\\033[1m\\][geonix]\\[\\033\[m\\]\\040\\w >\\040";
+  inputs = {
+    geonix.url = "github:imincik/geonix";
+    nixpkgs.follows = "geonix/nixpkgs";
+    devenv = {
+      url = "github:cachix/devenv";
+      inputs.nixpkgs.follows = "geonix/nixpkgs";
+    };
+    nix2container = {
+      url = "github:nlewo/nix2container";
+      inputs.nixpkgs.follows = "geonix/nixpkgs";
+    };
+    mk-shell-bin.url = "github:rrbutani/nix-mk-shell-bin";
+  };
 
-  inputs.geonix.url = "path:../../";
-  inputs.nixpkgs.follows = "geonix/nixpkgs";
+  outputs = inputs@{ flake-parts, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
 
-  inputs.utils.url = "github:numtide/flake-utils";
+      imports = [
+        inputs.devenv.flakeModule
+      ];
 
-  outputs = { self, nixpkgs, geonix, utils }:
+      systems = [ "x86_64-linux" ];
 
-    utils.lib.eachSystem [ "x86_64-linux" ] (system:
-      let
+      perSystem = { config, self', inputs', pkgs, system, ... }: {
 
-        pkgs = geonix.lib.getPackages {
-          inherit system nixpkgs geonix;
+        devenv.shells.default = {
+          imports = [
+            ./geonix.nix
+          ];
         };
+      };
 
-        pythonVersion = "python3";
-        extraPythonPackages = [ pkgs.geonix."${pythonVersion}-fiona" ];
-        extraPackages = [ pkgs.nixpkgs.tig ];
-
-        postgresqlVersion = "postgresql";
-        postgresqlInitdbArgs = [ "--locale=C" "--encoding=UTF8" ];
-        extraPostgresqlPackages = [
-          pkgs.nixpkgs.${postgresqlVersion}.pkgs.pgrouting
-        ];
-      in
-      {
-
-        packages = {
-
-          # Python container
-          python = geonix.lib.mkPythonContainer {
-            inherit pkgs;
-            name = "test-python";
-            pythonVersion = pythonVersion;
-            extraPythonPackages = extraPythonPackages;
-            extraPackages = extraPackages;
-          };
-
-          # PostgreSQL container
-          postgresql = geonix.lib.mkPostgresqlContainer {
-            inherit pkgs;
-            name = "test-postgresql";
-            postgresqlVersion = postgresqlVersion;
-            extraPostgresqlPackages = extraPostgresqlPackages;
-            initDatabase = "test";
-          };
-
-        };
-
-        devShells = {
-
-          # CI shell
-          ci = pkgs.nixpkgs.mkShell {
-
-            buildInputs = [
-              pkgs.nixpkgs.postgresql
-            ];
-          };
-        };
-
-      });
+      flake = { };
+    };
 }

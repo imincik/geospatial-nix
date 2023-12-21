@@ -1,7 +1,7 @@
 # See https://devenv.sh/reference/options/ for complete list of configuration
 # options.
 
-{ inputs, pkgs, ... }:
+{ inputs, config, pkgs, lib, ... }:
 
 let
   geopkgs = inputs.geonix.packages.${pkgs.system};
@@ -40,7 +40,7 @@ in {
   # Run `geonix up` in shell environment to launch all services.
 
   # services.postgres = {
-  #   enable = true;
+  #   enable = !config.container.isBuilding;  # return `false` if building container
   #   extensions = e: [ geopkgs.postgresql-postgis ];
   #   listen_addresses = "127.0.0.1";
   # };

@@ -14,9 +14,11 @@ on modules provided by [Devenv](https://devenv.sh/reference/options/).
 
 ## Usage
 
+### Development environment
+
 * Enter shell environment
 ```
-nix develop --impure
+nix run github:imincik/geospatial-nix#geonixcli -- shell
 ```
 
 * Try GDAL
@@ -26,9 +28,18 @@ nix develop --impure
 GDAL 3.6.1, released 2022/12/14
 ```
 
-* Exit shell environment
+### Run in container
+
+* Build container image and import it in Docker
+
 ```
-exit
+nix run github:imincik/geospatial-nix#geonixcli -- container shell
+```
+
+* Run container
+
+```
+docker run --rm -it shell:latest gdalinfo --version
 ```
 
 
