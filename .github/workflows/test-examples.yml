@@ -36,6 +36,12 @@ jobs:
     - name: Install nix
       uses: cachix/install-nix-action@v24
 
+    - name: Setup cachix
+      uses: cachix/cachix-action@v13
+      with:
+        name: geonix
+        authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+
     - name: Point Geonix input to the local source code directory
       run: |
         sed -i.orig "s|geonix.url = \".*\";|geonix.url = \"path:${NEW_GITHUB_WORKSPACE}\";|" flake.nix
@@ -56,13 +62,22 @@ jobs:
 
 
     # python-web
-    - name: Test example (if python-web example - DB backend)
+    - name: Test example (if python-web example)
       run: |
-        nix develop --impure --accept-flake-config --command geonix up &
-
-        export BACKEND=db
-        nix develop --impure --accept-flake-config --command poetry run flask --app src/python_app run &
+        BACKEND=db nix develop --impure --accept-flake-config --command geonix up &
 
         curl --retry 10 --retry-all-errors localhost:5000 | grep POLYGON
+      if: ${{ matrix.example == 'python-web' }}
+      working-directory: ${{ env.NEW_GITHUB_WORKSPACE }}/examples/${{ matrix.example }}
+
+
+    # python-web-container
+    - name: Test example (if python-web example - container)
+      run: |
+        nix develop --impure --accept-flake-config --command geonix container python-app
+        sleep 1
+        docker run -d --rm -p 5001:5000 python-app:latest
+
+        curl --retry 10 --retry-all-errors localhost:5001 | grep POLYGON
       if: ${{ matrix.example == 'python-web' }}
       working-directory: ${{ env.NEW_GITHUB_WORKSPACE }}/examples/${{ matrix.example }}

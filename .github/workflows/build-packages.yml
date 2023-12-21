@@ -99,12 +99,12 @@ jobs:
     uses: ./.github/workflows/test-examples.yml
     secrets: inherit
 
+  launch-test-containers:
+    needs: build-packages
+    uses: ./.github/workflows/test-containers.yml
+    secrets: inherit
+
   launch-test-integration:
     needs: build-packages
     uses: ./.github/workflows/test-integration.yml
     secrets: inherit
-
-  # launch-test-container-funct:
-  #   needs: build-packages
-  #   uses: ./.github/workflows/test-container-funct.yml
-  #   secrets: inherit
