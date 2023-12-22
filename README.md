@@ -156,5 +156,16 @@ utils/pull-nixpkgs.sh <NIXPKGS-DIR>
   commits (link to Nixpks PR in commit message)
 
 * Build and test all packages
+```
+nix build --json .#all-packages  | jq -r '.[].outputs | to_entries[].value' | cachix push geonix
 
-* Submit PR `pkgs: nixpkgs weekly pull <TIMESTAMP>`
+nix flake check
+
+nix build --json .\#test-qgis.x86_64-linux  | jq -r '.[].outputs | to_entries[].value' | cachix push geonix
+nix build --json .\#test-qgis-ltr.x86_64-linux  | jq -r '.[].outputs | to_entries[].value' | cachix push geonix
+```
+
+* Submit PR
+```
+gh pr create --title "pkgs: nixpkgs weekly pull <TIMESTAMP>"
+```
