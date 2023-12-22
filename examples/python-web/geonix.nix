@@ -57,8 +57,8 @@ in
 
   processes.flask-run.exec = "poetry run flask --app src/python_app run --host 0.0.0.0 ${lib.optionalString (!config.container.isBuilding) "--reload"}";
 
-  containers.python-app = {
-    name = "python-app";
+  containers.shell = {
+    # don't copy `.venv` directory to image (it is not portable)
     copyToRoot = builtins.filterSource (path: type: baseNameOf path != ".venv") ./.;
     startupCommand = config.procfileScript;
   };
