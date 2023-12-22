@@ -36,6 +36,12 @@ jobs:
     - name: Install nix
       uses: cachix/install-nix-action@v24
 
+    - name: Setup cachix
+      uses: cachix/cachix-action@v13
+      with:
+        name: geonix
+        authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+
     - name: Point Geonix input to the local source code directory
       run: |
         sed -i.orig "s|geonix.url = \".*\";|geonix.url = \"path:${NEW_GITHUB_WORKSPACE}\";|" flake.nix
