@@ -68,13 +68,13 @@ psql
 * Build container image and import it in Docker
 
 ```
-nix run github:imincik/geospatial-nix#geonixcli -- container python-app
+nix run github:imincik/geospatial-nix#geonixcli -- container shell
 ```
 
 * Run container
 
 ```
-docker run --rm -p 5000:5000 python-app:latest
+docker run --rm -p 5000:5000 shell:latest
 ```
 
 
