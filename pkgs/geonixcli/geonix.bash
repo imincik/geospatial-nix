@@ -181,6 +181,13 @@ function get_geonix_metadata {
     fi
 }
 
+function assemble_devenv {
+    # see: https://github.com/cachix/devenv/blob/405a4c6a3fecfd2a7fb37cc13f4e760658e522e6/src/devenv.nix#L29
+
+    DEVENV_DIR="$(pwd)/.devenv"
+    export DEVENV_DIR
+}
+
 
 parse_params "$@"
 setup_colors
@@ -217,6 +224,8 @@ elif [ "${args[0]}" == "shell" ]; then
 
 # UP
 elif [ "${args[0]}" == "up" ]; then
+
+    assemble_devenv
 
     procfilescript=$(nix "${NIX_FLAGS[@]}" build '.#devenv-up' --no-link --print-out-paths --impure)
 
@@ -297,6 +306,8 @@ elif [ "${args[0]}" == "update" ]; then
 elif [ "${args[0]}" == "container" ]; then
 
     [[ ${#args[@]} -lt 2 ]] && die "Missing container name. Use --help to get more information."
+
+    assemble_devenv
 
     container_name="$2"
     image_name=$(nix "${NIX_FLAGS[@]}" eval --raw ".#container-$container_name.imageName")
