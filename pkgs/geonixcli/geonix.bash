@@ -35,6 +35,9 @@ container NAME      Build and import container image to Docker local registry.
 
                     See: https://devenv.sh/containers
 
+container-config    Print container configuration as JSON.
+            NAME
+
 override            Create overrides.nix template file in current
                     directory for building customized Geospatial NIX packages.
 
@@ -322,6 +325,22 @@ elif [ "${args[0]}" == "container" ]; then
     echo "  docker run --rm -it $image_name:latest"
     echo "  docker run --rm -it $image_name:latest <COMMAND>"
     echo "  docker run --rm -p <PORT>:<PORT> $image_name:latest"
+
+
+# CONTAINER-CONFIG
+elif [ "${args[0]}" == "container-config" ]; then
+
+    [[ ${#args[@]} -lt 2 ]] && die "Missing container name. Use --help to get more information."
+
+    assemble_devenv
+
+    container_name="$2"
+
+    export DEVENV_CONTAINER=1
+    container_config=$( \
+        nix build ".#container-$container_name" --no-link --print-out-paths --impure \
+    )
+    cat "$container_config"
 
 
 # OVERRIDE

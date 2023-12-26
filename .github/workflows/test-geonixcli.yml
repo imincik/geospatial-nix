@@ -48,6 +48,11 @@ jobs:
         docker run --rm shell:latest | grep GDAL
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
 
+    - name: Test geonix container-config
+      run: |
+        nix run ${GITHUB_WORKSPACE}#geonixcli -- container-config shell
+      working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
+
     - name: Test geonix search
       run: |
         nix run ${GITHUB_WORKSPACE}#geonixcli -- search gdal | grep 'geopkgs.gdal'
