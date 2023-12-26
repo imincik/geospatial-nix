@@ -5,6 +5,7 @@
 # below or create a wrapper script to set PYTHONPATH=NIX_PYTHON_SITEPACKAGES.
 import os
 import sys
+
 nix_python_sitepackages = str(os.environ.get("NIX_PYTHON_SITEPACKAGES"))
 sys.path.append(nix_python_sitepackages)
 
@@ -51,9 +52,7 @@ def _get_points_db():
     """
 
     with psycopg.connect(dsn) as conn:
-
         with conn.cursor() as cur:
-
             cur.execute("CREATE EXTENSION IF NOT EXISTS postgis;")
 
             info = TypeInfo.fetch(conn, "geometry")

@@ -62,4 +62,8 @@ in
     copyToRoot = builtins.filterSource (path: type: baseNameOf path != ".venv") ./.;
     startupCommand = config.procfileScript;
   };
+
+  pre-commit.hooks = {
+    black.enable = true;
+  };
 }
