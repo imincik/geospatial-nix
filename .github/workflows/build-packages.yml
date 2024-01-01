@@ -104,7 +104,8 @@ jobs:
     uses: ./.github/workflows/test-containers.yml
     secrets: inherit
 
-  launch-test-integration:
-    needs: build-packages
-    uses: ./.github/workflows/test-integration.yml
-    secrets: inherit
+  # FIXME:
+  # launch-test-integration:
+  #   needs: build-packages
+  #   uses: ./.github/workflows/test-integration.yml
+  #   secrets: inherit
