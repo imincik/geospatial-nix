@@ -1,5 +1,5 @@
 {
-  description = "Geospatial NIX";
+  description = "Geospatial packages repository and environment";
 
   nixConfig = {
     extra-substituters = [ "https://geonix.cachix.org" ];
