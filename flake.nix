@@ -416,7 +416,7 @@
           # package tests
           test-gdal = self.packages.${system}.gdal.tests.gdal;
           test-geos = self.packages.${system}.geos.tests.geos;
-          # test-pdal = self.packages.${system}.pdal.tests.pdal;  TODO: add test
+          test-pdal = self.packages.${system}.pdal.tests.pdal;
           test-proj = self.packages.${system}.proj.tests.proj;
           test-grass = self.packages.${system}.grass.tests.grass;
 
