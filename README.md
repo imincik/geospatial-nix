@@ -155,6 +155,11 @@ utils/pull-nixpkgs.sh <NIXPKGS-DIR>
 * Review changes, identify related PRs in Nixpkgs, split changes to separate
   commits (link to Nixpks PR in commit message)
 
+* Optional: generate reverse patch for changes which are not desired
+```
+git diff -R <CHANGED-FILE> > pkgs/<PACKAGE>/nixpkgs/<PATCH-NAME>.patch
+```
+
 * Build and test all packages
 ```
 nix build --json .#all-packages  | jq -r '.[].outputs | to_entries[].value' | cachix push geonix
