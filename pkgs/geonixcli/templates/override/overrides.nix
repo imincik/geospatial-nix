@@ -139,7 +139,7 @@ rec {
 
     # >>> CUSTOMIZE HERE
 
-  })).override { inherit gdal libgeotiff; };
+  })).override { inherit gdal libgeotiff tiledb; };
 
 
   #####################################################################
