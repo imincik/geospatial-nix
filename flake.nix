@@ -102,7 +102,7 @@
               };
 
               pdal = pkgs.callPackage ./pkgs/pdal {
-                inherit gdal libgeotiff;
+                inherit gdal libgeotiff tiledb;
               };
 
               proj = pkgs.callPackage ./pkgs/proj { };
@@ -171,8 +171,9 @@
               postgresql-packages = forAllPostgresqlVersions (postgresql: rec {
 
                 postgis = pkgs.callPackage ./pkgs/postgis/postgis.nix {
-                  inherit gdal geos proj;
+                  inherit geos proj;
 
+                  gdalMinimal = gdal-minimal;
                   postgresql = pkgs.${postgresql};
                 };
 

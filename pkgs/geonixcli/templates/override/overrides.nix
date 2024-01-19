@@ -139,7 +139,7 @@ rec {
 
     # >>> CUSTOMIZE HERE
 
-  })).override { inherit gdal libgeotiff; };
+  })).override { inherit gdal libgeotiff tiledb; };
 
 
   #####################################################################
@@ -250,7 +250,7 @@ rec {
 
     # >>> CUSTOMIZE HERE
 
-  })).override { inherit gdal geos proj; };
+  })).override { inherit geos proj; gdalMinimal = gdal-minimal; };
 
   }; ### POSTGRESQL PACKAGES
 

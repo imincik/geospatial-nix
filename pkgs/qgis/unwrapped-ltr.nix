@@ -1,4 +1,5 @@
 { lib
+, callPackage
 , fetchFromGitHub
 , fetchpatch
 , makeWrapper
@@ -47,6 +48,10 @@
 }:
 
 let
+
+  # replace with global pdal version once
+  # https://github.com/qgis/QGIS/pull/54940 is backported
+  pdal = callPackage ./pdal-2_5.nix { };
 
   # pyqt5 override was moved to flake.nix
   py = python3;
