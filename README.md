@@ -4,7 +4,8 @@
 
 **Geospatial NIX** provides weekly updated geospatial packages and tools built
 on top of latest stable Nixpkgs branch for creating isolated and reproducible
-geospatial environments.
+geospatial environments. Check out the user interface at
+[https://geospatial-nix.today/](https://geospatial-nix.today/) .
 
 
 ## Quick start
