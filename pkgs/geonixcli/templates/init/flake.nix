@@ -43,6 +43,8 @@
             ./geonix.nix
           ];
         };
+
+        packages.geonixcli = inputs.geonix.packages.${system}.geonixcli;
       };
 
       flake = { };
