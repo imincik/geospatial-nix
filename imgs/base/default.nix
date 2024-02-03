@@ -291,7 +291,7 @@ pkgs.dockerTools.buildLayeredImageWithNixDb {
 } // {
   meta = {
     description = "Base OCI compatible container image";
-    homepage = "https://github.com/imincik/geonix";
+    homepage = "https://github.com/imincik/geospatial-nix";
     license = lib.licenses.mit;
     maintainers = [ lib.maintainers.imincik ];
     platforms = lib.platforms.linux;

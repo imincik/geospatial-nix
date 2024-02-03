@@ -37,7 +37,7 @@ stdenv.mkDerivation rec {
 
   meta = with lib; {
     description = "Geonix convenience tools";
-    homepage = "https://github.com/imincik/geonix";
+    homepage = "https://github.com/imincik/geospatial-nix";
     license = licenses.mit;
     platforms = platforms.unix;
     maintainers = with maintainers; [ imincik ];
