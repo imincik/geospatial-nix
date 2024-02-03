@@ -14,7 +14,7 @@
   };
 
   inputs = {
-    geonix.url = "github:imincik/geonix";
+    geonix.url = "github:imincik/geospatial-nix";
     nixpkgs.follows = "geonix/nixpkgs";
     devenv = {
       url = "github:cachix/devenv";
