@@ -49,7 +49,7 @@ jobs:
           nix run github:Mic92/nix-update -- ${{ matrix.package }} --flake
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v6
         with:
           title: "pkgs(${{ matrix.package }}): automatic package update"
           body: |
