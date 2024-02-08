@@ -38,14 +38,14 @@ jobs:
 
     - name: Test geonix shell
       run: |
-        nix run ${GITHUB_WORKSPACE}#geonixcli -- shell --command echo | grep GDAL
+        nix run ${GITHUB_WORKSPACE}#geonixcli -- shell --command gdalinfo --version | grep GDAL
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
 
     - name: Test geonix container
       run: |
         nix run ${GITHUB_WORKSPACE}#geonixcli -- container shell
         sleep 1
-        docker run --rm shell:latest | grep GDAL
+        docker run --rm shell:latest gdalinfo --version | grep GDAL
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
 
     - name: Test geonix container-config
@@ -64,5 +64,4 @@ jobs:
       working-directory: ${{ env.TEMPLATE_PROJECT_DIR }}
 
       # NOTE: `geonix override` is tested in test-custom-packages workflow
-
       # TODO: test `geonix up`

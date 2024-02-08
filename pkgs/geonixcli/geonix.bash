@@ -214,11 +214,10 @@ if [ "${args[0]}" == "init" ]; then
         echo "$init_file file created in $(pwd)/$init_file."
     done
 
-    echo -e "\nStart by configuring the environment in geonix.nix file."
+    echo -e "\nStart by adding flake.nix and geonix.nix files to git."
+    echo "Use https://geospatial-nix.today to add more configuration."
     echo
-    echo "Rename dot-envrc file to .envrc to enable environment auto-loading using nix-direnv."
-    echo
-    echo "And don't forget to add all files to git."
+    echo "Enter the environment by running 'nix run .#geonixcli -- shell'."
 
 
 # SHELL
@@ -354,18 +353,18 @@ elif [ "${args[0]}" == "override" ]; then
         cp "$GEONIX_TEMPLATES_DIR"/override/overrides.nix "$(pwd)"/overrides.nix
         chmod u+w "$(pwd)"/overrides.nix
 
-        echo "Override template file created in $(pwd)/overrides.nix ."
-        echo
-        echo "Use overrides.nix file with customizePackages function."
+        echo -e "\nOverride template file created in $(pwd)/overrides.nix ."
         echo
         echo "Example usage in geonix.nix file:"
+        echo "'''"
         echo "geopkgs = inputs.geonix.lib.customizePackages {        "
         echo "  nixpkgs = pkgs;                                      "
         echo "  geopkgs = inputs.geonix.packages.\${pkgs.system};     "
         echo "  overridesFile = ./overrides.nix;                     "
         echo "};                                                     "
+        echo "'''"
         echo
-        echo "And don't forget to add all files to git."
+        echo "Don't forget to add overrides.nix file to git."
     fi
 
 
