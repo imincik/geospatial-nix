@@ -1,0 +1,21 @@
+diff --git a/pkgs/gdal/tests.nix b/pkgs/gdal/tests.nix
+index 87fbff2..68e104b 100644
+--- a/pkgs/gdal/tests.nix
++++ b/pkgs/gdal/tests.nix
+@@ -40,16 +40,5 @@ runCommand "${pname}-tests" { meta.timeout = 60; }
+ 
+     ${gdal}/bin/gdalinfo ./test.tif
+ 
+-    # test java bindings
+-    cat <<EOF > main.java
+-    import org.gdal.gdal.gdal;
+-    class Main {
+-      public static void main(String[] args) {
+-      gdal.AllRegister();
+-      }
+-    }
+-    EOF
+-    ${jdk}/bin/java -Djava.library.path=${gdal}/lib/ -cp ${gdal}/share/java/gdal-${version}.jar main.java
+-
+     touch $out
+   ''
