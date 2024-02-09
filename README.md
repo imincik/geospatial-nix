@@ -133,7 +133,7 @@ nix why-depends .#<PACKAGE> .#<DEPENDENCY>
 * Monday (1 AM): automatic update of base packages from latest stable Nixpkgs
   branch (nix flake update)
 
-* Monday - Wednesday: development and updates of geospatial packages in Nixpkgs
+* Monday - Thursday: development and updates of geospatial packages in Nixpkgs
   master
 
 * Thursday - Friday: pull from Nixpkgs master to Geospatial NIX master,
@@ -141,14 +141,18 @@ nix why-depends .#<PACKAGE> .#<DEPENDENCY>
 
 * Monday (1 AM): automatic release of new version
 
-#### Nixpkgs pull process
+#### Packages update process
 
-* Create nixpkgs-pull branch
+* Create `pkgs-weekly-update` branch and collect all packages updates
+  in this branch (Monday)
 ```bash
-git checkout -b nixpkgs-pull-$(date "+%Y%m%d")
+git checkout -b pkgs-weekly-update-$(date "+%Y-%U")
 ```
 
-* Pull from latest Nixpkgs master
+* Merge automatically created flake update PR (`flake-update-action-pr` branch)
+  in to `pkgs-weekly-update` branch
+
+* Pull from latest Nixpkgs master (Thursday - Friday)
 ```bash
 utils/pull-nixpkgs.sh <NIXPKGS-DIR>
 ```
@@ -171,7 +175,9 @@ nix build --json .\#test-qgis.x86_64-linux  | jq -r '.[].outputs | to_entries[].
 nix build --json .\#test-qgis-ltr.x86_64-linux  | jq -r '.[].outputs | to_entries[].value' | cachix push geonix
 ```
 
-* Submit PR
+* Submit PR (Friday)
 ```
-gh pr create --title "pkgs: nixpkgs weekly pull <TIMESTAMP>"
+gh pr create --title "pkgs: weekly update $(date "+%Y-%U")"
 ```
+
+* Merge PR (Friday or Saturday)
