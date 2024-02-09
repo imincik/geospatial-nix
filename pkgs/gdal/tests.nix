@@ -1,4 +1,4 @@
-{ runCommand, gdal }:
+{ runCommand, gdal, jdk }:
 
 let
   inherit (gdal) pname version;

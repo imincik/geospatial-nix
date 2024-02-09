@@ -10,6 +10,6 @@
 +      substituteInPlace apps/gdalinfo_bin.cpp --replace "Usage: gdalinfo" "Usage: gdalinfo (patched)"
 +    '';
 +
-   })).override { inherit geos libgeotiff libspatialite proj tiledb; };
+   })).override { inherit geos libgeotiff libspatialite proj tiledb; useJava = false; };
    _gdal = gdal;
  

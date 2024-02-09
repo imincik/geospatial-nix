@@ -78,6 +78,7 @@
               # Core libs
               gdal = pkgs.callPackage ./pkgs/gdal {
                 inherit geos libgeotiff libspatialite proj tiledb;
+                useJava = false;
               };
               gdal-minimal = pkgs.callPackage ./pkgs/gdal {
                 inherit geos libgeotiff libspatialite proj tiledb;
