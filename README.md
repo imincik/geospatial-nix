@@ -3,7 +3,7 @@
 # Geospatial packages repository and environment
 
 **Geospatial NIX** provides weekly updated geospatial packages and tools built
-on top of latest stable Nixpkgs branch for creating isolated and reproducible
+on top of the latest stable Nixpkgs branch for creating isolated and reproducible
 geospatial environments. Check out the user interface at
 [https://geospatial-nix.today/](https://geospatial-nix.today/) .
 
@@ -41,7 +41,7 @@ nix flake show github:imincik/geospatial-nix
 
 ### Run applications without installation
 
-* Launch latest stable QGIS version
+* Launch the latest stable QGIS version
 ```bash
 nix run github:imincik/geospatial-nix#qgis
 ```
@@ -65,7 +65,7 @@ nix run github:imincik/geospatial-nix#geonixcli init
 git add *
 ```
 
-* Edit `geonix.nix` file according your project requirements
+* Edit `geonix.nix` file according to your project requirements
   (check out [examples](examples/) for example configurations)
 
 * Launch shell environment
@@ -93,12 +93,12 @@ nix build .#<PACKAGE>
 nix build .#all-packages
 ```
 
-* Build single package and push it to Geonix binary cache
+* Build a single package and push it to the Geonix binary cache
 ```
 nix build --json .#<PACKAGE>  | jq -r '.[].outputs | to_entries[].value' | cachix push geonix
 ```
 
-* Build all packages and push them to Geonix binary cache
+* Build all packages and push them to the Geonix binary cache
 ```
 nix build --json .#all-packages  | jq -r '.[].outputs | to_entries[].value' | cachix push geonix
 ```
@@ -108,7 +108,7 @@ nix build --json .#all-packages  | jq -r '.[].outputs | to_entries[].value' | ca
 nix build -L .#<PACKAGE>.tests.<TEST-NAME>
 ```
 
-_To re-build already built package or to re-run already succeeded tests use
+_To an re-build already built package or to re-run already succeeded tests, use the
 `--rebuild` switch._
 
 ### Debugging packages
@@ -143,7 +143,7 @@ nix why-depends .#<PACKAGE> .#<DEPENDENCY>
 
 #### Packages update process
 
-* Create `pkgs-weekly-update` branch and collect all packages updates
+* Create a `pkgs-weekly-update` branch and collect all package updates
   in this branch (Monday)
 ```bash
 git checkout -b pkgs-weekly-update-$(date "+%Y-%U")
@@ -152,7 +152,7 @@ git checkout -b pkgs-weekly-update-$(date "+%Y-%U")
 * Merge automatically created flake update PR (`flake-update-action-pr` branch)
   in to `pkgs-weekly-update` branch
 
-* Pull from latest Nixpkgs master (Thursday - Friday)
+* Pull from the latest Nixpkgs master (Thursday - Friday)
 ```bash
 utils/pull-nixpkgs.sh <NIXPKGS-DIR>
 ```
@@ -160,7 +160,7 @@ utils/pull-nixpkgs.sh <NIXPKGS-DIR>
 * Review changes, identify related PRs in Nixpkgs, split changes to separate
   commits (link to Nixpks PR in commit message)
 
-* Optional: generate reverse patch for changes which are not desired
+* Optional: generate a reverse patch for changes which are not desired
 ```
 git diff -R <CHANGED-FILE> > pkgs/<PACKAGE>/nixpkgs/<PATCH-NAME>.patch
 ```
