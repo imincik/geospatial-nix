@@ -34,7 +34,7 @@
         inputs.devenv.flakeModule
       ];
 
-      systems = [ "x86_64-linux" ];
+      systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
 
       perSystem = { config, self', inputs', pkgs, system, ... }: {
 
