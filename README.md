@@ -60,7 +60,7 @@ cd my-project
 
 git init
 
-nix run github:imincik/geospatial-nix#geonixcli init
+nix run github:imincik/geospatial-nix#geonixcli -- init
 
 git add *
 ```
@@ -70,7 +70,7 @@ git add *
 
 * Launch shell environment
 ```bash
-nix run github:imincik/geospatial-nix#geonixcli shell
+nix run .#geonixcli -- shell
 ```
 
 ### More information about used technologies
