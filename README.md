@@ -4,35 +4,25 @@
 
 **Geospatial NIX** provides weekly updated geospatial packages and tools built
 on top of the latest stable Nixpkgs branch for creating isolated and reproducible
-geospatial environments. Check out the user interface at
+geospatial environments.
+
+Check out the user interface at
 [https://geospatial-nix.today/](https://geospatial-nix.today/) .
 
 
 ## Quick start
 
-### Install and configure Nix
+### Installation
 
 * Install Nix
+  [(learn more about this installer)](https://zero-to-nix.com/start/install)
 ```bash
-sh <(curl -L https://nixos.org/nix/install) --daemon
-```
+curl --proto '=https' --tlsv1.2 -sSf \
+    -L https://install.determinate.systems/nix \
+    | sh -s -- install
+  ```
 
-* Enable new Nix command interface and Nix Flakes
-```bash
-echo "experimental-features = nix-command flakes" | sudo tee -a /etc/nix/nix.conf
-```
-
-* Add current user to Nix trusted users group
-```bash
-echo "trusted-users = $USER" | sudo tee -a /etc/nix/nix.conf
-```
-
-* Restart Nix daemon
-```bash
-sudo systemctl restart nix-daemon.service
-```
-
-### Show content
+### Show this repository content
 
 * Show Geospatial NIX content
 ```bash
