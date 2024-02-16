@@ -133,14 +133,23 @@ nix why-depends .#<PACKAGE> .#<DEPENDENCY>
 
 #### Packages update process
 
-* Create a `pkgs-weekly-update` branch and collect all package updates
-  in this branch (Monday)
+* Create a `pkgs-weekly-update` branch to collect all package updates
+  in this branch and create PR (Monday)
 ```bash
-git checkout -b pkgs-weekly-update-$(date "+%Y-%U")
+git checkout -b pkgs-weekly-update-$(date "+%Y-%V")
+
+git push --set-upstream origin pkgs-weekly-update-$(date "+%Y-%V")
 ```
 
 * Merge automatically created flake update PR (`flake-update-action-pr` branch)
   in to `pkgs-weekly-update` branch
+
+* Submit `pkgs-weekly-update` PR
+```
+git pull
+
+gh pr create --title "pkgs: weekly update $(date "+%Y-%V")"
+```
 
 * Pull from the latest Nixpkgs master (Thursday - Friday)
 ```bash
@@ -165,9 +174,4 @@ nix build --json .\#test-qgis.x86_64-linux  | jq -r '.[].outputs | to_entries[].
 nix build --json .\#test-qgis-ltr.x86_64-linux  | jq -r '.[].outputs | to_entries[].value' | cachix push geonix
 ```
 
-* Submit PR (Friday)
-```
-gh pr create --title "pkgs: weekly update $(date "+%Y-%U")"
-```
-
-* Merge PR (Friday or Saturday)
+* Merge `pkgs-weekly-update` PR (Friday, Saturday)
