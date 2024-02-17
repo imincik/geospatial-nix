@@ -458,5 +458,11 @@
 
       lib = import ./lib { inherit (nixpkgs) lib; };
 
+
+      #
+      ### MODULES ###
+      #
+
+      modules = import ./modules { };
     };
 }

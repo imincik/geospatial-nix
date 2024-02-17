@@ -1,5 +1,9 @@
+{ ... }:
+
 {
-  # Add your NixOS modules here
-  #
-  # my-module = ./my-module;
+
+  imports = [
+    ./foo.nix
+    ./foo2.nix
+  ];
 }

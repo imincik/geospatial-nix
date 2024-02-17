@@ -40,6 +40,7 @@
 
         devenv.shells.default = {
           imports = [
+              inputs.geonix.modules
             ./geonix.nix
           ];
         };
