@@ -282,17 +282,6 @@
                 ++ pkgs.lib.optionals pkgs.stdenv.isLinux [ grass qgis qgis-ltr ];
               };
 
-
-              # Container images
-              geonix-base-image = pkgs.callPackage ./imgs/base {
-                name = "geonix-base";
-                tag = "latest";
-                bundleNixpkgs = true;
-                channelName = "nixpkgs";
-                channelURL = "https://nixos.org/channels/nixos-23.11";
-                nixConf = { experimental-features = "nix-command flakes"; };
-              };
-
             in
             flake-utils.lib.filterPackages system
               {
@@ -318,9 +307,6 @@
                   qgis-unwrapped
                   qgis-ltr
                   qgis-ltr-unwrapped
-
-                  # Container images
-                  geonix-base-image
 
                   # Meta packages
                   all-packages
