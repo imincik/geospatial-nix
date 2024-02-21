@@ -11,6 +11,11 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
 
+    nixgl = {
+      url = "github:nix-community/nixGL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     flake-utils.url = "github:numtide/flake-utils";
 
     flake-compat = {
@@ -19,7 +24,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, ... }:
+  outputs = { self, nixpkgs, nixgl, flake-utils, ... }:
     flake-utils.lib.eachSystem [ "x86_64-linux" ]
       (system:
         let
@@ -244,6 +249,8 @@
 
               qgis-ltr = pkgs.callPackage ./pkgs/qgis/ltr.nix { qgis-ltr-unwrapped = qgis-ltr-unwrapped; };
 
+              # nixGL
+              nixGL = nixgl.packages.${system}.nixGLIntel;
 
               # all-packages (meta package containing all packages)
               all-packages = pkgs.symlinkJoin {
@@ -261,6 +268,8 @@
                   proj
 
                   tiledb
+
+                  nixGL
                 ]
 
                 # Add Python packages in all versions
@@ -314,7 +323,10 @@
                   geonix-base-image
 
                   # Meta packages
-                  all-packages;
+                  all-packages
+
+                  # nixGL
+                  nixGL;
               }
 
             # Add Python packages in all versions
@@ -411,6 +423,13 @@
           qgisPackage = self.packages.${system}.qgis-ltr;
         });
 
+        # nixGL
+        test-nixgl = pkgs.nixosTest (import ./tests/nixos/nixgl.nix {
+          inherit nixpkgs pkgs;
+          lib = nixpkgs.lib;
+          nixGL = self.packages.${system}.nixGL;
+        });
+
         # TODO: add postgis test
 
         checks = {
@@ -426,6 +445,8 @@
           test-qgis = self.test-qgis.${system};
           test-qgis-ltr = self.test-qgis-ltr.${system};
 
+          # nixgl
+          test-nixgl = self.test-nixgl.${system};
         };
 
 
