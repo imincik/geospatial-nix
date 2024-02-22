@@ -411,43 +411,42 @@
           };
 
 
-        test-qgis = pkgs.nixosTest (import ./tests/nixos/qgis.nix {
-          inherit nixpkgs pkgs;
-          lib = nixpkgs.lib;
-          qgisPackage = self.packages.${system}.qgis;
-        });
+          checks = {
+            # package tests
+            inherit (self.packages.${system}.gdal.tests)
+              ogrinfo-version
+              gdalinfo-version
+              ogrinfo-format-geopackage
+              gdalinfo-format-geotiff
+              vector-file
+              raster-file;
 
-        test-qgis-ltr = pkgs.nixosTest (import ./tests/nixos/qgis.nix {
-          inherit nixpkgs pkgs;
-          lib = nixpkgs.lib;
-          qgisPackage = self.packages.${system}.qgis-ltr;
-        });
+            inherit (self.packages.${system}.geos.tests) geos;
+            inherit (self.packages.${system}.pdal.tests) pdal;
+            inherit (self.packages.${system}.proj.tests) proj;
+            inherit (self.packages.${system}.grass.tests) grass;
 
-        # nixGL
-        test-nixgl = pkgs.nixosTest (import ./tests/nixos/nixgl.nix {
-          inherit nixpkgs pkgs;
-          lib = nixpkgs.lib;
-          nixGL = self.packages.${system}.nixGL;
-        });
+            # nixos tests
+            test-qgis = pkgs.nixosTest (import ./tests/nixos/qgis.nix {
+              inherit nixpkgs pkgs;
+              lib = nixpkgs.lib;
+              qgisPackage = self.packages.${system}.qgis;
+            });
 
-        # TODO: add postgis test
+            test-qgis-ltr = pkgs.nixosTest (import ./tests/nixos/qgis.nix {
+              inherit nixpkgs pkgs;
+              lib = nixpkgs.lib;
+              qgisPackage = self.packages.${system}.qgis-ltr;
+            });
 
-        checks = {
+            test-nixgl = pkgs.nixosTest (import ./tests/nixos/nixgl.nix {
+              inherit nixpkgs pkgs;
+              lib = nixpkgs.lib;
+              nixGL = self.packages.${system}.nixGL;
+            });
 
-          # package tests
-          test-gdal = self.packages.${system}.gdal.tests.gdal;
-          test-geos = self.packages.${system}.geos.tests.geos;
-          test-pdal = self.packages.${system}.pdal.tests.pdal;
-          test-proj = self.packages.${system}.proj.tests.proj;
-          test-grass = self.packages.${system}.grass.tests.grass;
-
-          # nixos tests
-          test-qgis = self.test-qgis.${system};
-          test-qgis-ltr = self.test-qgis-ltr.${system};
-
-          # nixgl
-          test-nixgl = self.test-nixgl.${system};
-        };
+            # TODO: add postgis test
+          };
 
 
         }) // {
