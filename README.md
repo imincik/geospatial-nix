@@ -98,6 +98,11 @@ nix build --json .#all-packages  | jq -r '.[].outputs | to_entries[].value' | ca
 nix build -L .#<PACKAGE>.tests.<TEST-NAME>
 ```
 
+* Run single flake check
+```
+nix build -L .#checks.x86_64-linux.<TEST-NAME>
+```
+
 _To an re-build already built package or to re-run already succeeded tests, use the
 `--rebuild` switch._
 
@@ -164,14 +169,15 @@ utils/pull-nixpkgs.sh <NIXPKGS-DIR>
 git diff -R <CHANGED-FILE> > pkgs/<PACKAGE>/nixpkgs/<PATCH-NAME>.patch
 ```
 
-* Build and test all packages
+* Build, test and upload all packages to binary chache
 ```
 nix build --json .#all-packages  | jq -r '.[].outputs | to_entries[].value' | cachix push geonix
 
 nix flake check
 
-nix build --json .\#test-qgis.x86_64-linux  | jq -r '.[].outputs | to_entries[].value' | cachix push geonix
-nix build --json .\#test-qgis-ltr.x86_64-linux  | jq -r '.[].outputs | to_entries[].value' | cachix push geonix
+for test in test-qgis test-qgis-ltr; do 
+  nix build --json .#checks.x86_64-linux.$test | jq -r '.[].outputs | to_entries[].value' | cachix push geonix
+done
 ```
 
 * Merge `pkgs-weekly-update` PR (Friday, Saturday)
