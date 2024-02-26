@@ -35,7 +35,7 @@
 
           # Each new package must be added to:
           # * flake.nix: packages
-          # * flake.nix: all-packages, python-packages.all-packages or postgresql-packages.all-packages
+          # * flake.nix: python-packages.all-packages or postgresql-packages.all-packages
           # * pkgs/geonixcli/nix/overrides.nix
           # * .github/workflows/update-packages.yml: matrix.package
 
@@ -47,7 +47,7 @@
 
             let
               inherit (nixpkgs.lib) forEach genAttrs mapAttrs';
-              inherit (nixpkgs.lib.attrsets) mergeAttrsList;
+              inherit (nixpkgs.lib.attrsets) attrValues filterAttrs mergeAttrsList;
 
               pythonVersions = [
                 "python3" # default Python version
@@ -255,31 +255,7 @@
               # all-packages (meta package containing all packages)
               all-packages = pkgs.symlinkJoin {
                 name = "all-packages";
-                paths = [
-                  gdal
-                  gdal-minimal
-                  geonixcli
-                  geos
-                  libgeotiff
-                  librttopo
-                  libspatialindex
-                  libspatialite
-                  pdal
-                  proj
-
-                  tiledb
-
-                  nixGL
-                ]
-
-                # Add Python packages in all versions
-                ++ forEach (builtins.attrNames python-packages) (v: python-packages.${v}.all-packages)
-
-                # Add Postgresql packages in all versions
-                ++ forEach (builtins.attrNames postgresql-packages) (v: postgresql-packages.${v}.all-packages)
-
-                # Add Linux only packages
-                ++ pkgs.lib.optionals pkgs.stdenv.isLinux [ grass qgis qgis-ltr ];
+                paths = attrValues (filterAttrs (n: v: n != "all-packages") self.packages.${system});
               };
 
             in
