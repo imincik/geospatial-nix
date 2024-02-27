@@ -198,6 +198,9 @@
               # PG_Featureserv
               pg_featureserv = pkgs.callPackage ./pkgs/pg_featureserv { };
 
+              # PG_Tileserv
+              pg_tileserv = pkgs.callPackage ./pkgs/pg_tileserv { };
+
               # TileDB
               tiledb = pkgs.callPackage ./pkgs/tiledb { };
 
@@ -279,6 +282,7 @@
                   proj
 
                   pg_featureserv
+                  pg_tileserv
                   tiledb
 
                   # Applications
