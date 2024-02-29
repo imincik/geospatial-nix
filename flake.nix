@@ -143,6 +143,7 @@
                   # Remove this fix in NixOS 24.05.
                   pyqt5_sip = pkgs.${python}.pkgs.callPackage ./pkgs/qgis/pyqt5-sip.nix { };
                   withLocation = true;
+                  withSerialPort = true;
                 };
 
                 rasterio = pkgs.${python}.pkgs.callPackage ./pkgs/rasterio {
