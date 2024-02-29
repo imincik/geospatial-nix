@@ -175,7 +175,7 @@ nix build --json .#all-packages  | jq -r '.[].outputs | to_entries[].value' | ca
 
 nix flake check
 
-for test in test-qgis test-qgis-ltr; do 
+for test in test-qgis test-qgis-ltr test-nixgl; do
   nix build --json .#checks.x86_64-linux.$test | jq -r '.[].outputs | to_entries[].value' | cachix push geonix
 done
 ```
