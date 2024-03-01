@@ -13,6 +13,7 @@
 , flex
 , gdal
 , geos
+, libGLU
 , libiconv
 , libmysqlclient
 , libpng
@@ -63,6 +64,7 @@ stdenv.mkDerivation (finalAttrs: {
     fftw
     gdal
     geos
+    libGLU
     libmysqlclient
     libpng
     libtiff
@@ -108,7 +110,7 @@ stdenv.mkDerivation (finalAttrs: {
     "--with-pthread"
     "--with-readline"
     "--with-zstd"
-    "--without-opengl"
+    "--with-opengl"
   ] ++ lib.optionals stdenv.isLinux [
     "--with-pdal"
   ] ++ lib.optionals stdenv.isDarwin [
