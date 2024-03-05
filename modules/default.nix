@@ -4,6 +4,6 @@
 
   imports = [
     ./pg_featureserv.nix
-    ./foo2.nix
+    ./pg_tileserv.nix
   ];
 }
