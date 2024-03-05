@@ -37,7 +37,6 @@
           # * flake.nix: packages
           # * flake.nix: python-packages.all-packages or postgresql-packages.all-packages
           # * pkgs/geonixcli/nix/overrides.nix
-          # * .github/workflows/update-packages.yml: matrix.package
 
           #
           ### PACKAGES ###
@@ -196,6 +195,12 @@
               });
 
 
+              # PG_Featureserv
+              pg_featureserv = pkgs.callPackage ./pkgs/pg_featureserv { };
+
+              # PG_Tileserv
+              pg_tileserv = pkgs.callPackage ./pkgs/pg_tileserv { };
+
               # TileDB
               tiledb = pkgs.callPackage ./pkgs/tiledb { };
 
@@ -276,6 +281,8 @@
                   pdal
                   proj
 
+                  pg_featureserv
+                  pg_tileserv
                   tiledb
 
                   # Applications
@@ -434,5 +441,11 @@
 
       lib = import ./lib { inherit (nixpkgs) lib; };
 
+
+      #
+      ### MODULES ###
+      #
+
+      modules = import ./modules { };
     };
 }
