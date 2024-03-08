@@ -107,7 +107,7 @@
               };
 
               pdal = pkgs.callPackage ./pkgs/pdal {
-                inherit gdal libgeotiff tiledb;
+                inherit gdal libgeotiff proj tiledb;
               };
 
               proj = pkgs.callPackage ./pkgs/proj { };
