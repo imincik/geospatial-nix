@@ -17,7 +17,7 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Install nix
-      uses: cachix/install-nix-action@v25
+      uses: cachix/install-nix-action@v26
 
     - name: Set new project directory
       run: |
