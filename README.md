@@ -146,8 +146,8 @@ git checkout -b pkgs-weekly-update-$(date "+%Y-%V")
 git push --set-upstream origin pkgs-weekly-update-$(date "+%Y-%V")
 ```
 
-* Merge automatically created flake update PR (`flake-update-action-pr` branch)
-  in to `pkgs-weekly-update` branch
+* Change base of automatically created flake update PR (`flake-update-action-pr`
+  branch) and merge in in to `pkgs-weekly-update` branch
 
 * Submit `pkgs-weekly-update` PR
 ```
