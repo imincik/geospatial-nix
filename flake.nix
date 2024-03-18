@@ -45,7 +45,7 @@
           packages =
 
             let
-              inherit (nixpkgs.lib) forEach genAttrs mapAttrs';
+              inherit (nixpkgs.lib) forEach genAttrs makeScope mapAttrs';
               inherit (nixpkgs.lib.attrsets) attrValues filterAttrs mergeAttrsList;
 
               pythonVersions = [
@@ -76,198 +76,200 @@
                   [ "${prefix}-__toString" ];
 
 
-              geonixcli = pkgs.callPackage ./pkgs/geonixcli { };
+              geopkgs = makeScope pkgs.newScope (final: {
+                geonixcli = final.callPackage ./pkgs/geonixcli { };
 
 
-              # Core libs
-              gdal = pkgs.callPackage ./pkgs/gdal {
-                inherit geos libgeotiff libspatialite proj tiledb;
-                useJava = false;
-              };
-              gdal-minimal = pkgs.callPackage ./pkgs/gdal {
-                inherit geos libgeotiff libspatialite proj tiledb;
-                useMinimalFeatures = true;
-              };
-              _gdal = gdal;
+                # Core libs
+                gdal = final.callPackage ./pkgs/gdal {
+                  # inherit geos libgeotiff libspatialite proj tiledb;
+                  useJava = false;
+                };
+                gdal-minimal = final.callPackage ./pkgs/gdal {
+                  # inherit geos libgeotiff libspatialite proj tiledb;
+                  useMinimalFeatures = true;
+                };
+                _gdal = final.gdal;
 
-              geos = pkgs.callPackage ./pkgs/geos { };
+                geos = final.callPackage ./pkgs/geos { };
 
-              libgeotiff = pkgs.callPackage ./pkgs/libgeotiff {
-                inherit proj;
-              };
-
-              librttopo = pkgs.callPackage ./pkgs/librttopo {
-                inherit geos;
-              };
-
-              libspatialindex = pkgs.callPackage ./pkgs/libspatialindex { };
-
-              libspatialite = pkgs.callPackage ./pkgs/libspatialite {
-                inherit geos librttopo proj;
-              };
-
-              pdal = pkgs.callPackage ./pkgs/pdal {
-                inherit gdal libgeotiff proj tiledb;
-              };
-
-              proj = pkgs.callPackage ./pkgs/proj { };
-
-
-              # Python packages
-              python-packages = forAllPythonVersions (python: rec {
-                fiona = pkgs.${python}.pkgs.callPackage ./pkgs/fiona {
-                  inherit gdal;
+                libgeotiff = final.callPackage ./pkgs/libgeotiff {
+                  # inherit proj;
                 };
 
-                gdal = pkgs.${python}.pkgs.toPythonModule (_gdal);
-
-                geopandas = pkgs.${python}.pkgs.callPackage ./pkgs/geopandas {
-                  inherit fiona pyproj shapely;
+                librttopo = final.callPackage ./pkgs/librttopo {
+                  # inherit geos;
                 };
 
-                owslib = pkgs.${python}.pkgs.callPackage ./pkgs/owslib {
-                  inherit pyproj;
+                libspatialindex = final.callPackage ./pkgs/libspatialindex { };
+
+                libspatialite = final.callPackage ./pkgs/libspatialite {
+                  # inherit geos librttopo proj;
                 };
 
-                psycopg = pkgs.${python}.pkgs.psycopg.override {
-                  inherit shapely;
+                pdal = final.callPackage ./pkgs/pdal {
+                  # inherit gdal libgeotiff proj tiledb;
                 };
 
-                pyproj = pkgs.${python}.pkgs.callPackage ./pkgs/pyproj {
-                  inherit proj shapely;
+                proj = final.callPackage ./pkgs/proj { };
+
+
+                # Python packages
+                python-packages = forAllPythonVersions (python: rec {
+                  fiona = pkgs.${python}.pkgs.callPackage ./pkgs/fiona {
+                    # inherit gdal;
+                  };
+
+                  gdal = pkgs.${python}.pkgs.toPythonModule (final._gdal);
+
+                  geopandas = pkgs.${python}.pkgs.callPackage ./pkgs/geopandas {
+                    # inherit fiona pyproj shapely;
+                  };
+
+                  owslib = pkgs.${python}.pkgs.callPackage ./pkgs/owslib {
+                    # inherit pyproj;
+                  };
+
+                  psycopg = pkgs.${python}.pkgs.psycopg.override {
+                    # inherit shapely;
+                  };
+
+                  pyproj = pkgs.${python}.pkgs.callPackage ./pkgs/pyproj {
+                    # inherit proj shapely;
+                  };
+
+                  pyqt5 = pkgs.${python}.pkgs.pyqt5.override {
+                    # FIX sip and pyqt5_sip compatibility. See: https://github.com/NixOS/nixpkgs/issues/273561
+                    # Remove this fix in NixOS 24.05.
+                    pyqt5_sip = pkgs.${python}.pkgs.callPackage ./pkgs/qgis/pyqt5-sip.nix { };
+                    withLocation = true;
+                    withSerialPort = true;
+                  };
+
+                  rasterio = pkgs.${python}.pkgs.callPackage ./pkgs/rasterio {
+                    # inherit gdal shapely;
+                  };
+
+                  shapely = pkgs.${python}.pkgs.callPackage ./pkgs/shapely {
+                    # inherit geos;
+                  };
+
+                  # all packages (single Python version)
+                  all-packages = pkgs.symlinkJoin {
+                    name = "all-${python}-packages";
+                    paths = [
+                      fiona
+                      gdal
+                      geopandas
+                      owslib
+                      psycopg
+                      pyproj
+                      pyqt5
+                      rasterio
+                      shapely
+                    ];
+                  };
+
+                  __toString = self: python;
+                });
+
+
+                # Postgresql packages
+                postgresql-packages = forAllPostgresqlVersions (postgresql: rec {
+
+                  postgis = final.callPackage ./pkgs/postgis/postgis.nix {
+                    # inherit geos proj;
+
+                    gdalMinimal = final.gdal-minimal;
+                    postgresql = pkgs.${postgresql};
+                  };
+
+                  # all packages (single Postgresql version)
+                  all-packages = pkgs.symlinkJoin {
+                    name = "all-${postgresql}-packages";
+                    paths = [
+                      postgis
+                    ];
+                  };
+
+                  __toString = self: postgresql;
+                });
+
+
+                # PG_Featureserv
+                pg_featureserv = final.callPackage ./pkgs/pg_featureserv { };
+
+                # PG_Tileserv
+                pg_tileserv = final.callPackage ./pkgs/pg_tileserv { };
+
+                # TileDB
+                tiledb = final.callPackage ./pkgs/tiledb { };
+
+
+                # GRASS
+                grass = final.callPackage ./pkgs/grass {
+                  # inherit gdal geos pdal proj;
                 };
 
-                pyqt5 = pkgs.${python}.pkgs.pyqt5.override {
-                  # FIX sip and pyqt5_sip compatibility. See: https://github.com/NixOS/nixpkgs/issues/273561
-                  # Remove this fix in NixOS 24.05.
-                  pyqt5_sip = pkgs.${python}.pkgs.callPackage ./pkgs/qgis/pyqt5-sip.nix { };
-                  withLocation = true;
-                  withSerialPort = true;
-                };
 
-                rasterio = pkgs.${python}.pkgs.callPackage ./pkgs/rasterio {
-                  inherit gdal shapely;
-                };
+                # QGIS
+                qgis-unwrapped =
+                  let
+                    qgis-python =
+                      let
+                        packageOverrides = final: prev: {
+                          pyqt5 = final.python-packages.python3.pyqt5;
+                          owslib = final.python-packages.python3.owslib;
+                          gdal = final.python-packages.python3.gdal;
+                        };
+                      in
+                      pkgs.python3.override { inherit packageOverrides; self = qgis-python; };
+                  in
+                  pkgs.libsForQt5.callPackage ./pkgs/qgis/unwrapped.nix {
+                    # inherit geos gdal libspatialindex libspatialite pdal proj;
 
-                shapely = pkgs.${python}.pkgs.callPackage ./pkgs/shapely {
-                  inherit geos;
-                };
+                    python3 = qgis-python;
+                    withGrass = false;
+                  };
 
-                # all packages (single Python version)
+                qgis = final.callPackage ./pkgs/qgis { qgis-unwrapped = final.qgis-unwrapped; };
+
+                # QGIS-LTR
+                qgis-ltr-unwrapped =
+                  let
+                    qgis-python =
+                      let
+                        packageOverrides = final: prev: {
+                          pyqt5 = final.python-packages.python3.pyqt5;
+                          owslib = final.python-packages.python3.owslib;
+                          gdal = final.python-packages.python3.gdal;
+                        };
+                      in
+                      pkgs.python3.override { inherit packageOverrides; self = qgis-python; };
+                  in
+                  pkgs.libsForQt5.callPackage ./pkgs/qgis/unwrapped-ltr.nix {
+                    # inherit geos gdal libspatialindex libspatialite pdal proj;
+
+                    python3 = qgis-python;
+                    withGrass = false;
+                  };
+
+                qgis-ltr = final.callPackage ./pkgs/qgis/ltr.nix { qgis-ltr-unwrapped = final.qgis-ltr-unwrapped; };
+
+                # nixGL
+                nixGL = nixgl.packages.${system}.nixGLIntel;
+
+                # all-packages (meta package containing all packages)
                 all-packages = pkgs.symlinkJoin {
-                  name = "all-${python}-packages";
-                  paths = [
-                    fiona
-                    gdal
-                    geopandas
-                    owslib
-                    psycopg
-                    pyproj
-                    pyqt5
-                    rasterio
-                    shapely
-                  ];
+                  name = "all-packages";
+                  paths = attrValues (filterAttrs (n: v: n != "all-packages") self.packages.${system});
                 };
-
-                __toString = self: python;
               });
-
-
-              # Postgresql packages
-              postgresql-packages = forAllPostgresqlVersions (postgresql: rec {
-
-                postgis = pkgs.callPackage ./pkgs/postgis/postgis.nix {
-                  inherit geos proj;
-
-                  gdalMinimal = gdal-minimal;
-                  postgresql = pkgs.${postgresql};
-                };
-
-                # all packages (single Postgresql version)
-                all-packages = pkgs.symlinkJoin {
-                  name = "all-${postgresql}-packages";
-                  paths = [
-                    postgis
-                  ];
-                };
-
-                __toString = self: postgresql;
-              });
-
-
-              # PG_Featureserv
-              pg_featureserv = pkgs.callPackage ./pkgs/pg_featureserv { };
-
-              # PG_Tileserv
-              pg_tileserv = pkgs.callPackage ./pkgs/pg_tileserv { };
-
-              # TileDB
-              tiledb = pkgs.callPackage ./pkgs/tiledb { };
-
-
-              # GRASS
-              grass = pkgs.callPackage ./pkgs/grass {
-                inherit gdal geos pdal proj;
-              };
-
-
-              # QGIS
-              qgis-unwrapped =
-                let
-                  qgis-python =
-                    let
-                      packageOverrides = final: prev: {
-                        pyqt5 = python-packages.python3.pyqt5;
-                        owslib = python-packages.python3.owslib;
-                        gdal = python-packages.python3.gdal;
-                      };
-                    in
-                    pkgs.python3.override { inherit packageOverrides; self = qgis-python; };
-                in
-                pkgs.libsForQt5.callPackage ./pkgs/qgis/unwrapped.nix {
-                  inherit geos gdal libspatialindex libspatialite pdal proj;
-
-                  python3 = qgis-python;
-                  withGrass = false;
-                };
-
-              qgis = pkgs.callPackage ./pkgs/qgis { qgis-unwrapped = qgis-unwrapped; };
-
-              # QGIS-LTR
-              qgis-ltr-unwrapped =
-                let
-                  qgis-python =
-                    let
-                      packageOverrides = final: prev: {
-                        pyqt5 = python-packages.python3.pyqt5;
-                        owslib = python-packages.python3.owslib;
-                        gdal = python-packages.python3.gdal;
-                      };
-                    in
-                    pkgs.python3.override { inherit packageOverrides; self = qgis-python; };
-                in
-                pkgs.libsForQt5.callPackage ./pkgs/qgis/unwrapped-ltr.nix {
-                  inherit geos gdal libspatialindex libspatialite pdal proj;
-
-                  python3 = qgis-python;
-                  withGrass = false;
-                };
-
-              qgis-ltr = pkgs.callPackage ./pkgs/qgis/ltr.nix { qgis-ltr-unwrapped = qgis-ltr-unwrapped; };
-
-              # nixGL
-              nixGL = nixgl.packages.${system}.nixGLIntel;
-
-              # all-packages (meta package containing all packages)
-              all-packages = pkgs.symlinkJoin {
-                name = "all-packages";
-                paths = attrValues (filterAttrs (n: v: n != "all-packages") self.packages.${system});
-              };
 
             in
             flake-utils.lib.filterPackages system
               {
-                inherit
+                inherit (geopkgs)
 
                   # Core libs
                   gdal
@@ -300,10 +302,10 @@
               }
 
             # Add Python packages in all versions
-            // mergeAttrsList (forEach (builtins.attrValues python-packages) (p: prefixPackages p "${p}"))
+            // mergeAttrsList (forEach (builtins.attrValues geopkgs.python-packages) (p: prefixPackages p "${p}"))
 
             # Add Postgresql packages in all versions
-            // mergeAttrsList (forEach (builtins.attrValues postgresql-packages) (p: prefixPackages p "${p}"));
+            // mergeAttrsList (forEach (builtins.attrValues geopkgs.postgresql-packages) (p: prefixPackages p "${p}"));
 
 
           #
