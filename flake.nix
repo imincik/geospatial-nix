@@ -212,48 +212,35 @@
 
 
               # QGIS
-              qgis-unwrapped =
+              qgis-python =
                 let
-                  qgis-python =
-                    let
-                      packageOverrides = final: prev: {
-                        pyqt5 = python-packages.python3.pyqt5;
-                        owslib = python-packages.python3.owslib;
-                        gdal = python-packages.python3.gdal;
-                      };
-                    in
-                    pkgs.python3.override { inherit packageOverrides; self = qgis-python; };
+                  packageOverrides = final: prev: {
+                    pyqt5 = python-packages.python3.pyqt5;
+                    owslib = python-packages.python3.owslib;
+                    gdal = python-packages.python3.gdal;
+                  };
                 in
-                pkgs.libsForQt5.callPackage ./pkgs/qgis/unwrapped.nix {
-                  inherit geos gdal libspatialindex libspatialite pdal proj;
+                pkgs.python3.override { inherit packageOverrides; self = qgis-python; };
 
-                  python3 = qgis-python;
-                  withGrass = false;
-                };
+              qgis-unwrapped = pkgs.libsForQt5.callPackage ./pkgs/qgis/unwrapped.nix {
+                inherit geos gdal libspatialindex libspatialite pdal proj;
+
+                python3 = qgis-python;
+                withGrass = false;
+              };
 
               qgis = pkgs.callPackage ./pkgs/qgis { qgis-unwrapped = qgis-unwrapped; };
 
               # QGIS-LTR
-              qgis-ltr-unwrapped =
-                let
-                  qgis-python =
-                    let
-                      packageOverrides = final: prev: {
-                        pyqt5 = python-packages.python3.pyqt5;
-                        owslib = python-packages.python3.owslib;
-                        gdal = python-packages.python3.gdal;
-                      };
-                    in
-                    pkgs.python3.override { inherit packageOverrides; self = qgis-python; };
-                in
-                pkgs.libsForQt5.callPackage ./pkgs/qgis/unwrapped-ltr.nix {
-                  inherit geos gdal libspatialindex libspatialite pdal proj;
+              qgis-ltr-unwrapped = pkgs.libsForQt5.callPackage ./pkgs/qgis/unwrapped-ltr.nix {
+                inherit geos gdal libspatialindex libspatialite pdal proj;
 
-                  python3 = qgis-python;
-                  withGrass = false;
-                };
+                python3 = qgis-python;
+                withGrass = false;
+              };
 
               qgis-ltr = pkgs.callPackage ./pkgs/qgis/ltr.nix { qgis-ltr-unwrapped = qgis-ltr-unwrapped; };
+
 
               # nixGL
               nixGL = nixgl.packages.${system}.nixGLIntel;
