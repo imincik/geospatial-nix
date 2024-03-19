@@ -4,8 +4,8 @@ rec {
 
   # Place overrides under '>>> CUSTOMIZE HERE' line of desired package.
 
-  # Run 'nix flake check' to check your code.
-  # Run 'nix develop --impure' to enter shell environment.
+  # Run 'nix flake check --impure' to check your code.
+  # Run 'nix run .#geonixcli -- shell' to enter customized shell environment.
 
   # Generic example
 
@@ -15,20 +15,20 @@ rec {
   #   owner = "<REPOSITORY-OWNER>";
   #   repo = "<REPOSITORY-NAME>";
   #   rev = "<GIT-REVISION>";
-  #   hash = nixpkgs.lib.fakeHash;
+  #   hash = "<SHA256-HASH>";
   # };
   #
   # patches = [
   #   (nixpkgs.fetchpatch {
   #     name = "<PATCH-NAME>.patch";
   #     url = "https://github.com/<OWNER>/<REPO>/commit/<REVISION>.patch";
-  #     hash = nixpkgs.lib.fakeHash;
+  #     hash = "<SHA256-HASH>";
   #   })
   #
   #   (nixpkgs.fetchpatch {
   #     name = "<PATCH-NAME>.patch";
   #     url = "https://github.com/<OWNER>/<REPO>/commit/<REVISION>.patch";
-  #     hash = nixpkgs.lib.fakeHash;
+  #     hash = "<SHA256-HASH>";
   #   })
   # ];
   #
