@@ -323,88 +323,14 @@
           ### SHELLS ###
           #
 
-          devShells = rec {
-
-            # CLI shell
-            cli =
-              let
-                py = pkgs.python3;
-
-                pythonPackage = py.withPackages (p: with self.packages.${system}; [
-                  python3-fiona
-                  python3-gdal
-                  python3-geopandas
-                  python3-owslib
-                  python3-pyproj
-                  python3-rasterio
-                  python3-shapely
-                ]);
-
-              in
-              pkgs.mkShell {
-
-                nativeBuildInputs = [ pkgs.bashInteractive ];
-                buildInputs = with self.packages.${system}; [
-                  gdal
-                  geos
-                  pdal
-                  proj
-                  pythonPackage
-                ];
-              };
-
-            # CI shell
-            ci = pkgs.mkShell {
-
-              buildInputs = with pkgs; [
-                jq
-                nix-prefetch-git
-                nix-prefetch-github
-                postgresql
-              ];
-            };
-
-            default = cli;
-          };
+          devShells = import ./shells.nix { inherit self system pkgs; };
 
 
-          checks = {
-            # package tests
-            inherit (self.packages.${system}.gdal.tests)
-              ogrinfo-version
-              gdalinfo-version
-              ogrinfo-format-geopackage
-              gdalinfo-format-geotiff
-              vector-file
-              raster-file;
+          #
+          ### CHECKS ###
+          #
 
-            inherit (self.packages.${system}.geos.tests) geos;
-            inherit (self.packages.${system}.pdal.tests) pdal;
-            inherit (self.packages.${system}.proj.tests) proj;
-            inherit (self.packages.${system}.grass.tests) grass;
-
-            # nixos tests
-            test-qgis = pkgs.nixosTest (import ./tests/nixos/qgis.nix {
-              inherit nixpkgs pkgs;
-              lib = nixpkgs.lib;
-              qgisPackage = self.packages.${system}.qgis;
-            });
-
-            test-qgis-ltr = pkgs.nixosTest (import ./tests/nixos/qgis.nix {
-              inherit nixpkgs pkgs;
-              lib = nixpkgs.lib;
-              qgisPackage = self.packages.${system}.qgis-ltr;
-            });
-
-            test-nixgl = pkgs.nixosTest (import ./tests/nixos/nixgl.nix {
-              inherit nixpkgs pkgs;
-              lib = nixpkgs.lib;
-              nixGL = self.packages.${system}.nixGL;
-            });
-
-            # TODO: add postgis test
-          };
-
+          checks = import ./checks.nix { inherit self system nixpkgs pkgs; };
 
         }) // {
 
