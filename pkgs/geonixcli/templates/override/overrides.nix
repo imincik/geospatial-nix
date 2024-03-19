@@ -271,19 +271,17 @@ rec {
   #####################################################################
 
   # QGIS
-  qgis-unwrapped =
+  qgis-python =
     let
-      qgis-python =
-        let
-          packageOverrides = final: prev: {
-            pyqt5 = python-packages.pyqt5;
-            owslib = python-packages.owslib;
-            gdal = python-packages.gdal;
-          };
-        in
-        nixpkgs.${pythonVersion}.override { inherit packageOverrides; self = qgis-python; };
+      packageOverrides = final: prev: {
+        pyqt5 = python-packages.pyqt5;
+        owslib = python-packages.owslib;
+        gdal = python-packages.gdal;
+      };
     in
-    (geopkgs.qgis-unwrapped.overrideAttrs (old: {
+    nixpkgs.${pythonVersion}.override { inherit packageOverrides; self = qgis-python; };
+
+  qgis-unwrapped = (geopkgs.qgis-unwrapped.overrideAttrs (old: {
 
       # >>> CUSTOMIZE HERE
 
@@ -295,19 +293,7 @@ rec {
   qgis = geopkgs.qgis.override { qgis-unwrapped = qgis-unwrapped; };
 
   # QGIS-LTR
-  qgis-ltr-unwrapped =
-    let
-      qgis-python =
-        let
-          packageOverrides = final: prev: {
-            pyqt5 = python-packages.pyqt5;
-            owslib = python-packages.owslib;
-            gdal = python-packages.gdal;
-          };
-        in
-        nixpkgs.${pythonVersion}.override { inherit packageOverrides; self = qgis-python; };
-    in
-    (geopkgs.qgis-ltr-unwrapped.overrideAttrs (old: {
+  qgis-ltr-unwrapped = (geopkgs.qgis-ltr-unwrapped.overrideAttrs (old: {
 
       # >>> CUSTOMIZE HERE
 
