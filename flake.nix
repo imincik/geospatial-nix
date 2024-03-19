@@ -439,7 +439,7 @@
       ### LIB ###
       #
 
-      lib = import ./lib { inherit (nixpkgs) lib; };
+      lib = import ./lib { };
 
 
       #
