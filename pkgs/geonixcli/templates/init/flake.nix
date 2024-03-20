@@ -17,7 +17,7 @@
     geonix.url = "github:imincik/geospatial-nix";
     nixpkgs.follows = "geonix/nixpkgs";
     devenv = {
-      url = "github:cachix/devenv";
+      url = "github:cachix/devenv/be7e8358c1d871021e3d24acc67e2beb41830e10";
       inputs.nixpkgs.follows = "geonix/nixpkgs";
     };
     nix2container = {
