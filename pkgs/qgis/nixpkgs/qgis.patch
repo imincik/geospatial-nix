@@ -73,28 +73,19 @@ index 8bc888b..02baebf 100644
  
    pythonBuildInputs = with py.pkgs; [
      chardet
-diff --git b/pkgs/qgis/unwrapped-ltr.nix a/pkgs/qgis/unwrapped-ltr.nix
-index 7e93c68..b9802ac 100644
---- b/pkgs/qgis/unwrapped-ltr.nix
-+++ a/pkgs/qgis/unwrapped-ltr.nix
-@@ -15,6 +15,7 @@
- , exiv2
+diff --git a/pkgs/qgis/unwrapped-ltr.nix b/pkgs/qgis/unwrapped-ltr.nix
+index fa9e9a5..81e146f 100644
+--- a/pkgs/qgis/unwrapped-ltr.nix
++++ b/pkgs/qgis/unwrapped-ltr.nix
+@@ -16,6 +16,7 @@
  , fcgi
  , flex
-+, gdal
  , geos
++, gdal
  , grass
  , gsl
-@@ -25,7 +26,7 @@
- , netcdf
- , ninja
- , openssl
--# , pdal
-+, pdal
- , postgresql
- , proj
- , protobuf
-@@ -47,13 +48,13 @@
+ , hdf5
+@@ -48,13 +49,8 @@
  }:
  
  let
@@ -105,35 +96,8 @@ index 7e93c68..b9802ac 100644
 -      };
 -    };
 -  };
-+
-+  # replace with global pdal version once
-+  # https://github.com/qgis/QGIS/pull/54940 is backported
-+  pdal = callPackage ./pdal-2_5.nix { };
-+
 +  # pyqt5 override was moved to flake.nix
 +  py = python3;
  
    pythonBuildInputs = with py.pkgs; [
      chardet
-@@ -127,7 +128,7 @@ in mkDerivation rec {
-     qtserialport
-     qtxmlpatterns
-     qt3d
--    # pdal
-+    pdal
-     zstd
-   ] ++ lib.optional withGrass grass
-     ++ lib.optional withWebKit qtwebkit
-@@ -146,11 +147,9 @@ in mkDerivation rec {
-     })
-   ];
- 
--  # PDAL is disabled until https://github.com/qgis/QGIS/pull/54940
--  # is backported.
-   cmakeFlags = [
-     "-DWITH_3D=True"
--    "-DWITH_PDAL=False"  # TODO: re-enable PDAL
-+    "-DWITH_PDAL=TRUE"
-     "-DENABLE_TESTS=False"
-   ] ++ lib.optional (!withWebKit) "-DWITH_QTWEBKIT=OFF"
-     ++ lib.optional withGrass (let
