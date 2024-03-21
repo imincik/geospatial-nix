@@ -93,9 +93,9 @@ in mkDerivation rec {
     wrapGAppsHook
     wrapQtAppsHook
 
+    bison
     cmake
     flex
-    bison
     ninja
   ];
 
