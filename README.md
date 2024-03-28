@@ -161,8 +161,18 @@ gh pr create --title "pkgs: weekly update $(date "+%Y-%V")"
 utils/pull-nixpkgs.sh <NIXPKGS-DIR>
 ```
 
-* Review changes, identify related PRs in Nixpkgs, split changes to separate
-  commits (link to Nixpks PR in commit message)
+* Review changes, identify related PRs in Nixpkgs and create separate commit for
+  each change (include Nixpkgs PR URL in commit message)
+```
+gh pr list --state all --search <NIXPKGS-COMMIT-HASH>
+```
+```
+git commit
+
+pkgs(<PACKAGE>): <CHANGE-DESCRIPTION>
+
+Nixpkgs PR: <NIXPKGS-PR-URL>
+```
 
 * Optional: generate a reverse patch for changes which are not desired
 ```
