@@ -1,0 +1,14 @@
+inputs:
+  geonix:
+    url: github:imincik/geospatial-nix
+  nixpkgs:
+    url: github:cachix/devenv-nixpkgs/rolling
+  nix2container:
+    url: github:nlewo/nix2container
+  mk-shell-bin:
+    url: github:rrbutani/nix-mk-shell-bin
+imports:
+  - geonix/modules/default.nix
+
+# FIXME: follows: geonix/nixpkgs
+# FIXME: add mk-shell-bin ???

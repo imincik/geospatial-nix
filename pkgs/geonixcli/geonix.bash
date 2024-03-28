@@ -200,20 +200,21 @@ setup_colors
 # INIT
 if [ "${args[0]}" == "init" ]; then
 
-    for init_file in "flake.nix" "geonix.nix"; do
+    for init_file in "devenv.yaml" "devenv.nix"; do
         if [ -f "$(pwd)/$init_file" ]; then
             die "$init_file file already exists in $(pwd) directory."
         fi
     done
 
     echo -e "\nWelcome to Geospatial NIX environment !\n"
-    for init_file in "flake.nix" "geonix.nix" "dot-envrc"; do
+    for init_file in "devenv.yaml" "devenv.nix"; do
         cp "$GEONIX_TEMPLATES_DIR"/init/$init_file "$(pwd)"/$init_file
         chmod u+w "$(pwd)"/$init_file
 
         echo "$init_file file created in $(pwd)/$init_file."
     done
 
+    # FIXME:
     echo -e "\nStart by adding flake.nix and geonix.nix files to git."
     echo "Use https://geospatial-nix.today to add more configuration."
     echo
