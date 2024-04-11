@@ -36,7 +36,7 @@
           # Each new package must be added to:
           # * flake.nix: packages
           # * flake.nix: python-packages.all-packages or postgresql-packages.all-packages
-          # * pkgs/geonixcli/nix/overrides.nix
+          # * overrides.nix
 
           #
           ### PACKAGES ###
@@ -360,5 +360,12 @@
       #
 
       modules = import ./modules { };
+
+
+      #
+      ### OVERRIDES ###
+      #
+
+      overrides = ./overrides.nix;
     };
 }
