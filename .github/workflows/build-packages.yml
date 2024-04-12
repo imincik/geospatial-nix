@@ -79,6 +79,11 @@ jobs:
         --command python -c "import fiona; print(fiona.supported_drivers)"
 
 
+  launch-test:
+    needs: build-packages
+    uses: ./.github/workflows/test.yml
+    secrets: inherit
+
   launch-test-geonixcli:
     needs: build-packages
     uses: ./.github/workflows/test-geonixcli.yml
