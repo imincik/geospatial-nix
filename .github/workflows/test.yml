@@ -1,11 +1,7 @@
 name: Test
 
 on:
-  pull_request:
-  push:
-    branches:
-      - master
-  workflow_dispatch:
+  workflow_call:
 
 env:
   NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}"
