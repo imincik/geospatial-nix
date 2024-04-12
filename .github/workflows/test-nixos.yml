@@ -1,4 +1,4 @@
-name: Test packages integration
+name: Nixos test
 
 on:
   workflow_call:
@@ -7,7 +7,7 @@ env:
   NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}"
 
 jobs:
-  test-integration:
+  test:
     strategy:
       fail-fast: false
       matrix:

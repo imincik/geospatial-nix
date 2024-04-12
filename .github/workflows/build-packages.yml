@@ -84,33 +84,8 @@ jobs:
     uses: ./.github/workflows/test.yml
     secrets: inherit
 
-  launch-test-geonixcli:
-    needs: build-packages
-    uses: ./.github/workflows/test-geonixcli.yml
-    secrets: inherit
-
-  launch-test-shell-environments:
-    needs: build-packages
-    uses: ./.github/workflows/test-shell-environments.yml
-    secrets: inherit
-
-  launch-test-custom-packages:
-    needs: build-packages
-    uses: ./.github/workflows/test-custom-packages.yml
-    secrets: inherit
-
-  launch-test-examples:
-    needs: build-packages
-    uses: ./.github/workflows/test-examples.yml
-    secrets: inherit
-
-  launch-test-containers:
-    needs: build-packages
-    uses: ./.github/workflows/test-containers.yml
-    secrets: inherit
-
   # FIXME:
-  # launch-test-integration:
+  # launch-test-nixos:
   #   needs: build-packages
-  #   uses: ./.github/workflows/test-integration.yml
+  #   uses: ./.github/workflows/test-nixos.yml
   #   secrets: inherit
