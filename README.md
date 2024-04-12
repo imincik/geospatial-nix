@@ -31,6 +31,11 @@ nix flake show github:imincik/geospatial-nix
 
 ### Run applications without installation
 
+* Launch shell environment containing Python (with fiona) and GDAL
+```bash
+nix develop github:imincik/geospatial-nix#cli
+```
+
 * Launch the latest stable QGIS version
 ```bash
 nix run github:imincik/geospatial-nix#qgis
@@ -40,33 +45,6 @@ nix run github:imincik/geospatial-nix#qgis
 ```bash
 nix run github:imincik/geospatial-nix#qgis-ltr
 ```
-
-### Create new environment
-
-* Initialize new environment
-```bash
-mkdir my-project
-cd my-project
-
-git init
-
-nix run github:imincik/geospatial-nix#geonixcli -- init
-
-git add *
-```
-
-* Edit `geonix.nix` file according to your project requirements
-  (check out [examples](examples/) for example configurations)
-
-* Launch shell environment
-```bash
-nix run .#geonixcli -- shell
-```
-
-### More information about used technologies
-
-* [Nix documentation](https://nix.dev/)
-* [Devenv](https://devenv.sh/reference/options/)
 
 
 ## Developer documentation
