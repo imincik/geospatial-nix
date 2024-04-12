@@ -5,6 +5,9 @@ on:
     - cron:  '0 1 * * 1'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   release:
     if: github.ref == 'refs/heads/master'
@@ -21,12 +24,19 @@ jobs:
         run: |
           if [ "$(git rev-list $(git describe --abbrev=0 --tags)..HEAD --count -- flake.nix flake.lock imgs/ lib/ modules/ pkgs/ templates/)" -eq "0" ]; then exit 1; fi
 
-      - name: "Generate tag"
+      - name: Generate release tag
         id: tag
         run: echo tag=$(echo "v23.11.$(date "+%Y%m%d")") >> "$GITHUB_OUTPUT"
 
-      - uses: "marvinpinto/action-automatic-releases@latest"
+      - uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "${{ steps.tag.outputs.tag }}"
           prerelease: false
+
+      - name: Create latest tag
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag --annotate  --force "latest" --message "Latest released version"
+          git push --force origin latest
