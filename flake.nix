@@ -299,11 +299,6 @@
 
           apps = rec {
 
-            grass = {
-              type = "app";
-              program = "${self.packages.${system}.grass}/bin/grass";
-            };
-
             qgis = {
               type = "app";
               program = "${self.packages.${system}.qgis}/bin/qgis";
