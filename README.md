@@ -1,10 +1,9 @@
 [![Build packages](https://github.com/imincik/geospatial-nix/actions/workflows/build-packages.yml/badge.svg)](https://github.com/imincik/geospatial-nix/actions/workflows/build-packages.yml)
 
-# Geospatial packages repository and environment
+# Geospatial packages repository
 
-**Geospatial NIX** provides weekly updated geospatial packages and tools built
-on top of the latest stable Nixpkgs branch for creating isolated and reproducible
-geospatial environments.
+**Geospatial NIX** provides weekly updated geospatial packages built on top of
+the latest stable Nixpkgs branch.
 
 Check out the user interface at
 [https://geospatial-nix.today/](https://geospatial-nix.today/) .
