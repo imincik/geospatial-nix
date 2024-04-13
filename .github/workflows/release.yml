@@ -22,7 +22,7 @@ jobs:
 
       - name: Terminate if no changes since last tag
         run: |
-          if [ "$(git rev-list $(git describe --abbrev=0 --tags)..HEAD --count -- flake.nix flake.lock imgs/ lib/ modules/ pkgs/ templates/)" -eq "0" ]; then exit 1; fi
+          if [ "$(git rev-list $(git describe --abbrev=0 --tags)..HEAD --count -- flake.nix flake.lock lib/ pkgs/)" -eq "0" ]; then exit 1; fi
 
       - name: Generate release tag
         id: tag

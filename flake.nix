@@ -356,13 +356,6 @@
 
 
       #
-      ### MODULES ###
-      #
-
-      modules = import ./modules { };
-
-
-      #
       ### OVERRIDES ###
       #
 
