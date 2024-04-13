@@ -2,7 +2,7 @@ name: Release new version
 
 on:
   schedule:
-    - cron:  '0 1 * * 1'
+    - cron:  '0 23 * * 0'
   workflow_dispatch:
 
 permissions:
@@ -26,7 +26,7 @@ jobs:
 
       - name: Generate release tag
         id: tag
-        run: echo tag=$(echo "v23.11.$(date "+%Y%m%d")") >> "$GITHUB_OUTPUT"
+        run: echo tag="v$(date "+%Y.%V")" >> "$GITHUB_OUTPUT"
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:

@@ -63,16 +63,16 @@ nix why-depends .#<PACKAGE> .#<DEPENDENCY>
 * Thursday - Friday: pull from Nixpkgs master to Geospatial NIX master,
   integration, testing
 
-* Monday (1 AM): automatic release of new version
+* Sunday (11 PM): automatic release of new version
 
 ### Packages update process
 
 * Create a `pkgs-weekly-update` branch to collect all package updates
   in this branch and create PR (Monday)
 ```bash
-git checkout -b pkgs-weekly-update-$(date "+%Y-%V")
+git checkout -b pkgs-weekly-update-$(date "+%Y.%V")
 
-git push --set-upstream origin pkgs-weekly-update-$(date "+%Y-%V")
+git push --set-upstream origin pkgs-weekly-update-$(date "+%Y.%V")
 ```
 
 * Change base of automatically created flake update PR (`flake-update-action-pr`
@@ -82,7 +82,7 @@ git push --set-upstream origin pkgs-weekly-update-$(date "+%Y-%V")
 ```
 git pull
 
-gh pr create --title "pkgs: weekly update $(date "+%Y-%V")"
+gh pr create --title "pkgs: weekly update $(date "+%Y.%V")"
 ```
 
 * Pull from the latest Nixpkgs master (Thursday - Friday)
