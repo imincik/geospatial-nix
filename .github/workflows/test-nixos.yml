@@ -1,4 +1,4 @@
-name: Nixos test
+name: Run nixos tests
 
 on:
   workflow_call:
