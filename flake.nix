@@ -76,9 +76,6 @@
                   [ "${prefix}-__toString" ];
 
 
-              geonixcli = pkgs.callPackage ./pkgs/geonixcli { };
-
-
               # Core libs
               gdal = pkgs.callPackage ./pkgs/gdal {
                 inherit geos libgeotiff libspatialite proj tiledb;
@@ -259,7 +256,6 @@
                   # Core libs
                   gdal
                   gdal-minimal
-                  geonixcli
                   geos
                   libgeotiff
                   librttopo
