@@ -26,7 +26,7 @@ jobs:
 
       - name: Generate release tag
         id: tag
-        run: echo tag="v$(date "+%Y.%V")" >> "$GITHUB_OUTPUT"
+        run: echo tag="v$(date "+%Y.%V.0")" >> "$GITHUB_OUTPUT"
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:
