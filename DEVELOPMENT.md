@@ -67,25 +67,12 @@ nix why-depends .#<PACKAGE> .#<DEPENDENCY>
 
 ### Packages update process
 
-* Create a `pkgs-weekly-update` branch to collect all package updates
-  in this branch and create PR (Monday)
+* Checkout to `weekly-update` PR (PR title "pkgs: weekly update (<DATE>)") (Thursday - Friday)
 ```bash
-git checkout -b pkgs-weekly-update-$(date "+%Y.%V")
-
-git push --set-upstream origin pkgs-weekly-update-$(date "+%Y.%V")
+gh pr checkout -f <PR-NUMBER>
 ```
 
-* Change base of automatically created flake update PR (`flake-update-action-pr`
-  branch) and merge in in to `pkgs-weekly-update` branch
-
-* Submit `pkgs-weekly-update` PR
-```
-git pull
-
-gh pr create --title "pkgs: weekly update $(date "+%Y.%V")"
-```
-
-* Pull from the latest Nixpkgs master (Thursday - Friday)
+* Pull from the latest Nixpkgs master
 ```bash
 utils/pull-nixpkgs.sh <NIXPKGS-DIR>
 ```
@@ -125,6 +112,6 @@ for test in test-qgis test-qgis-ltr test-nixgl; do
 done
 ```
 
-* Merge `pkgs-weekly-update` PR (Friday, Saturday)
+* Merge `weekly-update` PR (Friday, Saturday)
 
 * [Update packages database](https://github.com/imincik/geospatial-nix.today/actions/workflows/update-packages-db.yml) at geospatial-nix.today
