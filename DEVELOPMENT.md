@@ -113,5 +113,3 @@ done
 ```
 
 * Merge `weekly-update` PR (Friday, Saturday)
-
-* [Update packages database](https://github.com/imincik/geospatial-nix.today/actions/workflows/update-packages-db.yml) at geospatial-nix.today
