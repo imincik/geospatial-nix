@@ -1,13 +1,18 @@
 diff --git a/pkgs/rasterio/default.nix b/pkgs/rasterio/default.nix
-index 07dfa2c..5282e0f 100644
+index 20eb3df..150fe76 100644
 --- a/pkgs/rasterio/default.nix
 +++ b/pkgs/rasterio/default.nix
-@@ -60,7 +60,7 @@ buildPythonPackage rec {
+@@ -46,11 +46,11 @@ buildPythonPackage rec {
    postPatch = ''
      # remove useless import statement requiring distutils to be present at the runtime
      substituteInPlace rasterio/rio/calc.py \
 -      --replace-fail "from distutils.version import LooseVersion" ""
 +      --replace "from distutils.version import LooseVersion" ""
+ 
+     # relax dependency on yet non-packaged, RC version of numpy
+     substituteInPlace pyproject.toml \
+-      --replace-fail "numpy==2.0.0rc1" "numpy"
++      --replace "numpy==2.0.0rc1" "numpy"
      '';
  
    nativeBuildInputs = [
