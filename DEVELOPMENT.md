@@ -87,18 +87,18 @@ git log -- <PATH-TO-PACKAGE>  # list changes to package in nixpkgs
 gh pr list --web --state all --search <NIXPKGS-COMMIT-HASH>  # identify PR related to commit
 ```
 
+* Optional: generate a reverse patch for changes which are not desired
+```
+git diff <CHANGED-FILE> > pkgs/<PACKAGE>/nixpkgs/<PATCH-NAME>.patch
+```
+
 * Create separate commit for each change (include Nixpkgs PR URL in commit message)
 ```
 git commit
 
-pkgs(<PACKAGE>): <CHANGE-DESCRIPTION>
+<PACKAGE>: <CHANGE-DESCRIPTION>
 
 Nixpkgs PR: <NIXPKGS-PR-URL>
-```
-
-* Optional: generate a reverse patch for changes which are not desired
-```
-git diff <CHANGED-FILE> > pkgs/<PACKAGE>/nixpkgs/<PATCH-NAME>.patch
 ```
 
 * Build, test and upload all packages to binary chache
