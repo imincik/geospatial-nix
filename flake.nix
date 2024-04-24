@@ -111,85 +111,93 @@
 
 
               # Python packages
-              python-packages = forAllPythonVersions (python: rec {
-                fiona = pkgs.${python}.pkgs.callPackage ./pkgs/fiona {
-                  inherit gdal;
-                };
+              python-packages = forAllPythonVersions (python:
+                let
+                  py = pkgs.${python};
+                in
+                rec {
+                  fiona = py.pkgs.callPackage ./pkgs/fiona {
+                    inherit gdal;
+                  };
 
-                gdal = pkgs.${python}.pkgs.toPythonModule (_gdal);
+                  gdal = py.pkgs.toPythonModule (_gdal);
 
-                geopandas = pkgs.${python}.pkgs.callPackage ./pkgs/geopandas {
-                  inherit fiona pyproj shapely;
-                };
+                  geopandas = py.pkgs.callPackage ./pkgs/geopandas {
+                    inherit fiona pyproj shapely;
+                  };
 
-                owslib = pkgs.${python}.pkgs.callPackage ./pkgs/owslib {
-                  inherit pyproj;
-                };
+                  owslib = py.pkgs.callPackage ./pkgs/owslib {
+                    inherit pyproj;
+                  };
 
-                psycopg = pkgs.${python}.pkgs.psycopg.override {
-                  inherit shapely;
-                };
+                  psycopg = py.pkgs.psycopg.override {
+                    inherit shapely;
+                  };
 
-                pyproj = pkgs.${python}.pkgs.callPackage ./pkgs/pyproj {
-                  inherit proj shapely;
-                };
+                  pyproj = py.pkgs.callPackage ./pkgs/pyproj {
+                    inherit proj shapely;
+                  };
 
-                pyqt5 = pkgs.${python}.pkgs.pyqt5.override {
-                  # FIX sip and pyqt5_sip compatibility. See: https://github.com/NixOS/nixpkgs/issues/273561
-                  # Remove this fix in NixOS 24.05.
-                  pyqt5_sip = pkgs.${python}.pkgs.callPackage ./pkgs/qgis/pyqt5-sip.nix { };
-                  withLocation = true;
-                  withSerialPort = true;
-                };
+                  pyqt5 = py.pkgs.pyqt5.override {
+                    # FIX sip and pyqt5_sip compatibility. See: https://github.com/NixOS/nixpkgs/issues/273561
+                    # Remove this fix in NixOS 24.05.
+                    pyqt5_sip = py.pkgs.callPackage ./pkgs/qgis/pyqt5-sip.nix { };
+                    withLocation = true;
+                    withSerialPort = true;
+                  };
 
-                rasterio = pkgs.${python}.pkgs.callPackage ./pkgs/rasterio {
-                  inherit gdal shapely;
-                };
+                  rasterio = py.pkgs.callPackage ./pkgs/rasterio {
+                    inherit gdal shapely;
+                  };
 
-                shapely = pkgs.${python}.pkgs.callPackage ./pkgs/shapely {
-                  inherit geos;
-                };
+                  shapely = py.pkgs.callPackage ./pkgs/shapely {
+                    inherit geos;
+                  };
 
-                # all packages (single Python version)
-                all-packages = pkgs.symlinkJoin {
-                  name = "all-${python}-packages";
-                  paths = [
-                    fiona
-                    gdal
-                    geopandas
-                    owslib
-                    psycopg
-                    pyproj
-                    pyqt5
-                    rasterio
-                    shapely
-                  ];
-                };
+                  # all packages (single Python version)
+                  all-packages = pkgs.symlinkJoin {
+                    name = "all-${python}-packages";
+                    paths = [
+                      fiona
+                      gdal
+                      geopandas
+                      owslib
+                      psycopg
+                      pyproj
+                      pyqt5
+                      rasterio
+                      shapely
+                    ];
+                  };
 
-                __toString = self: python;
-              });
+                  __toString = self: python;
+                });
 
 
               # Postgresql packages
-              postgresql-packages = forAllPostgresqlVersions (postgresql: rec {
+              postgresql-packages = forAllPostgresqlVersions (postgresql:
+                let
+                  pg = pkgs.${postgresql};
+                in
+                rec {
 
-                postgis = pkgs.callPackage ./pkgs/postgis/postgis.nix {
-                  inherit geos proj;
+                  postgis = pkgs.callPackage ./pkgs/postgis/postgis.nix {
+                    inherit geos proj;
 
-                  gdalMinimal = gdal-minimal;
-                  postgresql = pkgs.${postgresql};
-                };
+                    gdalMinimal = gdal-minimal;
+                    postgresql = pg;
+                  };
 
-                # all packages (single Postgresql version)
-                all-packages = pkgs.symlinkJoin {
-                  name = "all-${postgresql}-packages";
-                  paths = [
-                    postgis
-                  ];
-                };
+                  # all packages (single Postgresql version)
+                  all-packages = pkgs.symlinkJoin {
+                    name = "all-${postgresql}-packages";
+                    paths = [
+                      postgis
+                    ];
+                  };
 
-                __toString = self: postgresql;
-              });
+                  __toString = self: postgresql;
+                });
 
 
               # PG_Featureserv
