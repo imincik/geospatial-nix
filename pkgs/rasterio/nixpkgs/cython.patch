@@ -1,0 +1,22 @@
+diff --git b/pkgs/rasterio/default.nix a/pkgs/rasterio/default.nix
+index abf2de3..150fe76 100644
+--- b/pkgs/rasterio/default.nix
++++ a/pkgs/rasterio/default.nix
+@@ -13,7 +13,7 @@
+ , click
+ , click-plugins
+ , cligj
+-, cython
++, cython_3
+ , gdal
+ , hypothesis
+ , ipython
+@@ -54,7 +54,7 @@ buildPythonPackage rec {
+     '';
+ 
+   nativeBuildInputs = [
+-    cython
++    cython_3
+     gdal
+     numpy
+     setuptools
