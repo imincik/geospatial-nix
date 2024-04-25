@@ -1,0 +1,22 @@
+diff --git b/pkgs/fiona/default.nix a/pkgs/fiona/default.nix
+index 35c9b57..e198752 100644
+--- b/pkgs/fiona/default.nix
++++ a/pkgs/fiona/default.nix
+@@ -2,7 +2,7 @@
+ , buildPythonPackage
+ , pythonOlder
+ , fetchFromGitHub
+-, cython
++, cython_3
+ , gdal
+ , oldest-supported-numpy
+ , setuptools
+@@ -34,7 +34,7 @@ buildPythonPackage rec {
+   };
+ 
+   nativeBuildInputs = [
+-    cython
++    cython_3
+     gdal # for gdal-config
+     oldest-supported-numpy
+     setuptools
