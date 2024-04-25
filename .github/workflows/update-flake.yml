@@ -39,10 +39,11 @@ jobs:
           body: |
             Weekly update of packages.
           branch: "${{ steps.branch.outputs.branch }}"
-          delete-branch: true
           commit-message: "flake: weekly update of nix flake inputs"
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           assignees: imincik
           # reviewers: imincik
           token: ${{ secrets.FLAKE_AUTOUPDATE_TOKEN }}
+          draft: true
+          delete-branch: true
