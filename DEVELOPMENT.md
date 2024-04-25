@@ -67,7 +67,7 @@ nix why-depends .#<PACKAGE> .#<DEPENDENCY>
 
 ### Packages update process
 
-* Checkout to `weekly-update` PR (PR title "pkgs: weekly update (<DATE>)") (Thursday - Friday)
+* Checkout to `weekly-update` PR (PR title "pkgs: weekly update (weekly-update-<DATE>)") (Thursday - Friday)
 ```bash
 gh pr checkout -f <PR-NUMBER>
 ```
@@ -78,6 +78,9 @@ utils/pull-nixpkgs.sh <NIXPKGS-DIR>
 ```
 
 * Visually review changes created by `pull-nixpkgs.sh` script
+```
+git diff
+```
 
 * Identify related PRs in Nixpkgs
 ```
