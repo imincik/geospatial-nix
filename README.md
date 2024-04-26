@@ -28,13 +28,6 @@ curl --proto '=https' --tlsv1.2 -sSf \
 nix flake show github:imincik/geospatial-nix
 ```
 
-### Run shell environments
-
-* Launch shell environment containing Python (with fiona) and GDAL
-```bash
-nix develop github:imincik/geospatial-nix#cli
-```
-
 ### Run applications without installation
 
 * Launch the latest stable QGIS version
@@ -45,4 +38,11 @@ nix run github:imincik/geospatial-nix#qgis
 * Launch QGIS LTR version
 ```bash
 nix run github:imincik/geospatial-nix#qgis-ltr
+```
+
+### Run shell environments
+
+* Launch shell environment containing Python (with fiona) and GDAL
+```bash
+nix develop github:imincik/geospatial-nix#cli
 ```
