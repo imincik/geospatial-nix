@@ -3,32 +3,22 @@
 ## Building packages
 
 * Build single package
-```
+```bash
 nix build .#<PACKAGE>
 ```
 
 * Build all packages
-```
+```bash
 nix build .#all-packages
 ```
 
-* Build a single package and push it to the Geonix binary cache
-```
-nix build --json .#<PACKAGE>  | jq -r '.[].outputs | to_entries[].value' | cachix push geonix
-```
-
-* Build all packages and push them to the Geonix binary cache
-```
-nix build --json .#all-packages  | jq -r '.[].outputs | to_entries[].value' | cachix push geonix
-```
-
 * Run package passthru tests
-```
+```bash
 nix build -L .#<PACKAGE>.tests.<TEST-NAME>
 ```
 
 * Run single flake check
-```
+```bash
 nix build -L .#checks.x86_64-linux.<TEST-NAME>
 ```
 
@@ -38,17 +28,17 @@ _To an re-build already built package or to re-run already succeeded tests, use 
 ## Debugging packages
 
 * Explore derivation
-```
+```bash
 nix show-derivation .#<PACKAGE>
 ```
 
 * Explore package store path content
-```
+```bash
 nix path-info -rsSh .#<PACKAGE> | sort -nk3
 ```
 
 * Explain package dependencies
-```
+```bash
 nix why-depends .#<PACKAGE> .#<DEPENDENCY>
 ```
 
@@ -78,25 +68,25 @@ utils/pull-nixpkgs.sh <NIXPKGS-DIR>
 ```
 
 * Visually review changes created by `pull-nixpkgs.sh` script
-```
+```bash
 git diff
 ```
 
 * Identify related PRs in Nixpkgs
-```
+```bash
 git log -- <PATH-TO-PACKAGE>  # list changes to package in nixpkgs
 ```
-```
+```bash
 gh pr list --web --state all --search <NIXPKGS-COMMIT-HASH>  # identify PR related to commit
 ```
 
 * Optional: generate a reverse patch for changes which are not desired
-```
+```bash
 git diff <CHANGED-FILE> > pkgs/<PACKAGE>/nixpkgs/<PATCH-NAME>.patch
 ```
 
 * Create separate commit for each change (include Nixpkgs PR URL in commit message)
-```
+```bash
 git commit
 
 <PACKAGE>: <CHANGE-DESCRIPTION>
@@ -105,14 +95,13 @@ Nixpkgs PR: <NIXPKGS-PR-URL>
 ```
 
 * Build, test and upload all packages to binary chache
+```bash
+utils/nix-build-all.sh
 ```
-nix build --json .#all-packages  | jq -r '.[].outputs | to_entries[].value' | cachix push geonix
 
-nix flake check
-
-for test in test-qgis test-qgis-ltr test-nixgl; do
-  nix build --json .#checks.x86_64-linux.$test | jq -r '.[].outputs | to_entries[].value' | cachix push geonix
-done
+* Push changes to `weekly-update` PR
+```bash
+git push
 ```
 
 * Merge `weekly-update` PR (Friday, Saturday)
