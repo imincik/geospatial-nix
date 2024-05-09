@@ -1,0 +1,22 @@
+diff --git b/pkgs/grass/default.nix a/pkgs/grass/default.nix
+index c23ad06..3105bbc 100644
+--- b/pkgs/grass/default.nix
++++ a/pkgs/grass/default.nix
+@@ -3,7 +3,7 @@
+ , callPackage
+ , fetchFromGitHub
+ , makeWrapper
+-, wrapGAppsHook3
++, wrapGAppsHook
+ 
+ , bison
+ , blas
+@@ -44,7 +44,7 @@ stdenv.mkDerivation (finalAttrs: {
+ 
+   nativeBuildInputs = [
+     makeWrapper
+-    wrapGAppsHook3
++    wrapGAppsHook
+ 
+     bison
+     flex
