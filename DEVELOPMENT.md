@@ -12,6 +12,23 @@ nix build .#<PACKAGE>
 nix build .#all-packages
 ```
 
+* Build customized version of a package
+```bash
+nix build \
+  --impure \
+  --expr "(builtins.getFlake (toString ./.)).packages.x86_64-linux.<PACKAGE>.override { <PARAMETER> = <VALUE>; }"
+
+# e.g. build QGIS with rasterio
+nix build \
+  --impure \
+  --expr "let f = builtins.getFlake (toString ./.); in f.packages.x86_64-linux.qgis.override { extraPythonPackages = ps: with f.packages.x86_64-linux; [ python3-rasterio ]; }"
+
+# e.g. build package containing multiple qgis-plugins
+nix build \
+  --impure \
+  --expr "let f = builtins.getFlake (toString ./.); in f.inputs.nixpkgs.legacyPackages.x86_64-linux.symlinkJoin { name = \"qgis-plugins\"; paths = with f.packages.x86_64-linux; [ qgis-plugin-qgis2web qgis-plugin-MapTiler ]; }"
+```
+
 * Run package passthru tests
 ```bash
 nix build -L .#<PACKAGE>.tests.<TEST-NAME>
@@ -92,6 +109,13 @@ git commit
 <PACKAGE>: <CHANGE-DESCRIPTION>
 
 Nixpkgs PR: <NIXPKGS-PR-URL>
+```
+
+* Update QGIS plugins
+```bash
+pushd pkgs/qgis
+./update-plugins.sh
+popd
 ```
 
 * Build, test and upload all packages to binary chache
