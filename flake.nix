@@ -246,6 +246,33 @@
 
               qgis-ltr = pkgs.callPackage ./pkgs/qgis/ltr.nix { qgis-ltr-unwrapped = qgis-ltr-unwrapped; };
 
+              # QGIS plugins
+              qgis-plugins =
+                let
+                  plugins = import ./pkgs/qgis/qgis-plugins.nix;
+                in
+                mapAttrs'
+                  (
+                    name: value: {
+                      name = "qgis-plugin-${name}";
+                      value = pkgs.callPackage ./pkgs/qgis/plugins.nix { name = name; plugin = value; };
+                    }
+                  )
+                  plugins;
+
+              qgis-ltr-plugins =
+                let
+                  plugins = import ./pkgs/qgis/qgis-ltr-plugins.nix;
+                in
+                mapAttrs'
+                  (
+                    name: value: {
+                      name = "qgis-ltr-plugin-${name}";
+                      value = pkgs.callPackage ./pkgs/qgis/plugins.nix { name = name; plugin = value; };
+                    }
+                  )
+                  plugins;
+
 
               # nixGL
               nixGL = nixgl.packages.${system}.nixGLIntel;
@@ -289,6 +316,10 @@
                   # nixGL
                   nixGL;
               }
+
+            # QGIS plugins
+            // qgis-plugins
+            // qgis-ltr-plugins
 
             # Add Python packages in all versions
             // mergeAttrsList (forEach (builtins.attrValues python-packages) (p: prefixPackages p "${p}"))
