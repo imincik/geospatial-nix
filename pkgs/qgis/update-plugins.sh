@@ -13,6 +13,7 @@ for package in "${QGIS_PACKAGES[@]}"; do
     version=$(nix eval --raw .#"$package".version)
     major_version=$(echo "$version" | awk -F "." '{print $1 "." $2}')
 
+    echo -e "\nUpdating $package plugins ..."
     curl $QGIS_PLUGINS_XML_URL?qgis="$major_version" -o "$package"-plugins.xml
 
     python ./update-plugins.py "$package"-plugins.xml > "$package"-plugins.nix
