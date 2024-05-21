@@ -131,6 +131,17 @@ git add pkgs/qgis/*-plugins-list.nix
 git commit -m "qgis-plugins: weekly update"
 ```
 
+* Update GRASS plugins
+```bash
+pushd pkgs/grass
+./update-plugins.sh
+popd
+
+git add pkgs/grass/plugins-rev.nix
+git add pkgs/grass/plugins-list.nix
+git commit -m "grass-plugins: weekly update"
+```
+
 * Build, test and upload all packages to binary chache
 ```bash
 utils/nix-build-all.sh
