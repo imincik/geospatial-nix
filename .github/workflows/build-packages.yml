@@ -28,7 +28,7 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Install nix
-      uses: cachix/install-nix-action@v26
+      uses: cachix/install-nix-action@V27
 
     - name: Flake metadata
       run: >
@@ -61,7 +61,7 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Install nix
-      uses: cachix/install-nix-action@v26
+      uses: cachix/install-nix-action@V27
 
     - name: Setup cachix
       uses: cachix/cachix-action@v15
