@@ -9,7 +9,7 @@
 
 stdenv.mkDerivation {
   pname = "qgis-plugin-${name}";
-  version = "3.19.0";
+  version = plugin.version;
 
   src = fetchurl {
     url = plugin.url;
