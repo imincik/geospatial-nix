@@ -85,6 +85,10 @@
                 inherit geos libgeotiff libspatialite proj tiledb;
                 useMinimalFeatures = true;
               };
+              gdal_3_9 = pkgs.callPackage ./pkgs/gdal/3.9.nix {
+                inherit geos libgeotiff libspatialite proj tiledb;
+                useJava = false;
+              };
               _gdal = gdal;
 
               geos = pkgs.callPackage ./pkgs/geos { };
@@ -291,6 +295,7 @@
                   # Core libs
                   gdal
                   gdal-minimal
+                  gdal_3_9
                   geos
                   libgeotiff
                   librttopo
