@@ -116,6 +116,9 @@ Nixpkgs PR: <NIXPKGS-PR-URL>
 pushd pkgs/qgis
 ./update-plugins.sh
 popd
+
+git add pkgs/qgis/*-plugins-list.nix
+git commit -m "qgis-plugins: weekly update"
 ```
 
 * Build, test and upload all packages to binary chache
