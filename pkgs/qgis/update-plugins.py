@@ -13,7 +13,10 @@ qgis_plugins_xml = sys.argv[1]
 
 def get_nix_hash(url):
     cmd = run(
-        ["nix", "store", "prefetch-file", "--json", url], capture_output=True, text=True
+        ["nix", "store", "prefetch-file",
+            "--option", "download-attempts", "10",
+            "--json", url
+        ], capture_output=True, text=True
     )
     return json.loads(cmd.stdout)["hash"]
 
