@@ -64,9 +64,9 @@
         
 
             Lizmap = {
-                version = "4.3.11";
-                url = "https://plugins.qgis.org/plugins/lizmap/version/4.3.11/download/";
-                hash = "sha256-Xv0BB8FmtYv4dIW7duhbKOp5ft9ENKbpYcFe10VLwtw=";
+                version = "4.3.14";
+                url = "https://plugins.qgis.org/plugins/lizmap/version/4.3.14/download/";
+                hash = "sha256-CoKnQ+Yf+RqDXSN0ww3ND/IhP6LrgGBOlLXduEwKgag=";
             };
         
 
@@ -365,9 +365,9 @@
         
 
             qgis2web = {
-                version = "3.19.0";
-                url = "https://plugins.qgis.org/plugins/qgis2web/version/3.19.0/download/";
-                hash = "sha256-Bp81Oi6hj12OOlf5TrekOYdrCU5dA1FBVMnuvhhYXnU=";
+                version = "3.20.0";
+                url = "https://plugins.qgis.org/plugins/qgis2web/version/3.20.0/download/";
+                hash = "sha256-ECDSL0VfYtcOGBJTlZ2JV/oHreKcGk3HrzV64LaR9Eg=";
             };
         
 
@@ -568,9 +568,9 @@
         
 
             ORS-Tools = {
-                version = "1.7.1";
-                url = "https://plugins.qgis.org/plugins/ORStools/version/1.7.1/download/";
-                hash = "sha256-tRrI8YKZ3OEMx3mdLnGW5Di42jeUXBALlrDh9FS5yOk=";
+                version = "1.8.2";
+                url = "https://plugins.qgis.org/plugins/ORStools/version/1.8.2/download/";
+                hash = "sha256-hCAJGSnMHqJxptwF1PqHxD50kzO56cMWlIM/fO70qmU=";
             };
         
 
