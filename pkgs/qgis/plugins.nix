@@ -13,7 +13,7 @@ stdenv.mkDerivation {
 
   src = fetchurl {
     url = plugin.url;
-    sha256 = plugin.hash;
+    hash = plugin.hash;
   };
 
   dontUnpack = true;

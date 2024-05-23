@@ -16,5 +16,7 @@ for package in "${QGIS_PACKAGES[@]}"; do
     echo -e "\nUpdating $package plugins ..."
     curl $QGIS_PLUGINS_XML_URL?qgis="$major_version" -o "$package"-plugins.xml
 
-    python ./update-plugins.py "$package"-plugins.xml > "$package"-plugins-list.nix
+    python ./update-plugins.py "$package"-plugins.xml > "$package"-plugins-list.nix.new
+    cp "$package"-plugins-list.nix.new "$package"-plugins-list.nix
+    rm "$package"-plugins-list.nix.new
 done
