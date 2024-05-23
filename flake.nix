@@ -253,7 +253,7 @@
               # QGIS plugins
               qgis-plugins =
                 let
-                  plugins = import ./pkgs/qgis/qgis-plugins.nix;
+                  plugins = import ./pkgs/qgis/qgis-plugins-list.nix;
                 in
                 mapAttrs'
                   (
@@ -266,7 +266,7 @@
 
               qgis-ltr-plugins =
                 let
-                  plugins = import ./pkgs/qgis/qgis-ltr-plugins.nix;
+                  plugins = import ./pkgs/qgis/qgis-ltr-plugins-list.nix;
                 in
                 mapAttrs'
                   (
