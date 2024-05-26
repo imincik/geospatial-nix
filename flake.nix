@@ -68,7 +68,7 @@
 
             let
               inherit (nixpkgs.lib) forEach genAttrs makeScope mapAttrs';
-              inherit (nixpkgs.lib.attrsets) attrValues filterAttrs mergeAttrsList;
+              inherit (nixpkgs.lib.attrsets) attrValues filterAttrs mergeAttrsList mapAttrsToList;
 
               pythonVersions = [
                 "python3" # default Python version
@@ -86,16 +86,13 @@
               ];
               forAllPostgresqlVersions = f: genAttrs postgresqlVersions (postgresql: f postgresql);
 
-              # Function: prefix packages and remove `__toString` attribute
+              # Function: prefix packages
               prefixPackages = packages: prefix:
-                builtins.removeAttrs
-                  (mapAttrs'
-                    (
-                      name: value: { name = "${prefix}-" + name; value = value; }
-                    )
-                    packages
+                mapAttrs'
+                  (
+                    name: value: { name = "${prefix}-" + name; value = value; }
                   )
-                  [ "${prefix}-__toString" ];
+                  packages;
 
 
               geopkgs = makeScope pkgs.newScope (final: {
@@ -144,7 +141,7 @@
                     # inherit gdal;
                   };
 
-                  # gdal = pkgs.${python}.pkgs.toPythonModule (final._gdal);
+                  gdal = pkgs.${python}.pkgs.toPythonModule (final._gdal);
 
                   geopandas = pyFinal.callPackage ./pkgs/geopandas {
                     # inherit fiona pyproj shapely;
@@ -154,7 +151,7 @@
                     # inherit pyproj;
                   };
 
-                  psycopg = pyFinal.psycopg.override {
+                  psycopg = pkgs.${python}.pkgs.psycopg.override {
                     # inherit shapely;
                   };
 
@@ -162,7 +159,7 @@
                     # inherit proj shapely;
                   };
 
-                  pyqt5 = pyFinal.pyqt5.override {
+                  pyqt5 = pkgs.${python}.pkgs.pyqt5.override {
                     # FIX sip and pyqt5_sip compatibility. See: https://github.com/NixOS/nixpkgs/issues/273561
                     # Remove this fix in NixOS 24.05.
                     pyqt5_sip = final.callPackage ./pkgs/qgis/pyqt5-sip.nix { };
@@ -193,8 +190,6 @@
                   #     pyFinal.shapely
                   #   ];
                   # };
-
-                  __toString = self: python;
                 })));
 
 
@@ -215,8 +210,6 @@
                   #     postgis
                   #   ];
                   # };
-
-                  __toString = self: postgresql;
                 });
 
 
@@ -264,9 +257,9 @@
                     qgis-python =
                       let
                         packageOverrides = localFinal: prev: {
-                          pyqt5 = final.python-packages.python3.pyqt5;
-                          owslib = final.python-packages.python3.owslib;
-                          gdal = final.python-packages.python3.gdal;
+                          #pyqt5 = final.python-packages.python3.pyqt5;
+                          #owslib = final.python-packages.python3.owslib;
+                          #gdal = final.python-packages.python3.gdal;
                         };
                       in
                       pkgs.python3.override { inherit packageOverrides; self = qgis-python; };
@@ -292,7 +285,7 @@
 
             in
             flake-utils.lib.filterPackages system
-              {
+              ({
                 inherit (geopkgs)
 
                   # Core libs
@@ -324,12 +317,16 @@
                   # nixGL
                   nixGL;
               }
+            //
+            mergeAttrsList (pkgs.lib.mapAttrsToList (version: packages:
+              prefixPackages packages version
+            ) geopkgs.python-packages)
 
-            # Add Python packages in all versions
-            // mergeAttrsList (forEach (builtins.attrValues geopkgs.python-packages) (p: prefixPackages p "${p}"))
-
-            # Add Postgresql packages in all versions
-            // mergeAttrsList (forEach (builtins.attrValues geopkgs.postgresql-packages) (p: prefixPackages p "${p}"));
+            //
+            mergeAttrsList (pkgs.lib.mapAttrsToList (version: packages:
+              prefixPackages packages version
+            ) geopkgs.postgresql-packages)
+            );
 
 
           #
