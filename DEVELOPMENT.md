@@ -111,6 +111,16 @@ git commit
 Nixpkgs PR: <NIXPKGS-PR-URL>
 ```
 
+* Update gdal-master package
+```bash
+pushd pkgs/gdal
+./update-master.sh
+popd
+
+git add pkgs/gdal/master-rev.nix
+git commit -m "gdal-master: weekly update"
+```
+
 * Update QGIS plugins
 ```bash
 pushd pkgs/qgis
