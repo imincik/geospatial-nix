@@ -89,6 +89,10 @@
                 inherit geos libgeotiff libspatialite proj tiledb;
                 useJava = false;
               };
+              gdal-master = (pkgs.callPackage ./pkgs/gdal/master.nix {
+                # inherit gdal;
+                gdal = gdal_3_9;  # TODO: replace with default gdal version
+              }).master;
               _gdal = gdal;
 
               geos = pkgs.callPackage ./pkgs/geos { };
@@ -296,6 +300,7 @@
                   gdal
                   gdal-minimal
                   gdal_3_9
+                  gdal-master
                   geos
                   libgeotiff
                   librttopo
