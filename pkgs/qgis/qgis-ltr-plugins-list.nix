@@ -568,9 +568,9 @@
         
 
             ORS-Tools = {
-                version = "1.8.2";
-                url = "https://plugins.qgis.org/plugins/ORStools/version/1.8.2/download/";
-                hash = "sha256-hCAJGSnMHqJxptwF1PqHxD50kzO56cMWlIM/fO70qmU=";
+                version = "1.8.3";
+                url = "https://plugins.qgis.org/plugins/ORStools/version/1.8.3/download/";
+                hash = "sha256-X5jLDxtu+2GDKA78rSWLjyXlu5mPsnG/m3f3eeP8vxY=";
             };
         
 
@@ -645,9 +645,9 @@
         
 
             LF-Tools = {
-                version = "1.12.9";
-                url = "https://plugins.qgis.org/plugins/lftools/version/1.12.9/download/";
-                hash = "sha256-I3qRAuXSvuV46hSmqgsOv1guEF6O0z2EgZr8fKM2Hso=";
+                version = "1.12.10";
+                url = "https://plugins.qgis.org/plugins/lftools/version/1.12.10/download/";
+                hash = "sha256-/fP+KRMyeOKB8HjXK0qR/2imalcpmtFMsEZm0G07RSo=";
             };
         
 }
