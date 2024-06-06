@@ -1,16 +1,17 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchFromGitHub
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchFromGitHub,
 
-, lxml
-, pyproj
-, pytestCheckHook
-, python-dateutil
-, pythonOlder
-, pytz
-, pyyaml
-, requests
+  lxml,
+  pyproj,
+  pytestCheckHook,
+  python-dateutil,
+  pythonOlder,
+  pytz,
+  pyyaml,
+  requests,
 }:
 
 buildPythonPackage rec {
@@ -41,13 +42,9 @@ buildPythonPackage rec {
     requests
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
-  pythonImportsCheck = [
-    "owslib"
-  ];
+  pythonImportsCheck = [ "owslib" ];
 
   preCheck = ''
     # _pytest.pathlib.ImportPathMismatchError: ('owslib.swe.sensor.sml', '/build/source/build/...
