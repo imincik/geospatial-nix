@@ -1,18 +1,20 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, python
-, proj
-, pythonOlder
-, substituteAll
-, cython
-, pytestCheckHook
-, mock
-, certifi
-, numpy
-, shapely
-, pandas
-, xarray
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  fetchpatch,
+  pytestCheckHook,
+  pythonOlder,
+  substituteAll,
+
+  certifi,
+  cython,
+  mock,
+  numpy,
+  pandas,
+  proj,
+  shapely,
+  xarray,
 }:
 
 buildPythonPackage rec {
@@ -40,16 +42,14 @@ buildPythonPackage rec {
   nativeBuildInputs = [ cython ];
   buildInputs = [ proj ];
 
-  propagatedBuildInputs = [
-     certifi
-  ];
+  propagatedBuildInputs = [ certifi ];
 
   nativeCheckInputs = [
-    pytestCheckHook
     mock
     numpy
-    shapely
     pandas
+    pytestCheckHook
+    shapely
     xarray
   ];
 
@@ -110,6 +110,12 @@ buildPythonPackage rec {
     homepage = "https://github.com/pyproj4/pyproj";
     changelog = "https://github.com/pyproj4/pyproj/blob/${src.rev}/docs/history.rst";
     license = licenses.mit;
-    maintainers = with maintainers; teams.geospatial.members ++ [ lsix dotlambda ];
+    maintainers =
+      with maintainers;
+      teams.geospatial.members
+      ++ [
+        lsix
+        dotlambda
+      ];
   };
 }
