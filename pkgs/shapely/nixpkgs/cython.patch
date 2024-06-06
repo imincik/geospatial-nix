@@ -1,17 +1,17 @@
-diff --git b/pkgs/shapely/default.nix a/pkgs/shapely/default.nix
-index 28f2acd..209cdf3 100644
---- b/pkgs/shapely/default.nix
-+++ a/pkgs/shapely/default.nix
-@@ -5,7 +5,7 @@
- , pytestCheckHook
- , pythonOlder
+diff --git a/pkgs/shapely/default.nix b/pkgs/shapely/default.nix
+index 9819cf0..415317e 100644
+--- a/pkgs/shapely/default.nix
++++ b/pkgs/shapely/default.nix
+@@ -6,7 +6,7 @@
+   pytestCheckHook,
+   pythonOlder,
  
--, cython_0
-+, cython
- , geos
- , numpy
- , oldest-supported-numpy
-@@ -26,7 +26,7 @@ buildPythonPackage rec {
+-  cython_0,
++  cython,
+   geos,
+   numpy,
+   oldest-supported-numpy,
+@@ -27,7 +27,7 @@ buildPythonPackage rec {
    };
  
    nativeBuildInputs = [
