@@ -64,9 +64,9 @@
         
 
             Lizmap = {
-                version = "4.3.14";
-                url = "https://plugins.qgis.org/plugins/lizmap/version/4.3.14/download/";
-                hash = "sha256-CoKnQ+Yf+RqDXSN0ww3ND/IhP6LrgGBOlLXduEwKgag=";
+                version = "4.3.15";
+                url = "https://plugins.qgis.org/plugins/lizmap/version/4.3.15/download/";
+                hash = "sha256-88VcFkc1pMois4IcCmkD3ET5prPmlUdoQ3e4Mx8XGcs=";
             };
         
 
@@ -134,9 +134,9 @@
         
 
             Contour-plugin = {
-                version = "2.0.13";
-                url = "https://plugins.qgis.org/plugins/contour/version/2.0.13/download/";
-                hash = "sha256-zhpzQbmiAnLIXHodm7VK6zAppNG/cec4muHTb4std/E=";
+                version = "2.0.14";
+                url = "https://plugins.qgis.org/plugins/contour/version/2.0.14/download/";
+                hash = "sha256-6ekGHiy+TP2kxBQGm3ddMgLPTL5iF2t26ZdA/W8WSrQ=";
             };
         
 
@@ -246,9 +246,9 @@
         
 
             go2streetview = {
-                version = "8.7";
-                url = "https://plugins.qgis.org/plugins/go2streetview/version/8.7/download/";
-                hash = "sha256-M+qtdEsIwsIIhSuICS7HgeKEGb8db7gTMAyH6Ko6Ofw=";
+                version = "8.8";
+                url = "https://plugins.qgis.org/plugins/go2streetview/version/8.8/download/";
+                hash = "sha256-jg5S/aJffrSN9Z5M06df3HTlo4TVQIYvWwAoNwMfYDE=";
             };
         
 
@@ -407,9 +407,9 @@
         
 
             MapSwipe-Tool = {
-                version = "1.2";
-                url = "https://plugins.qgis.org/plugins/mapswipetool_plugin/version/1.2/download/";
-                hash = "sha256-jAp7801hTP9OrqfZzP7Ne0zVLMNuGFaacZBR3IM7ZUk=";
+                version = "1.3";
+                url = "https://plugins.qgis.org/plugins/mapswipetool_plugin/version/1.3/download/";
+                hash = "sha256-4k5rNcZ3dQcDgFgrkDIKL2S0LQ1tNLHBArr8qh9Z/9U=";
             };
         
 
@@ -421,9 +421,9 @@
         
 
             TUFLOW = {
-                version = "3.11";
-                url = "https://plugins.qgis.org/plugins/tuflow/version/3.11/download/";
-                hash = "sha256-0ijpE04Ny1VW86Ru3zK2HyVQy14xrzn/0nssTktiYiY=";
+                version = "3.11.1";
+                url = "https://plugins.qgis.org/plugins/tuflow/version/3.11.1/download/";
+                hash = "sha256-MQP8sO4GxV7qB21TXWWagKTSEzoUFHcvEwqL72rSAII=";
             };
         
 
@@ -463,9 +463,9 @@
         
 
             QGIS-Resource-Sharing = {
-                version = "1.0.0";
-                url = "https://plugins.qgis.org/plugins/qgis_resource_sharing/version/1.0.0/download/";
-                hash = "sha256-rktu7PyFa8cycyMwOZhoPx0UD66iH35ppnSoZJt6W9M=";
+                version = "1.1.0";
+                url = "https://plugins.qgis.org/plugins/qgis_resource_sharing/version/1.1.0/download/";
+                hash = "sha256-iwFoJq1KKpPnslMcjfXjxqz73B2mHwfiVwg2iIEfSjU=";
             };
         
 
