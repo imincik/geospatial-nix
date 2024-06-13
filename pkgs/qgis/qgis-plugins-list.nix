@@ -64,9 +64,9 @@
         
 
             Lizmap = {
-                version = "4.3.15";
-                url = "https://plugins.qgis.org/plugins/lizmap/version/4.3.15/download/";
-                hash = "sha256-88VcFkc1pMois4IcCmkD3ET5prPmlUdoQ3e4Mx8XGcs=";
+                version = "4.3.16";
+                url = "https://plugins.qgis.org/plugins/lizmap/version/4.3.16/download/";
+                hash = "sha256-1f26e2OUdKjubY9SUnlmKlM2/D0CEh/XtlQEoPOxIu0=";
             };
         
 
@@ -214,6 +214,13 @@
                 version = "3.0.1";
                 url = "https://plugins.qgis.org/plugins/qchainage/version/3.0.1/download/";
                 hash = "sha256-fTSZ2wwTvB7ywXILespsUSbmemrbsnFzRIgWyw7vJHE=";
+            };
+        
+
+            Buffer-by-Percentage = {
+                version = "0.3.3";
+                url = "https://plugins.qgis.org/plugins/BufferByPercentage/version/0.3.3/download/";
+                hash = "sha256-ggm0Fe3RIAurQztvVWm/KVSVV6PupRH5IOqAgIEJw4s=";
             };
         
 
@@ -365,9 +372,9 @@
         
 
             qgis2web = {
-                version = "3.20.0";
-                url = "https://plugins.qgis.org/plugins/qgis2web/version/3.20.0/download/";
-                hash = "sha256-ECDSL0VfYtcOGBJTlZ2JV/oHreKcGk3HrzV64LaR9Eg=";
+                version = "3.21.0";
+                url = "https://plugins.qgis.org/plugins/qgis2web/version/3.21.0/download/";
+                hash = "sha256-7XyaXDvhtYWF2sH72DsUL8/d7EIps9MIkJVCS0wkwj0=";
             };
         
 
