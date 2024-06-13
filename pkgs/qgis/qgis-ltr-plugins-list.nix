@@ -64,9 +64,9 @@
         
 
             Lizmap = {
-                version = "4.3.15";
-                url = "https://plugins.qgis.org/plugins/lizmap/version/4.3.15/download/";
-                hash = "sha256-88VcFkc1pMois4IcCmkD3ET5prPmlUdoQ3e4Mx8XGcs=";
+                version = "4.3.16";
+                url = "https://plugins.qgis.org/plugins/lizmap/version/4.3.16/download/";
+                hash = "sha256-1f26e2OUdKjubY9SUnlmKlM2/D0CEh/XtlQEoPOxIu0=";
             };
         
 
@@ -217,6 +217,13 @@
             };
         
 
+            Buffer-by-Percentage = {
+                version = "0.3.3";
+                url = "https://plugins.qgis.org/plugins/BufferByPercentage/version/0.3.3/download/";
+                hash = "sha256-ggm0Fe3RIAurQztvVWm/KVSVV6PupRH5IOqAgIEJw4s=";
+            };
+        
+
             cadastre = {
                 version = "1.19.1";
                 url = "https://plugins.qgis.org/plugins/cadastre/version/1.19.1/download/";
@@ -248,7 +255,7 @@
             go2streetview = {
                 version = "8.8";
                 url = "https://plugins.qgis.org/plugins/go2streetview/version/8.8/download/";
-                hash = "sha256-jg5S/aJffrSN9Z5M06df3HTlo4TVQIYvWwAoNwMfYDE=";
+                hash = "sha256-sHrBnKasoWLlMrJCpF/bHWLAt4NC6LecPK9XolorjIg=";
             };
         
 
@@ -365,9 +372,9 @@
         
 
             qgis2web = {
-                version = "3.20.0";
-                url = "https://plugins.qgis.org/plugins/qgis2web/version/3.20.0/download/";
-                hash = "sha256-ECDSL0VfYtcOGBJTlZ2JV/oHreKcGk3HrzV64LaR9Eg=";
+                version = "3.21.0";
+                url = "https://plugins.qgis.org/plugins/qgis2web/version/3.21.0/download/";
+                hash = "sha256-7XyaXDvhtYWF2sH72DsUL8/d7EIps9MIkJVCS0wkwj0=";
             };
         
 
@@ -465,7 +472,7 @@
             QGIS-Resource-Sharing = {
                 version = "1.1.0";
                 url = "https://plugins.qgis.org/plugins/qgis_resource_sharing/version/1.1.0/download/";
-                hash = "sha256-iwFoJq1KKpPnslMcjfXjxqz73B2mHwfiVwg2iIEfSjU=";
+                hash = "sha256-rktu7PyFa8cycyMwOZhoPx0UD66iH35ppnSoZJt6W9M=";
             };
         
 
