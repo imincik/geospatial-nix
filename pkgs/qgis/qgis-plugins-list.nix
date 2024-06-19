@@ -323,9 +323,9 @@
         
 
             Networks = {
-                version = "2.7.16";
-                url = "https://plugins.qgis.org/plugins/networks/version/2.7.16/download/";
-                hash = "sha256-0mq08AZQgnrHRvjxLvxYm075dt4qOTwlqA0PWdWz6tA=";
+                version = "2.7.18";
+                url = "https://plugins.qgis.org/plugins/networks/version/2.7.18/download/";
+                hash = "sha256-L4hZRSOMXdrd2YHdBDt3xJLyiphIs6WkmapAvebd46w=";
             };
         
 
@@ -533,9 +533,9 @@
         
 
             AcATaMa = {
-                version = "23.4";
-                url = "https://plugins.qgis.org/plugins/AcATaMa/version/23.4/download/";
-                hash = "sha256-4eCq7notrerX1lp0FcwdmY/oaRLGKoliMBi+EmbVyiA=";
+                version = "24.6";
+                url = "https://plugins.qgis.org/plugins/AcATaMa/version/24.6/download/";
+                hash = "sha256-JLrNdryXwu1joW4NWKNXsgsZ64cx87WFhF0jJn8mJeA=";
             };
         
 
@@ -652,9 +652,9 @@
         
 
             LF-Tools = {
-                version = "1.12.10";
-                url = "https://plugins.qgis.org/plugins/lftools/version/1.12.10/download/";
-                hash = "sha256-/fP+KRMyeOKB8HjXK0qR/2imalcpmtFMsEZm0G07RSo=";
+                version = "1.12.11";
+                url = "https://plugins.qgis.org/plugins/lftools/version/1.12.11/download/";
+                hash = "sha256-IIPwFSx/ClHZSjUx1zTt79fSUHybsWaHGCnEb2OFLXE=";
             };
         
 }
