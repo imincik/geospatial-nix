@@ -31,7 +31,7 @@
   test-nixgl = pkgs.nixosTest (import ./tests/nixos/nixgl.nix {
     inherit nixpkgs pkgs;
     lib = nixpkgs.lib;
-    nixGL = self.packages.${system}.nixGL;
+    nixGLIntel = self.packages.${system}.nixGLIntel;
   });
 
   # TODO: add postgis test
