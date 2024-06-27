@@ -64,9 +64,9 @@
         
 
             Lizmap = {
-                version = "4.3.16";
-                url = "https://plugins.qgis.org/plugins/lizmap/version/4.3.16/download/";
-                hash = "sha256-1f26e2OUdKjubY9SUnlmKlM2/D0CEh/XtlQEoPOxIu0=";
+                version = "4.3.17";
+                url = "https://plugins.qgis.org/plugins/lizmap/version/4.3.17/download/";
+                hash = "sha256-slw8raRUsr+MaO37vgJamB9vN4Bmlo46CMwesO4TlvM=";
             };
         
 
@@ -323,9 +323,9 @@
         
 
             Networks = {
-                version = "2.7.18";
-                url = "https://plugins.qgis.org/plugins/networks/version/2.7.18/download/";
-                hash = "sha256-L4hZRSOMXdrd2YHdBDt3xJLyiphIs6WkmapAvebd46w=";
+                version = "2.7.19";
+                url = "https://plugins.qgis.org/plugins/networks/version/2.7.19/download/";
+                hash = "sha256-wZkTBmCSm/aOAYQ9kWZPwwWaIRn4qzEbxxqjoXokQ9U=";
             };
         
 
@@ -358,9 +358,9 @@
         
 
             DSG-Tools = {
-                version = "4.12.0";
-                url = "https://plugins.qgis.org/plugins/DsgTools/version/4.12.0/download/";
-                hash = "sha256-udaD0xhghsQ55nI1n1l/LAqCn3bIww4sES33RuOJbBE=";
+                version = "4.14.0";
+                url = "https://plugins.qgis.org/plugins/DsgTools/version/4.14.0/download/";
+                hash = "sha256-9ap2hjhXOnwWJv6ot+PuV74vBQNM1msRd/YLIqccuhw=";
             };
         
 
@@ -435,9 +435,9 @@
         
 
             QAD = {
-                version = "3.0.4";
-                url = "https://plugins.qgis.org/plugins/qad/version/3.0.4/download/";
-                hash = "sha256-GaTpFxRDWG+ocbAfyIxlLkQ1PUNjAzjqR/HLTDhA6eE=";
+                version = "3.0.6";
+                url = "https://plugins.qgis.org/plugins/qad/version/3.0.6/download/";
+                hash = "sha256-bo60n1EZjpaIiIopbqbPS+uou8m8BW/U3e1yH9fzV3Y=";
             };
         
 
@@ -589,9 +589,9 @@
         
 
             Mergin-Maps = {
-                version = "2024.1";
-                url = "https://plugins.qgis.org/plugins/Mergin/version/2024.1/download/";
-                hash = "sha256-tngFFce5o8U/dC8F/t5UElJqZ0Vd3n7QbIAtTRGkSbI=";
+                version = "2024.2";
+                url = "https://plugins.qgis.org/plugins/Mergin/version/2024.2/download/";
+                hash = "sha256-7wubqi8fQZXYrgGzCsmy+m6ypfE643a/TIUg56M2+BY=";
             };
         
 
@@ -610,9 +610,9 @@
         
 
             Wtyczka-GIS-Support = {
-                version = "2.2";
-                url = "https://plugins.qgis.org/plugins/gissupport_plugin/version/2.2/download/";
-                hash = "sha256-3JfvcpGrBkH5BYpNilYi2mb/AiKkAEXdBY4JIpC01TU=";
+                version = "2.3";
+                url = "https://plugins.qgis.org/plugins/gissupport_plugin/version/2.3/download/";
+                hash = "sha256-OiM12ALKlIBo4J7cvv6ByOg66eeAVc5em8vxoGKBBoM=";
             };
         
 
@@ -634,6 +634,13 @@
                 version = "5.0.0";
                 url = "https://plugins.qgis.org/plugins/slyr_community/version/5.0.0/download/";
                 hash = "sha256-H5kkBml+ZiMrCNOvwyhsR4zPk/Wn9uM34HQgqLWxZQg=";
+            };
+        
+
+            Pobieracz-danych-GUGiK = {
+                version = "1.2.0";
+                url = "https://plugins.qgis.org/plugins/pobieracz_danych_gugik/version/1.2.0/download/";
+                hash = "sha256-cs6sidg3ND+vENo3o0jBjPUO9iTMmrwr71ySKkzdeVs=";
             };
         
 
