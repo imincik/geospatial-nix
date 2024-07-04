@@ -64,9 +64,9 @@
         
 
             Lizmap = {
-                version = "4.3.17";
-                url = "https://plugins.qgis.org/plugins/lizmap/version/4.3.17/download/";
-                hash = "sha256-slw8raRUsr+MaO37vgJamB9vN4Bmlo46CMwesO4TlvM=";
+                version = "4.3.19";
+                url = "https://plugins.qgis.org/plugins/lizmap/version/4.3.19/download/";
+                hash = "sha256-qbSlsGyDnDw1becVPIchDNAS2w1Sk2KnoZAM0xbRpUA=";
             };
         
 
@@ -155,9 +155,9 @@
         
 
             PDOK-services-plugin = {
-                version = "5.0.1";
-                url = "https://plugins.qgis.org/plugins/pdokservicesplugin/version/5.0.1/download/";
-                hash = "sha256-vAdRuDASeEIUju2JNDO4srLk7Eq1wp70CQ5hd4yomuI=";
+                version = "5.1.0";
+                url = "https://plugins.qgis.org/plugins/pdokservicesplugin/version/5.1.0/download/";
+                hash = "sha256-TgpNgGSOLKmsP+It0xLkZqFCrBD8/aZrMbyRj9ZD/0w=";
             };
         
 
@@ -225,9 +225,9 @@
         
 
             cadastre = {
-                version = "1.19.1";
-                url = "https://plugins.qgis.org/plugins/cadastre/version/1.19.1/download/";
-                hash = "sha256-JfmRXMqIcyezppFNGdRcUYjC0hvdJm9wOqF2GPPNkrI=";
+                version = "1.19.2";
+                url = "https://plugins.qgis.org/plugins/cadastre/version/1.19.2/download/";
+                hash = "sha256-RaG5Bl5hePmjUVc6RgZFE5TfVH//PCA80TJ25N1lpNg=";
             };
         
 
@@ -483,6 +483,13 @@
             };
         
 
+            Plugin-Builder-3 = {
+                version = "3.2.1";
+                url = "https://plugins.qgis.org/plugins/pluginbuilder3/version/3.2.1/download/";
+                hash = "sha256-60ZjJtc5aTgsTh3uJ5Qb1Eg1izNlkn4TB7TA7o3l+uU=";
+            };
+        
+
             Shape-Tools = {
                 version = "3.4.19";
                 url = "https://plugins.qgis.org/plugins/shapetools/version/3.4.19/download/";
@@ -638,9 +645,9 @@
         
 
             Pobieracz-danych-GUGiK = {
-                version = "1.2.0";
-                url = "https://plugins.qgis.org/plugins/pobieracz_danych_gugik/version/1.2.0/download/";
-                hash = "sha256-cs6sidg3ND+vENo3o0jBjPUO9iTMmrwr71ySKkzdeVs=";
+                version = "1.2.1";
+                url = "https://plugins.qgis.org/plugins/pobieracz_danych_gugik/version/1.2.1/download/";
+                hash = "sha256-F4FSRmQbf13zxyu+VC2kcl6GsXQA5KXNpQPapZqKkGE=";
             };
         
 
