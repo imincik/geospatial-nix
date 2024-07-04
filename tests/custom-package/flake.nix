@@ -12,7 +12,7 @@
   };
 
   inputs = {
-    geonix.url = "github:imincik/geospatial-nix";
+    geonix.url = "path:../../.";
     nixpkgs.follows = "geonix/nixpkgs";
   };
 
