@@ -3,7 +3,7 @@
 , callPackage
 , fetchFromGitHub
 , makeWrapper
-, wrapGAppsHook
+, wrapGAppsHook3
 
 , bison
 , blas
@@ -44,7 +44,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   nativeBuildInputs = [
     makeWrapper
-    wrapGAppsHook
+    wrapGAppsHook3
 
     bison
     flex
@@ -53,7 +53,7 @@ stdenv.mkDerivation (finalAttrs: {
     libmysqlclient # for `mysql_config`
     netcdf # for `nc-config`
     pkg-config
-  ] ++ (with python3Packages; [ python-dateutil numpy wxPython_4_2 ]);
+  ] ++ (with python3Packages; [ python-dateutil numpy wxpython ]);
 
   buildInputs = [
     blas

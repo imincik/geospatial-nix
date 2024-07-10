@@ -186,6 +186,8 @@
 
                     gdalMinimal = gdal-minimal;
                     postgresql = pg;
+
+                    jitSupport = false;
                   };
 
                   # all packages (single Postgresql version)

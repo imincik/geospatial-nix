@@ -17,12 +17,12 @@ buildGoModule rec {
     # fix default configuration file location
     substituteInPlace \
       main.go \
-      --replace "viper.AddConfigPath(\"/etc\")" "viper.AddConfigPath(\"$out/share/config\")"
+      --replace-fail "viper.AddConfigPath(\"/etc\")" "viper.AddConfigPath(\"$out/share/config\")"
 
     # fix assets location in configuration file
     substituteInPlace \
       config/pg_tileserv.toml.example \
-      --replace "# AssetsPath = \"/usr/share/pg_tileserv/assets\"" "AssetsPath = \"$out/share/assets\""
+      --replace-fail "# AssetsPath = \"/usr/share/pg_tileserv/assets\"" "AssetsPath = \"$out/share/assets\""
   '';
 
   ldflags = [ "-s" "-w" "-X main.programVersion=${version}" ];
