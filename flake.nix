@@ -61,6 +61,7 @@
                 "postgresql_13"
                 "postgresql_14"
                 "postgresql_15"
+                "postgresql_16"
               ];
               forAllPostgresqlVersions = f: genAttrs postgresqlVersions (postgresql: f postgresql);
 
