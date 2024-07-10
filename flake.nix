@@ -9,7 +9,7 @@
   };
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
 
     nixgl = {
       url = "github:nix-community/nixGL";
@@ -142,9 +142,6 @@
                   };
 
                   pyqt5 = py.pkgs.pyqt5.override {
-                    # FIX sip and pyqt5_sip compatibility. See: https://github.com/NixOS/nixpkgs/issues/273561
-                    # Remove this fix in NixOS 24.05.
-                    pyqt5_sip = py.pkgs.callPackage ./pkgs/qgis/pyqt5-sip.nix { };
                     withLocation = true;
                     withSerialPort = true;
                   };
