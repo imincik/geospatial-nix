@@ -57,9 +57,9 @@
         
 
             Mask = {
-                version = "1.10.2";
-                url = "https://plugins.qgis.org/plugins/mask/version/1.10.2/download/";
-                hash = "sha256-vViwmmB+ea5gejFT/Yh78k2ia8N/7dP5SL0XKsypyqw=";
+                version = "1.10.3";
+                url = "https://plugins.qgis.org/plugins/mask/version/1.10.3/download/";
+                hash = "sha256-sXpayF7T8lhwHvojw8wLHxRiG87ZuahpFVrCt3bQjZ8=";
             };
         
 
