@@ -14,7 +14,7 @@
   click,
   click-plugins,
   cligj,
-  cython_3,
+  cython,
   gdal,
   hypothesis,
   ipython,
@@ -47,15 +47,15 @@ buildPythonPackage rec {
   postPatch = ''
     # remove useless import statement requiring distutils to be present at the runtime
     substituteInPlace rasterio/rio/calc.py \
-      --replace "from distutils.version import LooseVersion" ""
+      --replace-fail "from distutils.version import LooseVersion" ""
 
     # relax dependency on yet non-packaged, RC version of numpy
     substituteInPlace pyproject.toml \
-      --replace "numpy==2.0.0rc1" "numpy"
+      --replace-fail "numpy==2.0.0rc1" "numpy"
   '';
 
   nativeBuildInputs = [
-    cython_3
+    cython
     gdal
     numpy
     setuptools
