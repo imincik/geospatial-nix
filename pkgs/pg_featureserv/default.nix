@@ -17,12 +17,12 @@ buildGoModule rec {
     # fix default configuration file location
     substituteInPlace \
       internal/conf/config.go \
-      --replace "viper.AddConfigPath(\"/etc\")" "viper.AddConfigPath(\"$out/share/config\")"
+      --replace-fail "viper.AddConfigPath(\"/etc\")" "viper.AddConfigPath(\"$out/share/config\")"
 
     # fix assets location in configuration file
     substituteInPlace \
       config/pg_featureserv.toml.example \
-      --replace "AssetsPath = \"./assets\"" "AssetsPath = \"$out/share/assets\""
+      --replace-fail "AssetsPath = \"./assets\"" "AssetsPath = \"$out/share/assets\""
   '';
 
   ldflags = [ "-s" "-w" "-X github.com/CrunchyData/pg_featureserv/conf.setVersion=${version}" ];
