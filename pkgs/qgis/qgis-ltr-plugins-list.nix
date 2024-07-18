@@ -57,9 +57,9 @@
         
 
             Mask = {
-                version = "1.10.3";
-                url = "https://plugins.qgis.org/plugins/mask/version/1.10.3/download/";
-                hash = "sha256-sXpayF7T8lhwHvojw8wLHxRiG87ZuahpFVrCt3bQjZ8=";
+                version = "1.10.4";
+                url = "https://plugins.qgis.org/plugins/mask/version/1.10.4/download/";
+                hash = "sha256-XJwTpX8tqS8IABP7Ih1hZpTMjYibOJ28t32bA4ZtQhM=";
             };
         
 
@@ -645,9 +645,9 @@
         
 
             Pobieracz-danych-GUGiK = {
-                version = "1.2.1";
-                url = "https://plugins.qgis.org/plugins/pobieracz_danych_gugik/version/1.2.1/download/";
-                hash = "sha256-F4FSRmQbf13zxyu+VC2kcl6GsXQA5KXNpQPapZqKkGE=";
+                version = "1.2.2";
+                url = "https://plugins.qgis.org/plugins/pobieracz_danych_gugik/version/1.2.2/download/";
+                hash = "sha256-laWiKJRRqeiazOhcVScEQZBvGvBxQalRuKR9CW84xAM=";
             };
         
 
@@ -666,9 +666,9 @@
         
 
             LF-Tools = {
-                version = "1.12.11";
-                url = "https://plugins.qgis.org/plugins/lftools/version/1.12.11/download/";
-                hash = "sha256-IIPwFSx/ClHZSjUx1zTt79fSUHybsWaHGCnEb2OFLXE=";
+                version = "1.12.12";
+                url = "https://plugins.qgis.org/plugins/lftools/version/1.12.12/download/";
+                hash = "sha256-7gjN8bq8QeDxf1dTP+ZRvpDG/9wuT6yH5EQAjrH/ceo=";
             };
         
 }
