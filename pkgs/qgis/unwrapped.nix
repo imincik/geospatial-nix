@@ -73,14 +73,14 @@ let
     urllib3
   ];
 in mkDerivation rec {
-  version = "3.36.3";
+  version = "3.38.1";
   pname = "qgis-unwrapped";
 
   src = fetchFromGitHub {
     owner = "qgis";
     repo = "QGIS";
     rev = "final-${lib.replaceStrings [ "." ] [ "_" ] version}";
-    hash = "sha256-uPyW/zzoyyd3SXvP+h9joJEv9DjRNJSaorx1rNmAaFQ=";
+    hash = "sha256-8fwLn77CK8w4srJNUilfJumDt2wCcQLs9D5/4tzpzPA=";
   };
 
   passthru = {
