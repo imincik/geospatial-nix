@@ -127,7 +127,7 @@
                   gdal = py.pkgs.toPythonModule (_gdal);
 
                   geopandas = py.pkgs.callPackage ./pkgs/geopandas {
-                    inherit fiona pyproj shapely;
+                    inherit pyogrio pyproj shapely;
                   };
 
                   owslib = py.pkgs.callPackage ./pkgs/owslib {
