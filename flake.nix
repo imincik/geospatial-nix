@@ -138,6 +138,10 @@
                     inherit shapely;
                   };
 
+                  pyogrio = py.pkgs.callPackage ./pkgs/pyogrio {
+                    inherit gdal;
+                  };
+
                   pyproj = py.pkgs.callPackage ./pkgs/pyproj {
                     inherit proj shapely;
                   };
@@ -164,6 +168,7 @@
                       geopandas
                       owslib
                       psycopg
+                      pyogrio
                       pyproj
                       pyqt5
                       rasterio
