@@ -254,16 +254,6 @@
 
               qgis-ltr = pkgs.callPackage ./pkgs/qgis/ltr.nix { qgis-ltr-unwrapped = qgis-ltr-unwrapped; };
 
-              # QGIS-NEXT
-              qgis-next-unwrapped = pkgs.libsForQt5.callPackage ./pkgs/qgis/unwrapped-3_38.nix {
-                inherit geos gdal libspatialindex libspatialite pdal proj;
-
-                python3 = qgis-python;
-                withGrass = false;
-              };
-
-              qgis-next = pkgs.callPackage ./pkgs/qgis/3_38.nix { qgis-unwrapped = qgis-next-unwrapped; };
-
               # QGIS plugins
               qgis-plugins =
                 let
@@ -328,8 +318,6 @@
                   qgis-unwrapped
                   qgis-ltr
                   qgis-ltr-unwrapped
-                  qgis-next
-                  qgis-next-unwrapped
 
                   # Meta packages
                   all-packages
