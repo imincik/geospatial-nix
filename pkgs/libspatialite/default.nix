@@ -11,6 +11,7 @@
 , proj
 , sqlite
 , libiconv
+, zlib
 }:
 
 stdenv.mkDerivation rec {
@@ -38,6 +39,7 @@ stdenv.mkDerivation rec {
     minizip
     proj
     sqlite
+    zlib
   ] ++ lib.optionals stdenv.isDarwin [
     libiconv
   ];
