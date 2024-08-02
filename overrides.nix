@@ -173,7 +173,7 @@ rec {
 
     # >>> CUSTOMIZE HERE
 
-  })).override { inherit fiona pyproj shapely; };
+  })).override { inherit pyogrio pyproj shapely; };
 
   #####################################################################
   ### PYTHON3-OWSLIB
@@ -194,6 +194,16 @@ rec {
     # >>> CUSTOMIZE HERE
 
   })).override { inherit shapely; };
+
+  #####################################################################
+  ### PYTHON3-PYOGRIO
+  #####################################################################
+
+  pyogrio = (geopkgs."${pythonVersion}-pyogrio".overrideAttrs (old: {
+
+    # >>> CUSTOMIZE HERE
+
+  })).override { inherit gdal; };
 
   #####################################################################
   ### PYTHON3-PYPROJ
