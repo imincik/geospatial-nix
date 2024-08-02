@@ -92,9 +92,9 @@
         
 
             Plugin-Reloader = {
-                version = "0.9.4";
-                url = "https://plugins.qgis.org/plugins/plugin_reloader/version/0.9.4/download/";
-                hash = "sha256-PHWLnszghhhvOKz6lG87sqnV37TwBPRJnoGLbqU7pNI=";
+                version = "0.10";
+                url = "https://plugins.qgis.org/plugins/plugin_reloader/version/0.10/download/";
+                hash = "sha256-xcibvv4rBnRVDw2KwNJTa1QBi8cXVgrD6dcOEjkVia4=";
             };
         
 
@@ -113,9 +113,9 @@
         
 
             QGIS-Cloud-Plugin = {
-                version = "3.9.10";
-                url = "https://plugins.qgis.org/plugins/qgiscloud/version/3.9.10/download/";
-                hash = "sha256-jqiaqizXRpoQ4Sld0nSOSfAcXsF7eQbaXgKMbQpnX30=";
+                version = "3.9.11";
+                url = "https://plugins.qgis.org/plugins/qgiscloud/version/3.9.11/download/";
+                hash = "sha256-luI9JbJ1XFk3fWDnNYZ2TVe0s9zV02Z99QvM20hF844=";
             };
         
 
@@ -155,9 +155,9 @@
         
 
             PDOK-services-plugin = {
-                version = "5.1.0";
-                url = "https://plugins.qgis.org/plugins/pdokservicesplugin/version/5.1.0/download/";
-                hash = "sha256-TgpNgGSOLKmsP+It0xLkZqFCrBD8/aZrMbyRj9ZD/0w=";
+                version = "5.1.1";
+                url = "https://plugins.qgis.org/plugins/pdokservicesplugin/version/5.1.1/download/";
+                hash = "sha256-KqwqX5SQhgbSOrhtIeQcC7VhUfif7yGqCbpbit4YYeY=";
             };
         
 
@@ -323,9 +323,9 @@
         
 
             Networks = {
-                version = "2.7.19";
-                url = "https://plugins.qgis.org/plugins/networks/version/2.7.19/download/";
-                hash = "sha256-wZkTBmCSm/aOAYQ9kWZPwwWaIRn4qzEbxxqjoXokQ9U=";
+                version = "2.7.20";
+                url = "https://plugins.qgis.org/plugins/networks/version/2.7.20/download/";
+                hash = "sha256-GBYqRCkfg97sXeS424cQhI/QXLrtdrVDlXP2ZontMGw=";
             };
         
 
@@ -505,9 +505,9 @@
         
 
             Search-Layers = {
-                version = "3.0.16";
-                url = "https://plugins.qgis.org/plugins/searchlayers/version/3.0.16/download/";
-                hash = "sha256-J/tA7D6rbpQh6MUWt6elmuuUwbM182+1i1tXR4OL9sw=";
+                version = "3.0.18";
+                url = "https://plugins.qgis.org/plugins/searchlayers/version/3.0.18/download/";
+                hash = "sha256-kDRhUafcbvqLMLWMnwTOP2tJexjFaoX7gKMggmLX+jo=";
             };
         
 
@@ -540,9 +540,9 @@
         
 
             AcATaMa = {
-                version = "24.6";
-                url = "https://plugins.qgis.org/plugins/AcATaMa/version/24.6/download/";
-                hash = "sha256-JLrNdryXwu1joW4NWKNXsgsZ64cx87WFhF0jJn8mJeA=";
+                version = "24.7";
+                url = "https://plugins.qgis.org/plugins/AcATaMa/version/24.7/download/";
+                hash = "sha256-I9iJx96AvuOTUOkCJu/cb+w0mbVbo0EMPBFwwkA7HaI=";
             };
         
 
@@ -582,9 +582,9 @@
         
 
             ORS-Tools = {
-                version = "1.8.3";
-                url = "https://plugins.qgis.org/plugins/ORStools/version/1.8.3/download/";
-                hash = "sha256-X5jLDxtu+2GDKA78rSWLjyXlu5mPsnG/m3f3eeP8vxY=";
+                version = "1.8.4";
+                url = "https://plugins.qgis.org/plugins/ORStools/version/1.8.4/download/";
+                hash = "sha256-OSfiWMk3VXC5IfyovBEn7iBpyJ7oRKw6AKJeC3Mrhkc=";
             };
         
 
@@ -631,9 +631,9 @@
         
 
             MapTiler = {
-                version = "3.3";
-                url = "https://plugins.qgis.org/plugins/qgis-maptiler-plugin/version/3.3/download/";
-                hash = "sha256-pplWgc0yIxZn8SQY1njqgzDN/h8LbAtnMl/8zIyRD+4=";
+                version = "3.3.1";
+                url = "https://plugins.qgis.org/plugins/qgis-maptiler-plugin/version/3.3.1/download/";
+                hash = "sha256-35n5FtL2Xk1gEdiF1x5c4RZBOPI3kkhh/1rC/oDnHAc=";
             };
         
 
@@ -669,6 +669,20 @@
                 version = "1.12.12";
                 url = "https://plugins.qgis.org/plugins/lftools/version/1.12.12/download/";
                 hash = "sha256-7gjN8bq8QeDxf1dTP+ZRvpDG/9wuT6yH5EQAjrH/ceo=";
+            };
+        
+
+            Mapflow = {
+                version = "2.6.1";
+                url = "https://plugins.qgis.org/plugins/mapflow/version/2.6.1/download/";
+                hash = "sha256-DGpuOqrPD4JT0AyX8E8jKb0+ONn0VjiB/Upq76BCYeA=";
+            };
+        
+
+            Google-Street-View-Layer = {
+                version = "0.1";
+                url = "https://plugins.qgis.org/plugins/google-street-view-layer-master/version/0.1/download/";
+                hash = "sha256-n6oyg/Qcqn02o0GRPo8B4NURP8i/kQJcmVsqsX0Kx50=";
             };
         
 }
