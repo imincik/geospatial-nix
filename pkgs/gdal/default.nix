@@ -15,6 +15,7 @@
 , useNetCDF ? (!useMinimalFeatures)
 , useArmadillo ? (!useMinimalFeatures)
 , useJava ? (!useMinimalFeatures)
+, useECW ? false
 
 , ant
 , bison
@@ -75,6 +76,8 @@
 , xercesc
 , zlib
 , zstd
+
+, ecw-sdk
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -117,6 +120,8 @@ stdenv.mkDerivation (finalAttrs: {
     # This is not strictly needed as the Java bindings wouldn't build anyway if
     # ant/jdk were not available.
     "-DBUILD_JAVA_BINDINGS=OFF"
+  ] ++ lib.optionals (useECW) [
+    "-DECW_ROOT=${ecw-sdk}"
   ];
 
   buildInputs =
@@ -144,6 +149,7 @@ stdenv.mkDerivation (finalAttrs: {
       ];
       netCdfDeps = lib.optionals useNetCDF [ netcdf ];
       armadilloDeps = lib.optionals useArmadillo [ armadillo ];
+      ecwDeps = lib.optionals useECW [ ecw-sdk ];
 
       darwinDeps = lib.optionals stdenv.isDarwin [ libiconv ];
       nonDarwinDeps = lib.optionals (!stdenv.isDarwin) ([
@@ -195,6 +201,7 @@ stdenv.mkDerivation (finalAttrs: {
     ++ hdfDeps
     ++ netCdfDeps
     ++ armadilloDeps
+    ++ ecwDeps
     ++ darwinDeps
     ++ nonDarwinDeps;
 
@@ -266,6 +273,14 @@ stdenv.mkDerivation (finalAttrs: {
     "test_ogr_parquet_write_crs_without_id_in_datum_ensemble_members"
   ] ++ lib.optionals (!usePoppler) [
     "test_pdf_jpx_compression"
+  ] ++ lib.optionals (useECW) [
+    # requires internet connection
+    "test_ecw_online_6"
+    # tests are failing
+    # see: https://github.com/OSGeo/gdal/issues/10526
+    "test_ecw_22"
+    "test_ecw_25"
+    "test_ecw_26"
   ];
   postCheck = ''
     popd # autotest

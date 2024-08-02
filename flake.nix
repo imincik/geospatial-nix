@@ -80,16 +80,20 @@
               # Core libs
               gdal = pkgs.callPackage ./pkgs/gdal {
                 inherit geos libgeotiff libspatialite proj tiledb;
+                ecw-sdk = ecw-sdk;
                 useJava = false;
               };
               gdal-minimal = pkgs.callPackage ./pkgs/gdal {
                 inherit geos libgeotiff libspatialite proj tiledb;
+                ecw-sdk = ecw-sdk;
                 useMinimalFeatures = true;
               };
               gdal-master = (pkgs.callPackage ./pkgs/gdal/master.nix {
                 inherit gdal;
               }).master;
               _gdal = gdal;
+
+              ecw-sdk = pkgs.callPackage ./pkgs/gdal/ecw.nix { };
 
               geos = pkgs.callPackage ./pkgs/geos { };
 
@@ -112,7 +116,6 @@
               };
 
               proj = pkgs.callPackage ./pkgs/proj { };
-
 
               # Python packages
               python-packages = forAllPythonVersions (python:
