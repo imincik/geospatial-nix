@@ -90,7 +90,11 @@ stdenv.mkDerivation (finalAttrs: {
 
   strictDeps = true;
 
-  patches = lib.optionals stdenv.isDarwin [
+  patches = [
+    # Backport of https://github.com/OSGeo/grass/pull/3899
+    # by @landam . Remove for GRASS 8.5.
+    ./grass_config_dir.patch
+  ] ++ lib.optionals stdenv.isDarwin [
     # Fix conversion of const char* to unsigned int.
     ./clang-integer-conversion.patch
   ];
