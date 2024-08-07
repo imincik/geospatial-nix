@@ -223,6 +223,23 @@
                 inherit gdal geos pdal proj;
               };
 
+              grass-plugins =
+                let
+                  plugins = import ./pkgs/grass/plugins-list.nix;
+                in
+                mapAttrs'
+                  (
+                    name: value: {
+                      name = "grass-plugin-${name}";
+                      value = pkgs.callPackage ./pkgs/grass/plugins.nix {
+                        name = name;
+                        plugin = value;
+
+                        inherit grass;
+                      };
+                    }
+                  )
+                  plugins;
 
               # QGIS
               qgis-python =
@@ -314,6 +331,7 @@
 
                   # Applications
                   grass
+                  grass-plugins
                   qgis
                   qgis-unwrapped
                   qgis-ltr
@@ -325,6 +343,9 @@
                   # nixGL
                   nixGL;
               }
+
+            # GRASS plugins
+            // grass-plugins
 
             # QGIS plugins
             // qgis-plugins
