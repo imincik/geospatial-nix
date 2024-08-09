@@ -6,7 +6,7 @@
 , wrapGAppsHook3
 , wrapQtAppsHook
 
-, withGrass ? true
+, withGrass ? false
 , withWebKit ? false
 
 , bison
