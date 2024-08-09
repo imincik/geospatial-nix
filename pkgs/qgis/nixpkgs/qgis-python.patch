@@ -19,11 +19,12 @@ index 850ff7c..3ffd5ef 100644
  , qca-qt5
  , qscintilla
  , qt3d
-@@ -48,14 +49,8 @@
+@@ -48,15 +49,8 @@
  }:
  
  let
 -  py = python311.override {
+-    self = py;
 -    packageOverrides = self: super: {
 -      pyqt5 = super.pyqt5.override {
 -        withLocation = true;

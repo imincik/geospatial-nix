@@ -64,9 +64,9 @@
         
 
             Lizmap = {
-                version = "4.3.19";
-                url = "https://plugins.qgis.org/plugins/lizmap/version/4.3.19/download/";
-                hash = "sha256-qbSlsGyDnDw1becVPIchDNAS2w1Sk2KnoZAM0xbRpUA=";
+                version = "4.3.20";
+                url = "https://plugins.qgis.org/plugins/lizmap/version/4.3.20/download/";
+                hash = "sha256-W0ByHQEChL0Lj3KWCMbHyLW3zCmceJXXjvfwCkQF5dM=";
             };
         
 
@@ -176,9 +176,9 @@
         
 
             Semi-Automatic-Classification-Plugin = {
-                version = "8.2.2";
-                url = "https://plugins.qgis.org/plugins/SemiAutomaticClassificationPlugin/version/8.2.2/download/";
-                hash = "sha256-Govl28UR+zS67YUDsuey3UNR40+0zSYH+n48KDIjNRc=";
+                version = "8.3.0";
+                url = "https://plugins.qgis.org/plugins/SemiAutomaticClassificationPlugin/version/8.3.0/download/";
+                hash = "sha256-3x0dRPKGYjyaMKIJl6RfRy7AAOAfHQq9I9CZjAxz/B8=";
             };
         
 
@@ -323,9 +323,9 @@
         
 
             Networks = {
-                version = "2.7.20";
-                url = "https://plugins.qgis.org/plugins/networks/version/2.7.20/download/";
-                hash = "sha256-GBYqRCkfg97sXeS424cQhI/QXLrtdrVDlXP2ZontMGw=";
+                version = "2.7.21";
+                url = "https://plugins.qgis.org/plugins/networks/version/2.7.21/download/";
+                hash = "sha256-ltGqhHoI7UP1MuxL/jO3gh/BmnuhnH8/M4uc3Qu/vTM=";
             };
         
 
@@ -372,9 +372,9 @@
         
 
             qgis2web = {
-                version = "3.21.0";
-                url = "https://plugins.qgis.org/plugins/qgis2web/version/3.21.0/download/";
-                hash = "sha256-7XyaXDvhtYWF2sH72DsUL8/d7EIps9MIkJVCS0wkwj0=";
+                version = "3.22.0";
+                url = "https://plugins.qgis.org/plugins/qgis2web/version/3.22.0/download/";
+                hash = "sha256-bZo63QWhk15l1TH7taGlq5K0Uq+zo9fQ50C8XiEhQnU=";
             };
         
 
@@ -561,9 +561,9 @@
         
 
             LAStools = {
-                version = "2.1.0";
-                url = "https://plugins.qgis.org/plugins/LAStools/version/2.1.0/download/";
-                hash = "sha256-M5ufBRHjwjsZe2g//RjzfupA31zHRjwhipO20m6ihTo=";
+                version = "2.1.1";
+                url = "https://plugins.qgis.org/plugins/LAStools/version/2.1.1/download/";
+                hash = "sha256-ph+qOFT9/GgAnVVb2oDyExoNZhc3MMDu/ufZj9eVyDQ=";
             };
         
 
@@ -610,9 +610,9 @@
         
 
             Planet_Explorer = {
-                version = "2.3.3";
-                url = "https://plugins.qgis.org/plugins/planet_explorer/version/2.3.3/download/";
-                hash = "sha256-SAyri+BW405VHxCWGOakMzgxOTw7ap2w2OhpXLaxqow=";
+                version = "2.3.4";
+                url = "https://plugins.qgis.org/plugins/planet_explorer/version/2.3.4/download/";
+                hash = "sha256-Ijl84pl0Fmui2XTlq1/FxTugw6kHEBGhfW0UabMbJNI=";
             };
         
 
@@ -676,6 +676,13 @@
                 version = "2.6.1";
                 url = "https://plugins.qgis.org/plugins/mapflow/version/2.6.1/download/";
                 hash = "sha256-DGpuOqrPD4JT0AyX8E8jKb0+ONn0VjiB/Upq76BCYeA=";
+            };
+        
+
+            OpenTopography-DEM-Downloader = {
+                version = "2.0";
+                url = "https://plugins.qgis.org/plugins/OpenTopography-DEM-Downloader/version/2.0/download/";
+                hash = "sha256-oPUPA/UWK/CFUoIz6JrgtCgh3GElRMcxVNLDXuvYq48=";
             };
         
 
