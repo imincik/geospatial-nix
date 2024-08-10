@@ -3,25 +3,25 @@
 , symlinkJoin
 
 , extraPythonPackages ? (ps: [ ])
-, qgis-ltr-unwrapped
+, qgis-unwrapped
 
 , libsForQt5
 }:
 
 symlinkJoin rec {
 
-  inherit (qgis-ltr-unwrapped) version src;
+  inherit (qgis-unwrapped) version src;
   name = "qgis-${version}";
 
-  paths = [ qgis-ltr-unwrapped ];
+  paths = [ qgis-unwrapped ];
 
   nativeBuildInputs = [
     makeWrapper
-    qgis-ltr-unwrapped.py.pkgs.wrapPython
+    qgis-unwrapped.py.pkgs.wrapPython
   ];
 
   # extend to add to the python environment of QGIS without rebuilding QGIS application.
-  pythonInputs = qgis-ltr-unwrapped.pythonBuildInputs ++ (extraPythonPackages qgis-ltr-unwrapped.py.pkgs);
+  pythonInputs = qgis-unwrapped.pythonBuildInputs ++ (extraPythonPackages qgis-unwrapped.py.pkgs);
 
   postBuild = ''
     # unpackPhase
@@ -34,9 +34,9 @@ symlinkJoin rec {
   '';
 
   passthru = {
-    unwrapped = qgis-ltr-unwrapped;
+    unwrapped = qgis-unwrapped;
     tests.qgis-ltr = nixosTests.qgis-ltr;
   };
 
-  inherit (qgis-ltr-unwrapped) meta;
+  inherit (qgis-unwrapped) meta;
 }

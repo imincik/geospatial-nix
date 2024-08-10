@@ -269,7 +269,7 @@
                 withGrass = false;
               };
 
-              qgis-ltr = pkgs.callPackage ./pkgs/qgis/ltr.nix { qgis-ltr-unwrapped = qgis-ltr-unwrapped; };
+              qgis-ltr = pkgs.callPackage ./pkgs/qgis/ltr.nix { qgis-unwrapped = qgis-ltr-unwrapped; };
 
               # QGIS plugins
               qgis-plugins =
