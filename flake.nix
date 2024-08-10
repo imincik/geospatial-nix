@@ -256,7 +256,6 @@
                 inherit geos gdal libspatialindex libspatialite pdal proj;
 
                 python3 = qgis-python;
-                withGrass = false;
               };
 
               qgis = pkgs.callPackage ./pkgs/qgis { qgis-unwrapped = qgis-unwrapped; };
@@ -266,7 +265,6 @@
                 inherit geos gdal libspatialindex libspatialite pdal proj;
 
                 python3 = qgis-python;
-                withGrass = false;
               };
 
               qgis-ltr = pkgs.callPackage ./pkgs/qgis/ltr.nix { qgis-unwrapped = qgis-ltr-unwrapped; };
