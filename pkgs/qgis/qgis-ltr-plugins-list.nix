@@ -127,9 +127,9 @@
         
 
             NumericalDigitize = {
-                version = "0.4.7";
-                url = "https://plugins.qgis.org/plugins/numericalDigitize/version/0.4.7/download/";
-                hash = "sha256-3RUn+KDDbW3UeAqopLScGjRymkmAcJ0DTI6l8Rt0iEQ=";
+                version = "0.4.8";
+                url = "https://plugins.qgis.org/plugins/numericalDigitize/version/0.4.8/download/";
+                hash = "sha256-kfkgKuKKlKERN+4FUb9JRq+6h7KJT+EYBfcsOf5GDGQ=";
             };
         
 
@@ -428,9 +428,9 @@
         
 
             TUFLOW = {
-                version = "3.11.1";
-                url = "https://plugins.qgis.org/plugins/tuflow/version/3.11.1/download/";
-                hash = "sha256-MQP8sO4GxV7qB21TXWWagKTSEzoUFHcvEwqL72rSAII=";
+                version = "3.12";
+                url = "https://plugins.qgis.org/plugins/tuflow/version/3.12/download/";
+                hash = "sha256-ZHSGCYLJQCgokgYG6HB3zULYJmOZZKBgMkTS58wFiXE=";
             };
         
 
@@ -477,9 +477,9 @@
         
 
             QField-Sync = {
-                version = "v4.9.1";
-                url = "https://plugins.qgis.org/plugins/qfieldsync/version/v4.9.1/download/";
-                hash = "sha256-VrQD9IUA5xz6Q7kByAd9DN2Y2Y532OW9xMs2j+TW824=";
+                version = "v4.10.1";
+                url = "https://plugins.qgis.org/plugins/qfieldsync/version/v4.10.1/download/";
+                hash = "sha256-tZajHa14QBW51Rkm2nr9fJPDoaQ40LAC/iEhv9x/hgs=";
             };
         
 
