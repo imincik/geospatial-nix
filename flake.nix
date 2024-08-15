@@ -236,6 +236,7 @@
                         plugin = value;
 
                         inherit grass;
+                        python3-gdal = python-packages.python3.gdal;
                       };
                     }
                   )

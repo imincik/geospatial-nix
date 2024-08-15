@@ -798,6 +798,12 @@
             };
         
 
+            r-in-vect = {
+                name = "r.in.vect";
+                description = ''Converts an external vector layer to a raster layer using gdal.Rasterize (the vector layer will be reprojected first if its CRS is different from the current mapset), and imports this raster layer.'';
+            };
+        
+
             r-in-wcs = {
                 name = "r.in.wcs";
                 description = ''Downloads and imports coverage from WCS server.'';

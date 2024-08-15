@@ -15,6 +15,7 @@
 , pkg-config
 , postgresql
 , python3
+, python3-gdal
 }:
 
 let
@@ -53,6 +54,7 @@ stdenv.mkDerivation {
     # python
     matplotlib
     numpy
+    python3-gdal
     six
   ];
 
@@ -64,6 +66,7 @@ stdenv.mkDerivation {
     ++ lib.optionals (name == "r-edm-eval") [ pandas ]
     ++ lib.optionals (name == "i-eodag") [ pytz ]
     ++ lib.optionals (name == "wx-metadata") [ wxpython ]
+    ++ lib.optionals (name == "r-in-vect") [ python3-gdal ]
 
     # non python
     ++ lib.optionals (name == "r-out-tiff") [ libtiff ]
