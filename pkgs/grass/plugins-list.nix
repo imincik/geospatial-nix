@@ -1548,12 +1548,6 @@
             };
         
 
-            t-stac = {
-                name = "t.stac";
-                description = ''None'';
-            };
-        
-
             v-area-weigh = {
                 name = "v.area.weigh";
                 description = ''Rasterize vector areas using weights'';
