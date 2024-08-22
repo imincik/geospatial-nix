@@ -300,12 +300,6 @@
             };
         
 
-            i-sentinel = {
-                name = "i.sentinel";
-                description = ''None'';
-            };
-        
-
             i-signature-copy = {
                 name = "i.signature.copy";
                 description = ''Copies signature file from a group/subgroup to another group/subgroup.'';
