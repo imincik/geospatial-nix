@@ -56,7 +56,7 @@
 
             g-download-location = {
                 name = "g.download.location";
-                description = ''Download GRASS Location from the web Get GRASS Location from an URL or file path'';
+                description = ''Download GRASS project (location) from the web Get GRASS project from an URL or file path'';
             };
         
 
@@ -1551,6 +1551,12 @@
             t-rast-whatcsv = {
                 name = "t.rast.whatcsv";
                 description = ''Sample a space time raster dataset at specific space-time point coordinates from a csv file and write the output to stdout'';
+            };
+        
+
+            t-stac = {
+                name = "t.stac";
+                description = ''None'';
             };
         
 
