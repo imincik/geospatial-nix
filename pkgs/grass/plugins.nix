@@ -67,6 +67,8 @@ stdenv.mkDerivation {
     ++ lib.optionals (name == "i-eodag") [ pytz ]
     ++ lib.optionals (name == "wx-metadata") [ wxpython ]
     ++ lib.optionals (name == "r-in-vect") [ python3-gdal ]
+    ++ lib.optionals (name == "i-landsat") [ pyyaml]
+    # ++ lib.optionals (name == "i-sentinel") [ pystac ]
 
     # non python
     ++ lib.optionals (name == "r-out-tiff") [ libtiff ]

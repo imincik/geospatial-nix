@@ -56,7 +56,7 @@
 
             g-download-location = {
                 name = "g.download.location";
-                description = ''Download GRASS Location from the web Get GRASS Location from an URL or file path'';
+                description = ''Download GRASS project (location) from the web Get GRASS project from an URL or file path'';
             };
         
 
@@ -297,12 +297,6 @@
             i-segment-uspo = {
                 name = "i.segment.uspo";
                 description = ''Unsupervised segmentation parameter optimization'';
-            };
-        
-
-            i-sentinel = {
-                name = "i.sentinel";
-                description = ''None'';
             };
         
 

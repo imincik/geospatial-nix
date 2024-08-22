@@ -64,9 +64,9 @@
         
 
             Lizmap = {
-                version = "4.3.20";
-                url = "https://plugins.qgis.org/plugins/lizmap/version/4.3.20/download/";
-                hash = "sha256-W0ByHQEChL0Lj3KWCMbHyLW3zCmceJXXjvfwCkQF5dM=";
+                version = "4.3.21";
+                url = "https://plugins.qgis.org/plugins/lizmap/version/4.3.21/download/";
+                hash = "sha256-Z20ytfNPeZAXgJAmJOyaWY803uVWHp4fM3sOJL365Qs=";
             };
         
 
@@ -225,9 +225,9 @@
         
 
             cadastre = {
-                version = "1.19.2";
-                url = "https://plugins.qgis.org/plugins/cadastre/version/1.19.2/download/";
-                hash = "sha256-RaG5Bl5hePmjUVc6RgZFE5TfVH//PCA80TJ25N1lpNg=";
+                version = "1.20.0";
+                url = "https://plugins.qgis.org/plugins/cadastre/version/1.20.0/download/";
+                hash = "sha256-enBLTBf9V5Q65yqW1eEVbNf6qIPe5ghsDJUHFTReyFU=";
             };
         
 
@@ -456,9 +456,9 @@
         
 
             Lat-Lon-Tools = {
-                version = "3.6.20";
-                url = "https://plugins.qgis.org/plugins/latlontools/version/3.6.20/download/";
-                hash = "sha256-qS6i7SJ4nZC/6InodC+sBShqX4a0F/ga1POxaW6uv4A=";
+                version = "3.7.0";
+                url = "https://plugins.qgis.org/plugins/latlontools/version/3.7.0/download/";
+                hash = "sha256-J8BlJ8pQ9ZeN+gmFvN1xKBRMC+erxdv2c1pU0OpsSLI=";
             };
         
 
@@ -491,9 +491,9 @@
         
 
             Shape-Tools = {
-                version = "3.4.19";
-                url = "https://plugins.qgis.org/plugins/shapetools/version/3.4.19/download/";
-                hash = "sha256-cqRxzX3l4qVfcb9ydMgooYjKN/IR2jKrK7TukK0PMtY=";
+                version = "3.5.0";
+                url = "https://plugins.qgis.org/plugins/shapetools/version/3.5.0/download/";
+                hash = "sha256-jFs6YC6cZN/siTkC4YRiL492ooCJr6L7tsIxAsAb1Gc=";
             };
         
 
@@ -631,9 +631,9 @@
         
 
             MapTiler = {
-                version = "3.3.1";
-                url = "https://plugins.qgis.org/plugins/qgis-maptiler-plugin/version/3.3.1/download/";
-                hash = "sha256-35n5FtL2Xk1gEdiF1x5c4RZBOPI3kkhh/1rC/oDnHAc=";
+                version = "3.3.2";
+                url = "https://plugins.qgis.org/plugins/qgis-maptiler-plugin/version/3.3.2/download/";
+                hash = "sha256-d1drAa64c9JME3Lx6gS4FCjAwEFpm9fOB9bH52QoRqY=";
             };
         
 
@@ -673,9 +673,9 @@
         
 
             Mapflow = {
-                version = "2.6.1";
-                url = "https://plugins.qgis.org/plugins/mapflow/version/2.6.1/download/";
-                hash = "sha256-DGpuOqrPD4JT0AyX8E8jKb0+ONn0VjiB/Upq76BCYeA=";
+                version = "2.6.2";
+                url = "https://plugins.qgis.org/plugins/mapflow/version/2.6.2/download/";
+                hash = "sha256-3D8WdVK8Z7bBrxL8aEX1bbh/xOPnFd3JM6nDoqKGIUg=";
             };
         
 
