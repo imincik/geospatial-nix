@@ -37,6 +37,7 @@
           # * flake.nix: packages
           # * flake.nix: python-packages.all-packages or postgresql-packages.all-packages
           # * overrides.nix
+          # * pkgs/<PKG>/nixpkgs/files.txt
 
           #
           ### PACKAGES ###
