@@ -151,6 +151,8 @@
                     withSerialPort = true;
                   };
 
+                  pystac = py.pkgs.callPackage ./pkgs/pystac { };
+
                   rasterio = py.pkgs.callPackage ./pkgs/rasterio {
                     inherit gdal shapely;
                   };
@@ -171,6 +173,7 @@
                       pyogrio
                       pyproj
                       pyqt5
+                      pystac
                       rasterio
                       shapely
                     ];
