@@ -323,9 +323,9 @@
         
 
             Networks = {
-                version = "2.7.21";
-                url = "https://plugins.qgis.org/plugins/networks/version/2.7.21/download/";
-                hash = "sha256-ltGqhHoI7UP1MuxL/jO3gh/BmnuhnH8/M4uc3Qu/vTM=";
+                version = "2.7.22";
+                url = "https://plugins.qgis.org/plugins/networks/version/2.7.22/download/";
+                hash = "sha256-vAapU1DAyPOkoXePg5g9bqpyTbRdsZH6w7ldZqRsJJI=";
             };
         
 
@@ -463,9 +463,9 @@
         
 
             AnotherDXFImporter = {
-                version = "1.3.1";
-                url = "https://plugins.qgis.org/plugins/AnotherDXF2Shape/version/1.3.1/download/";
-                hash = "sha256-fDAjOiaLql3kC9tJJjAHhhTtNRLWecDjBxYwUW1ugkg=";
+                version = "1.3.2";
+                url = "https://plugins.qgis.org/plugins/AnotherDXF2Shape/version/1.3.2/download/";
+                hash = "sha256-nmwaqlTy8A0D69lnvE5ho0Kh9Y2c9JB7pqjgKC7NFtU=";
             };
         
 
@@ -519,9 +519,9 @@
         
 
             SRTM-Downloader = {
-                version = "3.2.2";
-                url = "https://plugins.qgis.org/plugins/SRTM-Downloader/version/3.2.2/download/";
-                hash = "sha256-Tsw5i2Ond2JSW8fs+GVBCtzuoJwc+dBmbZuW3QtRQFM=";
+                version = "3.2.3";
+                url = "https://plugins.qgis.org/plugins/SRTM-Downloader/version/3.2.3/download/";
+                hash = "sha256-CZs4MjS296C+D7ZweniA+9E3tmuMGeV6e6q5xjWnmzk=";
             };
         
 
@@ -547,9 +547,9 @@
         
 
             HCMGIS = {
-                version = "24.1.12";
-                url = "https://plugins.qgis.org/plugins/HCMGIS/version/24.1.12/download/";
-                hash = "sha256-GSx22o+2fOMwxhhVo2gdmHFdOzewME1ip+ZBru42wYo=";
+                version = "24.8.27";
+                url = "https://plugins.qgis.org/plugins/HCMGIS/version/24.8.27/download/";
+                hash = "sha256-fXJkCir2XiLsX6MmBzG+hUgabB+zc+2iwKqCAe3vFOs=";
             };
         
 
@@ -568,9 +568,9 @@
         
 
             KML-Tools = {
-                version = "3.1.33";
-                url = "https://plugins.qgis.org/plugins/kmltools/version/3.1.33/download/";
-                hash = "sha256-sUioqLmhHqN9Vr2L7Md51XzUtGd+GPa59h6AALo5L3g=";
+                version = "3.2.2";
+                url = "https://plugins.qgis.org/plugins/kmltools/version/3.2.2/download/";
+                hash = "sha256-tVoGPXdGoM9bzFmBOXVoKXaw8sVSXRmMUnVH31FT8fU=";
             };
         
 
