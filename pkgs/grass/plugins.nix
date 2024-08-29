@@ -15,7 +15,8 @@
 , pkg-config
 , postgresql
 , python3
-, python3-gdal
+
+, geopkgs-python3
 }:
 
 let
@@ -54,9 +55,10 @@ stdenv.mkDerivation {
     # python
     matplotlib
     numpy
-    python3-gdal
     six
-  ];
+  ] ++ (with geopkgs-python3; [
+    gdal
+  ]);
 
   # extra plugin dependencies (both Python and non-python)
   propagatedBuildInputs = with python3.pkgs; [ ]
@@ -66,7 +68,7 @@ stdenv.mkDerivation {
     ++ lib.optionals (name == "r-edm-eval") [ pandas ]
     ++ lib.optionals (name == "i-eodag") [ pytz ]
     ++ lib.optionals (name == "wx-metadata") [ wxpython ]
-    ++ lib.optionals (name == "r-in-vect") [ python3-gdal ]
+    ++ lib.optionals (name == "r-in-vect") [ (geopkgs-python3.gdal) ]
     ++ lib.optionals (name == "i-landsat") [ pyyaml]
     # ++ lib.optionals (name == "i-sentinel") [ pystac ]
 
