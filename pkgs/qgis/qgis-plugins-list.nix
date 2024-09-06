@@ -64,9 +64,9 @@
         
 
             Lizmap = {
-                version = "4.3.21";
-                url = "https://plugins.qgis.org/plugins/lizmap/version/4.3.21/download/";
-                hash = "sha256-Z20ytfNPeZAXgJAmJOyaWY803uVWHp4fM3sOJL365Qs=";
+                version = "4.3.22";
+                url = "https://plugins.qgis.org/plugins/lizmap/version/4.3.22/download/";
+                hash = "sha256-W5sPoR9UtMhsRAYS4k08KxB680MsgO0FnD8WGWoIhDM=";
             };
         
 
@@ -92,9 +92,9 @@
         
 
             Plugin-Reloader = {
-                version = "0.10";
-                url = "https://plugins.qgis.org/plugins/plugin_reloader/version/0.10/download/";
-                hash = "sha256-xcibvv4rBnRVDw2KwNJTa1QBi8cXVgrD6dcOEjkVia4=";
+                version = "0.11";
+                url = "https://plugins.qgis.org/plugins/plugin_reloader/version/0.11/download/";
+                hash = "sha256-MjqEwsmC5kLLYje2Li9YAVZOD3XjkwlpUmPhrHVNJYs=";
             };
         
 
@@ -113,9 +113,9 @@
         
 
             QGIS-Cloud-Plugin = {
-                version = "3.9.11";
-                url = "https://plugins.qgis.org/plugins/qgiscloud/version/3.9.11/download/";
-                hash = "sha256-luI9JbJ1XFk3fWDnNYZ2TVe0s9zV02Z99QvM20hF844=";
+                version = "3.9.12";
+                url = "https://plugins.qgis.org/plugins/qgiscloud/version/3.9.12/download/";
+                hash = "sha256-IrBVX7MEX6niOIzd+TCFCIKywHqiQbxo/g3LANP30uU=";
             };
         
 
@@ -308,6 +308,13 @@
             };
         
 
+            OpenQuake-Integrated-Risk-Modelling-Toolkit = {
+                version = "3.16.5";
+                url = "https://plugins.qgis.org/plugins/svir/version/3.16.5/download/";
+                hash = "sha256-yVb0J2aIug4bwkDNQPFZT3WbHYBdG8bMsI1l6X1XvW4=";
+            };
+        
+
             NNJoin = {
                 version = "3.1.3";
                 url = "https://plugins.qgis.org/plugins/NNJoin/version/3.1.3/download/";
@@ -456,9 +463,9 @@
         
 
             Lat-Lon-Tools = {
-                version = "3.7.0";
-                url = "https://plugins.qgis.org/plugins/latlontools/version/3.7.0/download/";
-                hash = "sha256-J8BlJ8pQ9ZeN+gmFvN1xKBRMC+erxdv2c1pU0OpsSLI=";
+                version = "3.7.1";
+                url = "https://plugins.qgis.org/plugins/latlontools/version/3.7.1/download/";
+                hash = "sha256-XrM2KldXWj/WYgCP4ZG3M3jihgiTvSGookAVdiOC9wc=";
             };
         
 
@@ -491,9 +498,9 @@
         
 
             Shape-Tools = {
-                version = "3.5.0";
-                url = "https://plugins.qgis.org/plugins/shapetools/version/3.5.0/download/";
-                hash = "sha256-jFs6YC6cZN/siTkC4YRiL492ooCJr6L7tsIxAsAb1Gc=";
+                version = "3.5.1";
+                url = "https://plugins.qgis.org/plugins/shapetools/version/3.5.1/download/";
+                hash = "sha256-/9LNOumawgZ6O7bpiDJsBfa0WlqBVva6SmxSMjsoyrw=";
             };
         
 
@@ -505,9 +512,9 @@
         
 
             Search-Layers = {
-                version = "3.0.18";
-                url = "https://plugins.qgis.org/plugins/searchlayers/version/3.0.18/download/";
-                hash = "sha256-kDRhUafcbvqLMLWMnwTOP2tJexjFaoX7gKMggmLX+jo=";
+                version = "3.1.0";
+                url = "https://plugins.qgis.org/plugins/searchlayers/version/3.1.0/download/";
+                hash = "sha256-1VaVrykqaXzODgOXn76JAXP0Zzwg3CwsoG0+R7n1AlM=";
             };
         
 
