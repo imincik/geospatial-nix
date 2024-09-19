@@ -64,9 +64,9 @@
         
 
             Lizmap = {
-                version = "4.3.22";
-                url = "https://plugins.qgis.org/plugins/lizmap/version/4.3.22/download/";
-                hash = "sha256-W5sPoR9UtMhsRAYS4k08KxB680MsgO0FnD8WGWoIhDM=";
+                version = "4.4.0";
+                url = "https://plugins.qgis.org/plugins/lizmap/version/4.4.0/download/";
+                hash = "sha256-wYn2JinbxurTygAw2O0p4RaMKC6l69Tt6o9xxAG5wx4=";
             };
         
 
@@ -427,17 +427,24 @@
             };
         
 
+            Online-Routing-Mapper = {
+                version = "0.9";
+                url = "https://plugins.qgis.org/plugins/OnlineRoutingMapper/version/0.9/download/";
+                hash = "sha256-BrFXWe2EsehRi6jtVd7Qf1Bqy7C1dn6FWXoZM0+00WQ=";
+            };
+        
+
             OSMInfo = {
-                version = "0.8.1";
-                url = "https://plugins.qgis.org/plugins/osminfo/version/0.8.1/download/";
-                hash = "sha256-amEiD7K+DGxc8hcPfyg0NSTtlBq2xNPbcpcPtAIGSe4=";
+                version = "0.9.1";
+                url = "https://plugins.qgis.org/plugins/osminfo/version/0.9.1/download/";
+                hash = "sha256-TCX+Gqz7RBO7IUmkvw8ldDzivrF/NSzeLvX/H/xc94c=";
             };
         
 
             TUFLOW = {
-                version = "3.12";
-                url = "https://plugins.qgis.org/plugins/tuflow/version/3.12/download/";
-                hash = "sha256-ZHSGCYLJQCgokgYG6HB3zULYJmOZZKBgMkTS58wFiXE=";
+                version = "3.12.1";
+                url = "https://plugins.qgis.org/plugins/tuflow/version/3.12.1/download/";
+                hash = "sha256-jUXzQQIDlQS4EWoxPnY7sIQUGjL6nIUTTba4lfRiFMw=";
             };
         
 
@@ -463,9 +470,9 @@
         
 
             Lat-Lon-Tools = {
-                version = "3.7.1";
-                url = "https://plugins.qgis.org/plugins/latlontools/version/3.7.1/download/";
-                hash = "sha256-XrM2KldXWj/WYgCP4ZG3M3jihgiTvSGookAVdiOC9wc=";
+                version = "3.7.2";
+                url = "https://plugins.qgis.org/plugins/latlontools/version/3.7.2/download/";
+                hash = "sha256-4JCojPehcj7SnntQfmlGp+7RjIdoPuw5kxlDPnsrXIQ=";
             };
         
 
@@ -512,9 +519,9 @@
         
 
             Search-Layers = {
-                version = "3.1.0";
-                url = "https://plugins.qgis.org/plugins/searchlayers/version/3.1.0/download/";
-                hash = "sha256-1VaVrykqaXzODgOXn76JAXP0Zzwg3CwsoG0+R7n1AlM=";
+                version = "3.1.1";
+                url = "https://plugins.qgis.org/plugins/searchlayers/version/3.1.1/download/";
+                hash = "sha256-hGMPw3jWhOEResglwFcMMXx5gQy4Czz1+kKPJsZWyQg=";
             };
         
 

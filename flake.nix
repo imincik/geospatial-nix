@@ -102,7 +102,7 @@
                 inherit geos;
               };
 
-              libspatialindex = pkgs.callPackage ./pkgs/libspatialindex { };
+              libspatialindex = pkgs.callPackage ./pkgs/libspatialindex/package.nix { };
 
               libspatialite = pkgs.callPackage ./pkgs/libspatialite {
                 inherit geos librttopo proj;
