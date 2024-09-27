@@ -56,7 +56,7 @@
 
             g-download-location = {
                 name = "g.download.location";
-                description = ''Download GRASS Location from the web Get GRASS Location from an URL or file path'';
+                description = ''Download GRASS project (location) from the web Get GRASS project from an URL or file path'';
             };
         
 
@@ -465,6 +465,12 @@
             r-boxplot = {
                 name = "r.boxplot";
                 description = ''Draws the boxplot of raster values. Optionally, this is done per category of a zonal raster layer'';
+            };
+        
+
+            r-buildvrt-gdal = {
+                name = "r.buildvrt.gdal";
+                description = ''Build GDAL Virtual Rasters (VRT) over GRASS GIS raster maps'';
             };
         
 
@@ -1814,7 +1820,7 @@
 
             v-kriging = {
                 name = "v.kriging";
-                description = ''Interpolates 2D or 3D raster based on input values located on 2D or 3D point vector layer (method ordinary kriging extended to 3D).'';
+                description = ''None'';
             };
         
 
