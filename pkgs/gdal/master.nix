@@ -16,5 +16,11 @@ in
     };
 
     patches = [ ];
+
+    disabledTests = prev.disabledTests ++ [
+      # failing with master
+      # https://github.com/OSGeo/gdal/pull/10806#issuecomment-2362054085
+      "test_ogr_gmlas_billion_laugh"
+    ];
   });
 }

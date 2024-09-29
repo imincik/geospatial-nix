@@ -588,6 +588,13 @@
             };
         
 
+            Processing-R-Provider = {
+                version = "4.1.0";
+                url = "https://plugins.qgis.org/plugins/processing_r/version/4.1.0/download/";
+                hash = "sha256-BYFAaFu8SYyF3D94AqXmcS6pLVSd0IS1R1HznHofTRc=";
+            };
+        
+
             Map-Library = {
                 version = "1.3";
                 url = "https://plugins.qgis.org/plugins/maplibrary/version/1.3/download/";
@@ -631,9 +638,9 @@
         
 
             Wtyczka-GIS-Support = {
-                version = "2.3";
-                url = "https://plugins.qgis.org/plugins/gissupport_plugin/version/2.3/download/";
-                hash = "sha256-OiM12ALKlIBo4J7cvv6ByOg66eeAVc5em8vxoGKBBoM=";
+                version = "2.4";
+                url = "https://plugins.qgis.org/plugins/gissupport_plugin/version/2.4/download/";
+                hash = "sha256-PX0RIJtpGAFR1ngbYW1JYyUdix4pOOduD/3/bVZKvG8=";
             };
         
 
@@ -694,9 +701,9 @@
         
 
             OpenTopography-DEM-Downloader = {
-                version = "2.0";
-                url = "https://plugins.qgis.org/plugins/OpenTopography-DEM-Downloader/version/2.0/download/";
-                hash = "sha256-oPUPA/UWK/CFUoIz6JrgtCgh3GElRMcxVNLDXuvYq48=";
+                version = "3.0";
+                url = "https://plugins.qgis.org/plugins/OpenTopography-DEM-Downloader/version/3.0/download/";
+                hash = "sha256-Zfqf18Ke8xyyYSorqriTTmXpVICrxhSm7rHJQOduXH4=";
             };
         
 
