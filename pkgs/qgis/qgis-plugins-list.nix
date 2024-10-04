@@ -64,9 +64,9 @@
         
 
             Lizmap = {
-                version = "4.4.0";
-                url = "https://plugins.qgis.org/plugins/lizmap/version/4.4.0/download/";
-                hash = "sha256-wYn2JinbxurTygAw2O0p4RaMKC6l69Tt6o9xxAG5wx4=";
+                version = "4.4.1";
+                url = "https://plugins.qgis.org/plugins/lizmap/version/4.4.1/download/";
+                hash = "sha256-dqG2zEpgi/T/QZI1QM0rZpWUuk2oawge98JtrYCnQJQ=";
             };
         
 
@@ -554,9 +554,9 @@
         
 
             AcATaMa = {
-                version = "24.7";
-                url = "https://plugins.qgis.org/plugins/AcATaMa/version/24.7/download/";
-                hash = "sha256-I9iJx96AvuOTUOkCJu/cb+w0mbVbo0EMPBFwwkA7HaI=";
+                version = "24.10";
+                url = "https://plugins.qgis.org/plugins/AcATaMa/version/24.10/download/";
+                hash = "sha256-Bap3XBKQAfr727GdYHEp14pkqjXmLGIOyPtqtevWvaA=";
             };
         
 
@@ -617,9 +617,9 @@
         
 
             Mergin-Maps = {
-                version = "2024.2";
-                url = "https://plugins.qgis.org/plugins/Mergin/version/2024.2/download/";
-                hash = "sha256-7wubqi8fQZXYrgGzCsmy+m6ypfE643a/TIUg56M2+BY=";
+                version = "2024.2.1";
+                url = "https://plugins.qgis.org/plugins/Mergin/version/2024.2.1/download/";
+                hash = "sha256-LDfCtepCcNjcbzKFQjxLryeMxFPkTNmo0z7wLEUu9ik=";
             };
         
 
@@ -645,9 +645,9 @@
         
 
             Google-Earth-Engine-Data-Catalog = {
-                version = "0.4.3";
-                url = "https://plugins.qgis.org/plugins/qgis_gee_data_catalog/version/0.4.3/download/";
-                hash = "sha256-Oj3VYSfHrJg0ts7R8xY/GfZjE3mbplMjWPJhLB6M1i8=";
+                version = "0.5.0";
+                url = "https://plugins.qgis.org/plugins/qgis_gee_data_catalog/version/0.5.0/download/";
+                hash = "sha256-cLp3cMxX5ViYvYSs/7U5vkXUQv0FmqEe1mRLO9emxaA=";
             };
         
 
@@ -687,9 +687,9 @@
         
 
             LF-Tools = {
-                version = "1.12.12";
-                url = "https://plugins.qgis.org/plugins/lftools/version/1.12.12/download/";
-                hash = "sha256-7gjN8bq8QeDxf1dTP+ZRvpDG/9wuT6yH5EQAjrH/ceo=";
+                version = "1.12.13";
+                url = "https://plugins.qgis.org/plugins/lftools/version/1.12.13/download/";
+                hash = "sha256-L1GeoGHzVvtEVxeJ0Huauaji7PsxRNhKH9wuaPTBw7k=";
             };
         
 
