@@ -89,6 +89,11 @@ utils/pull-nixpkgs.sh <NIXPKGS-DIR>
 git diff
 ```
 
+* Test build with changes
+```bash
+nix build --dry-run .#all-packages
+```
+
 * Identify related PRs in Nixpkgs
 ```bash
 git log -- <PATH-TO-PACKAGE>  # list changes to package in nixpkgs
