@@ -135,7 +135,12 @@
                     inherit pyproj;
                   };
 
-                  psycopg = py.pkgs.psycopg.override {
+                  psycopg = (py.pkgs.psycopg.overrideAttrs (_: {
+                    # Disable flaky tests.
+                    # Remove in nixos 24.11.
+                    # https://github.com/NixOS/nixpkgs/pull/344310/commits/e4212a9b2d5814a3548e38160e8b2eaa526b2c84
+                    dontUsePytestCheck = true;
+                  })).override {
                     inherit shapely;
                   };
 
