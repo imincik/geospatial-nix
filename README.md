@@ -1,3 +1,5 @@
+**This repository is archived and replaced by [geospatial-nix.repo](https://github.com/imincik/geospatial-nix.repo).
+
 [![Build packages](https://github.com/imincik/geospatial-nix/actions/workflows/build-packages.yml/badge.svg)](https://github.com/imincik/geospatial-nix/actions/workflows/build-packages.yml)
 
 # Geospatial packages repository
