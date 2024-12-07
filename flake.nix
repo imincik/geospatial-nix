@@ -159,6 +159,10 @@
 
                   pystac = py.pkgs.callPackage ./pkgs/pystac { };
 
+                  pystac-client = py.pkgs.callPackage ./pkgs/pystac-client {
+                    inherit pystac;
+                  };
+
                   rasterio = py.pkgs.callPackage ./pkgs/rasterio {
                     inherit gdal shapely;
                   };
@@ -180,6 +184,7 @@
                       pyproj
                       pyqt5
                       pystac
+                      pystac-client
                       rasterio
                       shapely
                     ];
