@@ -18,6 +18,11 @@ nix build \
   --impure \
   --expr "(builtins.getFlake (toString ./.)).packages.x86_64-linux.<PACKAGE>.override { <PARAMETER> = <VALUE>; }"
 
+# e.g. build GDAL with ECW support
+nix build \
+  --impure \
+  --expr "(builtins.getFlake (toString ./.); in f.packages.x86_64-linux.gdal.override { useECW = true; }"
+
 # e.g. build QGIS with rasterio
 nix build \
   --impure \
