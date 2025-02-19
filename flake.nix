@@ -46,8 +46,8 @@
           packages =
 
             let
-              inherit (nixpkgs.lib) forEach genAttrs mapAttrs';
-              inherit (nixpkgs.lib.attrsets) attrValues filterAttrs mergeAttrsList;
+              inherit (nixpkgs.lib) forEach genAttrs mapAttrs' inPureEvalMode;
+              inherit (nixpkgs.lib.attrsets) attrValues filterAttrs mergeAttrsList optionalAttrs;
 
               pythonVersions = [
                 "python3" # default Python version
@@ -308,7 +308,9 @@
 
 
               # nixGL
-              nixGL = nixgl.packages.${system}.nixGLIntel;
+              nixGL = nixgl.packages.${system}.nixGLDefault;
+              nixGLIntel = nixgl.packages.${system}.nixGLIntel;
+
 
               # all-packages (meta package containing all packages)
               all-packages = pkgs.symlinkJoin {
@@ -349,7 +351,7 @@
                   all-packages
 
                   # nixGL
-                  nixGL;
+                  nixGLIntel;
               }
 
             # GRASS plugins
@@ -363,7 +365,10 @@
             // mergeAttrsList (forEach (builtins.attrValues python-packages) (p: prefixPackages p "${p}"))
 
             # Add Postgresql packages in all versions
-            // mergeAttrsList (forEach (builtins.attrValues postgresql-packages) (p: prefixPackages p "${p}"));
+            // mergeAttrsList (forEach (builtins.attrValues postgresql-packages) (p: prefixPackages p "${p}"))
+
+            # Impure nixGL (requires --impure build due to auto-detection)
+            // (optionalAttrs (! inPureEvalMode) { inherit nixGL; });
 
 
           #
